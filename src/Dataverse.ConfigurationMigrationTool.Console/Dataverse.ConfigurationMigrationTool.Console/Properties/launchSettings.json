@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Dataverse.ConfigurationMigrationTool.Console": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>990106a8-c012-4466-8462-847916f7c509</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+  <PackageReference Include="Cocona" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.4" />
+    <PackageReference Include="Microsoft.PowerPlatform.Dataverse.Client" Version="1.2.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.Development.json">
+		<DependentUpon>appsettings.json</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.Production.json">
+		<DependentUpon>appsettings.json</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
