@@ -28,7 +28,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validator
                     });
                     continue;
                 }
-                foreach (var fieldSchema in entitySchema.Fields.Field)
+                foreach (var fieldSchema in entitySchema?.Fields?.Field)
                 {
                     var attributeMetadata = entityMetadata.Attributes.FirstOrDefault(amd => amd.LogicalName == fieldSchema.Name);
                     if (attributeMetadata == null)
@@ -69,14 +69,14 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validator
 
                 }
 
-                foreach (var relationshipSchema in entitySchema.Relationships.Relationship)
+                foreach (var relationshipSchema in entitySchema?.Relationships?.Relationship)
                 {
                     var relationShipMetadata = await _metadataService.GetRelationShipM2M(relationshipSchema.Name);
                     if (relationShipMetadata == null)
                     {
                         failures.Add(new ValidationFailure
                         {
-                            Message = $"ManyToMany Relationship {relationshipSchema.Name} does not exist in target environment or it's not a M2M relationship."
+                            Message = $"ManyToMany Relationship Table {relationshipSchema.Name} does not exist in target environment or it's not a M2M relationship."
                         });
                         continue;
                     }
@@ -84,7 +84,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validator
                     {
                         failures.Add(new ValidationFailure
                         {
-                            Message = $"ManyToMany Relationship {relationshipSchema.Name} Source Entity is {entitySchema.Name} but it's expected to be {relationShipMetadata.Entity1LogicalName}"
+                            Message = $"ManyToMany Relationship Table {relationshipSchema.Name} Source Entity is {entitySchema.Name} but it's expected to be {relationShipMetadata.Entity1LogicalName}"
                         });
                         continue;
 
@@ -93,7 +93,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validator
                     {
                         failures.Add(new ValidationFailure
                         {
-                            Message = $"ManyToMany Relationship {relationshipSchema.Name} Targets Entity is {relationshipSchema.M2mTargetEntity} but it's expected to be {relationShipMetadata.Entity2LogicalName}"
+                            Message = $"ManyToMany Relationship Table {relationshipSchema.Name} Targets Entity is {relationshipSchema.M2mTargetEntity} but it's expected to be {relationShipMetadata.Entity2LogicalName}"
                         });
                         continue;
 
@@ -101,7 +101,12 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validator
                 }
 
 
+
             }
+            return new ValidationResult
+            {
+                Failures = failures
+            };
         }
     }
 }

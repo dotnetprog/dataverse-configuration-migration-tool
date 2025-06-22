@@ -9,7 +9,7 @@
     public class ValidationResult
     {
         public bool IsError => Failures?.Any() ?? false;
-        IReadOnlyCollection<ValidationFailure> Failures { get; set; }
+        public IReadOnlyCollection<ValidationFailure> Failures { get; set; }
     }
     public class ValidationFailure
     {

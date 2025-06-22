@@ -37,7 +37,7 @@ public class FieldsSchema
 {
 
     [XmlElement(ElementName = "field")]
-    public List<FieldSchema> Field { get; set; }
+    public List<FieldSchema> Field { get; set; } = new List<FieldSchema>();
 }
 
 [XmlRoot(ElementName = "relationship")]
@@ -68,7 +68,7 @@ public class RelationshipsSchema
 {
 
     [XmlElement(ElementName = "relationship")]
-    public List<RelationshipSchema> Relationship { get; set; }
+    public List<RelationshipSchema> Relationship { get; set; } = new List<RelationshipSchema>();
 }
 
 [XmlRoot(ElementName = "entity")]
@@ -76,10 +76,10 @@ public class EntitySchema
 {
 
     [XmlElement(ElementName = "fields")]
-    public FieldsSchema Fields { get; set; }
+    public FieldsSchema Fields { get; set; } = new FieldsSchema();
 
     [XmlElement(ElementName = "relationships")]
-    public RelationshipsSchema Relationships { get; set; }
+    public RelationshipsSchema Relationships { get; set; } = new RelationshipsSchema();
 
     [XmlAttribute(AttributeName = "name")]
     public string Name { get; set; }

@@ -1,6 +1,8 @@
 ﻿using Cocona;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Commands;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Configuration;
@@ -29,6 +31,7 @@ builder.Services
     .AddTransient<IImportDataProvider, FileReaderDataImportProvider>()
     .AddSingleton<IFileDataReader, XmlFileDataReader>()
     .AddTransient<IMetadataService, DataverseMetadataService>()
+    .AddTransient<IValidator<ImportSchema>, SchemaValidator>()
     .AddDataverseClient();
 
 var app = builder.Build();
