@@ -4,6 +4,7 @@
     {
         public EntitySchema EntitySchema { get; set; }
         public RelationshipSchema RelationshipSchema { get; set; }
+        public string SouceEntityName { get; set; }
 
     }
 }
