@@ -3,9 +3,11 @@ using Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverte
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
 using Microsoft.Extensions.Logging;
+using Microsoft.PowerPlatform.Dataverse.Client;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
+using System.ServiceModel;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
 {
@@ -25,13 +27,15 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
         private readonly ILogger<ImportTaskProcessorService> logger;
         private readonly IDataverseValueConverter _dataverseValueConverter;
         private readonly IBulkOrganizationService bulkOrganizationService;
+        private IOrganizationServiceAsync2 _organizationService;
 
-        public ImportTaskProcessorService(IMetadataService metadataService, ILogger<ImportTaskProcessorService> logger, IDataverseValueConverter dataverseValueConverter, IBulkOrganizationService bulkOrganizationService)
+        public ImportTaskProcessorService(IMetadataService metadataService, ILogger<ImportTaskProcessorService> logger, IDataverseValueConverter dataverseValueConverter, IBulkOrganizationService bulkOrganizationService, IOrganizationServiceAsync2 organizationService)
         {
             this.metadataService = metadataService;
             this.logger = logger;
             _dataverseValueConverter = dataverseValueConverter;
             this.bulkOrganizationService = bulkOrganizationService;
+            _organizationService = organizationService;
         }
 
         public async Task<TaskResult> Execute(ImportDataTask task, Entities dataImport)
@@ -65,17 +69,17 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
         {
 
             var recordsWithNoSelfDependancies = entityImport.Records.Record.Where(r =>
-                                                                        !entityImport.Records.Record.Any(r2 => r2.Id != r.Id &&
-                                                                            r2.Field.Any(f => f.Lookupentity != null && f.Value == r.Id.ToString())));
+            !r.Field.Any(f => f.Lookupentity == entityImport.Name &&
+                             entityImport.Records.Record.Any(r2 => r2.Id != r.Id && r2.Id.ToString() == f.Value))).Select(r => BuildUpsertRequest(entity, entityImport, r)).ToList();
             var recordsWithSelfDependancies = entityImport.Records.Record.Where(r =>
-                                                                        entityImport.Records.Record.Any(r2 => r2.Id != r.Id &&
-                                                                            r2.Field.Any(f => f.Lookupentity != null && f.Value == r.Id.ToString())));
-            var requests = recordsWithNoSelfDependancies.Select(r => BuildUpsertRequest(entity, entityImport, r)).ToList();
+            r.Field.Any(f => f.Lookupentity == entityImport.Name &&
+                             entityImport.Records.Record.Any(r2 => r2.Id != r.Id && r2.Id.ToString() == f.Value))).ToList();
+
 
             //See if upsert request keep ids
 
             //implement parallelism and batching
-            var responses = await bulkOrganizationService.ExecuteBulk(requests);
+            var responses = await bulkOrganizationService.ExecuteBulk(recordsWithNoSelfDependancies);
 
             foreach (var response in responses)
             {
@@ -88,11 +92,66 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
 
             }
             var resultTask = responses.Any() ? TaskResult.Failed : TaskResult.Completed;
+
+            var singleResponses = await ProcessDependantRecords(recordsWithSelfDependancies, entity, entityImport);
+            foreach (var response in singleResponses)
+            {
+
+                var targetRequest = (response.OriginalRequest as UpsertRequest).Target;
+
+
+                logger.LogError("{logicalname}({id}) upsert failed because: {fault}", targetRequest.LogicalName, targetRequest.Id, response.Fault.Message);
+
+
+            }
+            resultTask = singleResponses.Any() ? TaskResult.Failed : resultTask;
             logger.LogInformation("Import Task of {entityname} records terminated in a {State} state", entityImport.Name, resultTask);
             return resultTask;
 
         }
+        private async Task<IEnumerable<OrganizationResponseFaultedResult>> ProcessDependantRecords(IEnumerable<Record> records, EntityMetadata entity, EntityImport entityImport)
+        {
+            var retries = new Dictionary<Guid, int>();
+            var queue = new Queue<Record>(records);
+            var results = new List<OrganizationResponseFaultedResult>();
+            while (queue.Count > 0)
+            {
+                var record = queue.Dequeue();
 
+                if (record.Field.Any(f => f.Lookupentity == entityImport.Name && queue.Any(r => r.Id.ToString() == f.Value)))
+                {
+
+                    if (retries.ContainsKey(record.Id) && retries[record.Id] >= 3)
+                    {
+                        logger.LogWarning("{entityType}({id}) was skipped because his parent was not proccessed.", entityImport.Name, record.Id)
+                        continue;
+                    }
+                    //Enqueue record again until his parent is processed.
+                    queue.Enqueue(record);
+                    retries[record.Id] = retries.ContainsKey(record.Id) ? retries[record.Id] + 1 : 1;
+                    continue;
+                }
+                var request = BuildUpsertRequest(entity, entityImport, record);
+                try
+                {
+
+                    var response = (await _organizationService.ExecuteAsync(request)) as UpsertResponse;
+
+
+                }
+                catch (FaultException<OrganizationServiceFault> faultEx)
+                {
+                    results.Add(new OrganizationResponseFaultedResult
+                    {
+                        Fault = faultEx.Detail,
+                        OriginalRequest = request,
+                    });
+                }
+
+            }
+            return results;
+
+        }
         private UpsertRequest BuildUpsertRequest(EntityMetadata entityMD, EntityImport entityImport, Record record)
         {
             var entity = new Entity(entityImport.Name, record.Id);
