@@ -1,4 +1,5 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Mappers;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Common;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Mappers;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Microsoft.Xrm.Sdk.Metadata;
@@ -57,7 +58,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validator
                         });
                         continue;
                     }
-                    if (attributeMetadata is LookupAttributeMetadata lookupMD && lookupMD.Targets.First().ToLower() != fieldSchema.LookupType)
+                    if (attributeMetadata is LookupAttributeMetadata lookupMD && !lookupMD.Targets.AreEnumerablesEqualIgnoreOrder(fieldSchema.LookupType?.Split('|') ?? Array.Empty<string>()))
                     {
                         failures.Add(new ValidationFailure
                         {

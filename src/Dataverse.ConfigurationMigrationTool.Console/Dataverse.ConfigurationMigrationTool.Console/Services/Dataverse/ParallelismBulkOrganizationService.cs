@@ -1,10 +1,13 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Configuration;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Common;
+using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.PowerPlatform.Dataverse.Client;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.ServiceModel;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
 {
@@ -28,7 +31,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
             this.logger = logger;
         }
 
-        public async Task<IEnumerable<OrganizationResponseFaultedResult>> ExecuteBulk(IEnumerable<OrganizationRequest> request)
+        public async Task<IEnumerable<OrganizationResponseFaultedResult>> ExecuteBulk(IEnumerable<OrganizationRequest> request, IEnumerable<string> faultToSkips = null)
         {
             var result = new ConcurrentBag<OrganizationResponseFaultedResult>();
             logger.LogInformation("{count} request(s) to execute.", request.Count());
@@ -44,7 +47,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
                parallelOptions: parallelOptions,
                async (batch, token) =>
                {
-
+                   logger.LogInformation("Processing a batch of {count} requests, current threads({countThreads})", batch.Count(), Process.GetCurrentProcess().Threads.Count);
                    var scopedService = _serviceClient.Clone();
                    scopedService.EnableAffinityCookie = false;
                    var requests = new OrganizationRequestCollection();
@@ -60,11 +63,12 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
                    };
                    logger.LogInformation("Starting a batch of {count} requests", requests.Count);
                    var response = (await scopedService.ExecuteAsync(request)) as ExecuteMultipleResponse;
-                   if (response.IsFaulted)
+                   var faultedResponses = response.Responses
+                      .Where(r => r.Fault != null && (faultToSkips?.All(f => !r.Fault.Message.Contains(f)) ?? true))
+                      .Select(fr => new OrganizationResponseFaultedResult { Fault = fr.Fault, OriginalRequest = requests[fr.RequestIndex] }).ToArray();
+                   if (faultedResponses.Any())
                    {
-                       var faultedResponses = response.Responses
-                       .Where(r => r.Fault != null)
-                       .Select(fr => new OrganizationResponseFaultedResult { Fault = fr.Fault, OriginalRequest = requests[fr.RequestIndex] }).ToArray();
+
                        logger.LogInformation("A Batch finished with {count} failures", faultedResponses.Length);
                        foreach (var faultedResponse in faultedResponses)
                        {
@@ -77,6 +81,107 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
 
         }
 
+        public async Task<Result<UpsertResponse, OrganizationResponseFaultedResult>> Upsert(UpsertRequest request)
+        {
+            var setStateRquest = new UpdateRequest();
+            if (request.Target.Attributes.ContainsKey("statecode") ||
+            request.Target.Attributes.ContainsKey("statuscode"))
+            {
+                setStateRquest.Target = new Entity();
+                if (request.Target.Attributes.ContainsKey("statecode"))
+                {
+                    setStateRquest.Target.Attributes["statecode"] = request.Target.Attributes["statecode"];
+                }
+                if (request.Target.Attributes.ContainsKey("statuscode"))
+                {
+                    setStateRquest.Target.Attributes["statuscode"] = request.Target.Attributes["statuscode"];
+                }
 
+                request.Target.Attributes.Remove("statecode");
+                request.Target.Attributes.Remove("statuscode");
+            }
+            try
+            {
+                var response = (await _serviceClient.ExecuteAsync(request)) as UpsertResponse;
+                if (setStateRquest.Target != null)
+                {
+                    setStateRquest.Target.LogicalName = response.Target.LogicalName;
+                    setStateRquest.Target.Id = response.Target.Id;
+                    await _serviceClient.ExecuteAsync(setStateRquest);
+                }
+                return new Result<UpsertResponse, OrganizationResponseFaultedResult>(response);
+            }
+            catch (FaultException<OrganizationServiceFault> faultEx)
+            {
+                return new Result<UpsertResponse, OrganizationResponseFaultedResult>(new OrganizationResponseFaultedResult { Fault = faultEx.Detail, OriginalRequest = request });
+            }
+
+        }
+
+        public async Task<IEnumerable<OrganizationResponseFaultedResult>> UpsertBulk(IEnumerable<UpsertRequest> requests)
+        {
+            var result = new ConcurrentBag<OrganizationResponseFaultedResult>();
+            var requestsCount = requests.Count();
+            int processCount = 0;
+            logger.LogInformation("{count} rows(s) to execute.", requestsCount);
+            var parallelOptions = new ParallelOptions()
+            {
+                MaxDegreeOfParallelism = _options.MaxDegreeOfParallism < _serviceClient.RecommendedDegreesOfParallelism ?
+                _options.MaxDegreeOfParallism : _serviceClient.RecommendedDegreesOfParallelism
+            };
+            var batches = requests.Batch(_options.BatchSize);
+            await Parallel.ForEachAsync(source: batches, parallelOptions: parallelOptions,
+                async (batch, token) =>
+                {
+                    var scopedService = _serviceClient.Clone();
+
+                    scopedService.EnableAffinityCookie = false;
+                    foreach (var request in batch)
+                    {
+                        var setStateRquest = new UpdateRequest();
+                        if (request.Target.Attributes.ContainsKey("statecode") ||
+                        request.Target.Attributes.ContainsKey("statuscode"))
+                        {
+                            setStateRquest.Target = new Entity();
+                            if (request.Target.Attributes.ContainsKey("statecode"))
+                            {
+                                setStateRquest.Target.Attributes["statecode"] = request.Target.Attributes["statecode"];
+                            }
+                            if (request.Target.Attributes.ContainsKey("statuscode"))
+                            {
+                                setStateRquest.Target.Attributes["statuscode"] = request.Target.Attributes["statuscode"];
+                            }
+
+                            request.Target.Attributes.Remove("statecode");
+                            request.Target.Attributes.Remove("statuscode");
+                        }
+                        try
+                        {
+                            var response = (await scopedService.ExecuteAsync(request)) as UpsertResponse;
+                            if (setStateRquest.Target != null)
+                            {
+                                setStateRquest.Target.LogicalName = response.Target.LogicalName;
+                                setStateRquest.Target.Id = response.Target.Id;
+                                await scopedService.ExecuteAsync(setStateRquest);
+                            }
+
+                        }
+                        catch (FaultException<OrganizationServiceFault> faultEx)
+                        {
+                            result.Add(new OrganizationResponseFaultedResult { Fault = faultEx.Detail, OriginalRequest = request });
+                        }
+                        finally
+                        {
+                            Interlocked.Increment(ref processCount);
+                        }
+                    }
+
+
+                    logger.LogInformation("Proccessed: {proccessedCount}/{requestCount}, Threads({threadcount})", processCount, requestsCount, Process.GetCurrentProcess().Threads.Count);
+
+
+                });
+            return result;
+        }
     }
 }

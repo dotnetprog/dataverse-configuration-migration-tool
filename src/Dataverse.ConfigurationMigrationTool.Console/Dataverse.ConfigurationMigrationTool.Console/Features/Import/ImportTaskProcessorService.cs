@@ -7,7 +7,6 @@ using Microsoft.PowerPlatform.Dataverse.Client;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
-using System.ServiceModel;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
 {
@@ -45,25 +44,54 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
             {
                 return TaskResult.Completed;
             }
-            if (task.RelationshipSchema != null)
-            {
-                //Import relationships
-
-            }
-            else
-            {
-                var entityMD = await metadataService.GetEntity(entityToImport.Name);
-                //Import Entities
-                return await ImportRecords(entityMD, task, entityToImport);
-            }
-
-            return TaskResult.Completed;
-
+            var entityMD = await metadataService.GetEntity(entityToImport.Name);
+            var result = task.RelationshipSchema != null ?
+                await ImportRelationships(entityMD, task, entityToImport) :
+                await ImportRecords(entityMD, task, entityToImport);
+            return result;
         }
 
-        private async Task<TaskResult> ImportRelationships(ImportDataTask task, EntityImport entityImport)
+        private async Task<TaskResult> ImportRelationships(EntityMetadata entity, ImportDataTask task, EntityImport entityImport)
         {
-            return TaskResult.Completed;
+            var relMD = entity.ManyToManyRelationships.FirstOrDefault(m => m.IntersectEntityName == task.RelationshipSchema.Name);
+            if (relMD == null) return TaskResult.Failed;
+
+            var rows = entityImport.M2mrelationships.M2mrelationship.Where(m2m => m2m.M2mrelationshipname == task.RelationshipSchema.Name).ToList();
+
+            var requests = rows.SelectMany(r => r.Targetids.Targetid.Select(t =>
+            new AssociateRequest
+            {
+                Target = new EntityReference
+                {
+                    Id = r.Sourceid,
+                    LogicalName = entityImport.Name
+                },
+                Relationship = new Relationship(relMD.SchemaName),
+                RelatedEntities = new EntityReferenceCollection() {
+                    new EntityReference
+                        {
+                            Id = t,
+                            LogicalName = r.Targetentityname
+                        }
+                }
+
+            }));
+            var responses = await bulkOrganizationService.ExecuteBulk(requests, ["Cannot insert duplicate key"]);
+            var resultTask = responses.Any() ? TaskResult.Failed : TaskResult.Completed;
+
+            foreach (var response in responses)
+            {
+
+                var targetRequest = (response.OriginalRequest as AssociateRequest).Target;
+
+
+                logger.LogError("{logicalname}({id}) Adding relationship ({relationship}) failed because: {fault}", targetRequest.LogicalName, targetRequest.Id, task.RelationshipSchema.Name, response.Fault.Message);
+
+
+            }
+
+
+            return resultTask;
         }
         private async Task<TaskResult> ImportRecords(EntityMetadata entity, ImportDataTask task, EntityImport entityImport)
         {
@@ -79,7 +107,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
             //See if upsert request keep ids
 
             //implement parallelism and batching
-            var responses = await bulkOrganizationService.ExecuteBulk(recordsWithNoSelfDependancies);
+            var responses = await bulkOrganizationService.UpsertBulk(recordsWithNoSelfDependancies);
 
             foreach (var response in responses)
             {
@@ -123,7 +151,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
 
                     if (retries.ContainsKey(record.Id) && retries[record.Id] >= 3)
                     {
-                        logger.LogWarning("{entityType}({id}) was skipped because his parent was not proccessed.", entityImport.Name, record.Id)
+                        logger.LogWarning("{entityType}({id}) was skipped because his parent was not proccessed.", entityImport.Name, record.Id);
                         continue;
                     }
                     //Enqueue record again until his parent is processed.
@@ -132,20 +160,11 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
                     continue;
                 }
                 var request = BuildUpsertRequest(entity, entityImport, record);
-                try
+
+                var result = await bulkOrganizationService.Upsert(request);
+                if (result.IsFailure)
                 {
-
-                    var response = (await _organizationService.ExecuteAsync(request)) as UpsertResponse;
-
-
-                }
-                catch (FaultException<OrganizationServiceFault> faultEx)
-                {
-                    results.Add(new OrganizationResponseFaultedResult
-                    {
-                        Fault = faultEx.Detail,
-                        OriginalRequest = request,
-                    });
+                    results.Add(result.Failure);
                 }
 
             }
@@ -159,6 +178,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
             foreach (var field in record.Field)
             {
                 var attrMD = entityMD.Attributes.FirstOrDefault(a => a.LogicalName == field.Name);
+                if ((attrMD.IsValidForCreate != true && attrMD.LogicalName != "statecode") || attrMD.IsValidForUpdate != true) continue;
                 entity[field.Name] = _dataverseValueConverter.Convert(attrMD, field);
             }
             return new UpsertRequest

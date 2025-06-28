@@ -1,7 +1,11 @@
-﻿namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
+﻿namespace Dataverse.ConfigurationMigrationTool.Console.Common
 {
-    public static class IOrganizationServiceExtensions
+    public static class LinqExtensions
     {
+        public static bool AreEnumerablesEqualIgnoreOrder<T>(this IEnumerable<T> list1, IEnumerable<T> list2)
+        {
+            return new HashSet<T>(list1).SetEquals(list2);
+        }
         public static IEnumerable<IEnumerable<T>> Batch<T>(
         this IEnumerable<T> source, int size)
         {
