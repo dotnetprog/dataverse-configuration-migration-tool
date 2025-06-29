@@ -1,13 +1,13 @@
-# dataverse-configuration-migration-tool
+﻿# dataverse-configuration-migration-tool
 Custom .net cli tool to import configuration data into a dataverse environment
 
 
 ## Todo list:
 
-- Functionnal testing for self hierarchy import jobs.?
-- Add support for special characters. ?
+- Functionnal testing for self hierarchy import jobs.✅
+- Add support for special characters. ✅
 - <del> Add support to map users to owner.</del>
-- Add support to map created on to OverrideCreatedOn.
+- <del>Add support to map created on to OverrideCreatedOn.</del>
 - Refactor Schema validations into multiple validation rules
 - Add configuration for tool reporting
 - Add unit tests for everything
