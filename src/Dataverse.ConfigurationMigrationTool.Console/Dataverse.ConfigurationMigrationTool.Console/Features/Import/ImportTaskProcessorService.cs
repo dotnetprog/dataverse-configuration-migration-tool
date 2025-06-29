@@ -156,6 +156,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
                         continue;
                     }
 
+
                     //Enqueue record again until his parent is processed.
                     queue.Enqueue(record);
                     retries[record.Id] = retries.ContainsKey(record.Id) ? retries[record.Id] + 1 : 1;
