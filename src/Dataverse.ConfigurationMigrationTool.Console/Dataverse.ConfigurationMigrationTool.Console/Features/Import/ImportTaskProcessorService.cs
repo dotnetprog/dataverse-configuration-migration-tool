@@ -155,6 +155,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
                         logger.LogWarning("{entityType}({id}) was skipped because his parent was not proccessed.", entityImport.Name, record.Id);
                         continue;
                     }
+
                     //Enqueue record again until his parent is processed.
                     queue.Enqueue(record);
                     retries[record.Id] = retries.ContainsKey(record.Id) ? retries[record.Id] + 1 : 1;
