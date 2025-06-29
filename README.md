@@ -4,8 +4,9 @@ Custom .net cli tool to import configuration data into a dataverse environment
 
 ## Todo list:
 
-- Functionnal testing for self hierarchy import jobs.
-- Add support to map users to owner.
+- Functionnal testing for self hierarchy import jobs.?
+- Add support for special characters. ?
+- <del> Add support to map users to owner.</del>
 - Add support to map created on to OverrideCreatedOn.
 - Refactor Schema validations into multiple validation rules
 - Add configuration for tool reporting

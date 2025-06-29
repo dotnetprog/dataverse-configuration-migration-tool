@@ -20,6 +20,8 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Mappers
                         return AttributeTypeCode.Customer;
                     }
                     return AttributeTypeCode.Lookup;
+                case "owner":
+                    return AttributeTypeCode.Owner;
                 case "state":
                     return AttributeTypeCode.State;
                 case "status":
@@ -30,6 +32,8 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Mappers
                     return AttributeTypeCode.Picklist;
                 case "number":
                     return AttributeTypeCode.Integer;
+                case "bigint":
+                    return AttributeTypeCode.BigInt;
                 case "float":
                     return AttributeTypeCode.Double;
                 case "bool":

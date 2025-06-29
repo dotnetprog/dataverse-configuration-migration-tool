@@ -1,6 +1,7 @@
 ﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
+using System.Web;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters
 {
@@ -25,7 +26,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConv
             switch (attributeMetadata.AttributeType.Value)
             {
                 case AttributeTypeCode.String:
-                    return value;
+                    return string.IsNullOrWhiteSpace(value) ? value : HttpUtility.HtmlDecode(value);
                 case AttributeTypeCode.Picklist:
                 case AttributeTypeCode.State:
                 case AttributeTypeCode.Status:

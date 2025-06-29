@@ -178,7 +178,9 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
             foreach (var field in record.Field)
             {
                 var attrMD = entityMD.Attributes.FirstOrDefault(a => a.LogicalName == field.Name);
-                if ((attrMD.IsValidForCreate != true && attrMD.LogicalName != "statecode") || attrMD.IsValidForUpdate != true) continue;
+                if ((attrMD.IsValidForCreate != true && attrMD.LogicalName != "statecode")
+                    || attrMD.IsValidForUpdate != true ||
+                    attrMD.AttributeType == AttributeTypeCode.Owner) continue;
                 entity[field.Name] = _dataverseValueConverter.Convert(attrMD, field);
             }
             return new UpsertRequest

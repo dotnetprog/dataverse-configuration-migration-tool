@@ -58,7 +58,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validator
                         });
                         continue;
                     }
-                    if (attributeMetadata is LookupAttributeMetadata lookupMD && !lookupMD.Targets.AreEnumerablesEqualIgnoreOrder(fieldSchema.LookupType?.Split('|') ?? Array.Empty<string>()))
+                    if (attributeMetadata is LookupAttributeMetadata lookupMD && lookupMD.AttributeType != AttributeTypeCode.Owner && !lookupMD.Targets.AreEnumerablesEqualIgnoreOrder(fieldSchema.LookupType?.Split('|') ?? Array.Empty<string>()))
                     {
                         failures.Add(new ValidationFailure
                         {
