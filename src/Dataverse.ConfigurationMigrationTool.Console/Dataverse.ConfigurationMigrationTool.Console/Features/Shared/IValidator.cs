@@ -9,10 +9,16 @@
     public class ValidationResult
     {
         public bool IsError => Failures?.Any() ?? false;
-        public IReadOnlyCollection<ValidationFailure> Failures { get; set; }
+        public IReadOnlyCollection<ValidationFailure> Failures { get; set; } = new List<ValidationFailure>();
     }
     public class ValidationFailure
     {
+        public ValidationFailure(string message, string? propertyBound = null)
+        {
+            Message = message;
+            PropertyBound = propertyBound;
+        }
+        public ValidationFailure() { }
         public string Message { get; set; }
         public string? PropertyBound { get; set; }
     }

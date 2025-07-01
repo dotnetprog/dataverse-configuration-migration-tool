@@ -1,9 +1,5 @@
 ﻿using Cocona;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Commands;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Configuration;
@@ -12,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.PowerPlatform.Dataverse.Client;
-using Microsoft.Xrm.Sdk;
 using System.Reflection;
 
 var builder = CoconaApp.CreateBuilder();
@@ -35,20 +30,11 @@ builder.Services
     .AddTransient<IImportDataProvider, FileReaderDataImportProvider>()
     .AddSingleton<IFileDataReader, XmlFileDataReader>()
     .AddTransient<IMetadataService, DataverseMetadataService>()
-    .AddTransient<IValidator<ImportSchema>, SchemaValidator>()
-    .AddSingleton<IDataverseValueConverter, DataverseValueConverter>((sp) =>
-    {
-        var testtype = typeof(BaseValueConverter<EntityReference>);
-        var testtype2 = typeof(EntityReferenceValueConverter);
-        var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract &&
-        !t.IsInterface && t.BaseType != null && t.BaseType.IsConstructedGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(BaseValueConverter<>)).ToList();
-        return new DataverseValueConverter(types);
-    })
     .AddTransient<ServiceClient>((sp) => (ServiceClient)sp.GetRequiredService<IDataverseClientFactory>().Create())
     .AddSingleton<IBulkOrganizationService, ParallelismBulkOrganizationService>()
-    .AddSingleton<IImportTaskProcessorService, ImportTaskProcessorService>()
-    .AddDataverseClient();
+    .AddDataverseClient()
+    .AddImportFeature();
 
 var app = builder.Build();
-app.AddCommands<ImportCommands>();
+app.UseImportFeature();
 await app.RunAsync();
