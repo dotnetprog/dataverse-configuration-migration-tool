@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "import": {
+      "commandName": "Project",
+      "commandLineArgs": "import --schema ../../../TestAssets/data_schema.xml --data ../../../TestAssets/data.xml",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

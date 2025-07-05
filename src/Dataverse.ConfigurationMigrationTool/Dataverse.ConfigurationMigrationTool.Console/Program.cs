@@ -4,6 +4,7 @@ using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Configuration;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Filesystem;
+using Dataverse.ConfigurationMigrationTool.Console.Services.Metadata;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
