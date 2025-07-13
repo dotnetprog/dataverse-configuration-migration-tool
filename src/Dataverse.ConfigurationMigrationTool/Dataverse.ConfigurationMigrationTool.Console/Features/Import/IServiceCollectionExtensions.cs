@@ -17,11 +17,11 @@ public static class IServiceCollectionExtensions
 
         return services.RegisterFromReflection<IFieldSchemaValidationRule>()
             .RegisterFromReflection<IRelationshipSchemaValidationRule>()
-            .AddSingleton<IMainConverter, MainValueConverter>(_ =>
+            .AddSingleton<IMainConverter, ReflectionMainConverter>(_ =>
             {
                 var valueConverterTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract &&
               !t.IsInterface && t.BaseType != null && t.BaseType.IsConstructedGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(BaseValueConverter<>)).ToList();
-                return new MainValueConverter(valueConverterTypes);
+                return new ReflectionMainConverter(valueConverterTypes);
             })
             .AddSingleton<IDataverseValueConverter, DataverseValueConverter>()
             .AddTransient<IValidator<ImportSchema>, SchemaValidator>()

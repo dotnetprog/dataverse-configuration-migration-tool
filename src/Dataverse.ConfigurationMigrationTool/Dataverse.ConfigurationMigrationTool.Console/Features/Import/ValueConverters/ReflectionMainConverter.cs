@@ -1,11 +1,11 @@
 ﻿
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters;
-public class MainValueConverter : IMainConverter
+public class ReflectionMainConverter : IMainConverter
 {
     private readonly IEnumerable<Type> valueConvertertypes;
     private readonly Dictionary<Type, IValueConverter> cachedConverters = new Dictionary<Type, IValueConverter>();
-    public MainValueConverter(IEnumerable<Type> valueConvertertypes)
+    public ReflectionMainConverter(IEnumerable<Type> valueConvertertypes)
     {
         this.valueConvertertypes = valueConvertertypes;
     }

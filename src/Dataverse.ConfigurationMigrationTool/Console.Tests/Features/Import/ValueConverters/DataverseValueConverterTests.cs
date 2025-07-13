@@ -5,6 +5,7 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
 using NSubstitute;
 using Shouldly;
+using System.Linq.Expressions;
 using System.Web;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Import.ValueConverters;
@@ -12,23 +13,7 @@ public class DataverseValueConverterTests
 {
     private readonly IMainConverter mainConverter = Substitute.For<IMainConverter>();
     private readonly DataverseValueConverter converter;
-    public static TheoryData<AttributeMetadata, Field, object> TestData => new()
-    {
-        {
-            FakeAttributeMetadataBuilder.New()
-            .WithLogicalName("firstname")
-            .Build<StringAttributeMetadata>(),
-            new() {Name ="firstname",Value = "Root &lt;&quot;&quot;&gt; ''é&amp;&amp;@ \\ /" },
-            "Root <\"\"> ''é&&@ \\ /" },
-        {
-            FakeAttributeMetadataBuilder
-            .New()
-            .WithLogicalName("customertypecode")
-            .Build<PicklistAttributeMetadata>(),
-            new() { Name = "customertypecode", Value = "1" },
-            new OptionSetValue(1)
-        }
-    };
+
     public DataverseValueConverterTests()
     {
         converter = new DataverseValueConverter(mainConverter);
@@ -37,55 +22,123 @@ public class DataverseValueConverterTests
     [Fact]
     public void GivenAStringAttributeAndAField_WhenConverted_ThenItShouldConvertProperly()
     {
-        // Arrange
-        var attributeMD =
-            FakeAttributeMetadataBuilder.New()
-            .WithLogicalName("firstname")
-            .Build<StringAttributeMetadata>();
-        var field = new Field() { Name = attributeMD.LogicalName, Value = "Root &lt;&quot;&quot;&gt; ''é&amp;&amp;@ \\ /" };
-        // Act
-        var result = converter.Convert(attributeMD, field);
-        // Assert
-        result.ShouldBe(HttpUtility.HtmlDecode(field.Value));
+        var value = "Root \"\" ''é&&@ \\ /";
+        var encodedValue = HttpUtility.HtmlEncode(value);
+        RunTest<string, StringAttributeMetadata>(value, encodedValue);
     }
     [Fact]
     public void GivenAPicklistAttributeAndAField_WhenConverted_ThenItShouldConvertProperly()
     {
-        // Arrange
         int expectedValue = 1;
-        var attributeMD =
-            FakeAttributeMetadataBuilder.New()
-            .WithLogicalName("customertypecode")
-            .Build<PicklistAttributeMetadata>();
-        var field = new Field() { Name = attributeMD.LogicalName, Value = expectedValue.ToString() };
-        mainConverter.Convert<OptionSetValue>(field.Value)
-            .Returns(new OptionSetValue(expectedValue));
-        // Act
-        var result = converter.Convert(attributeMD, field);
-        // Assert
-        result.ShouldBeOfType<OptionSetValue>();
-        ((OptionSetValue)result).Value.ShouldBe(expectedValue);
-        mainConverter.Received(1)
-            .Convert<OptionSetValue>(field.Value);
+        RunTest<OptionSetValue, PicklistAttributeMetadata>(new OptionSetValue(expectedValue), expectedValue.ToString());
     }
     [Fact]
     public void GivenAIntegerAttributeAndAField_WhenConverted_ThenItShouldConvertProperly()
     {
+        RunTest<int?, IntegerAttributeMetadata>(1);
+    }
+    [Fact]
+    public void GivenABooleanAttributeAndAField_WhenConverted_ThenItShouldConvertProperly()
+    {
+        RunTest<bool?, BooleanAttributeMetadata>(true);
+    }
+    [Fact]
+    public void GivenAMoneyAttributeAndAField_WhenConverted_ThenItShouldConvertProperly()
+    {
+        var moneyValue = 123.4m;
+        RunTest<Money, MoneyAttributeMetadata>(new Money(moneyValue), moneyValue.ToString());
+    }
+    [Fact]
+    public void GivenAGuidAttributeAndAField_WhenConverted_ThenItShouldConvertProperly()
+    {
+        var value = Guid.NewGuid();
+        RunTest<Guid?, UniqueIdentifierAttributeMetadata>(value, value.ToString());
+    }
+    [Fact]
+    public void GivenADatetimeAttributeAndAField_WhenConverted_ThenItShouldConvertProperly()
+    {
+        var value = DateTime.UtcNow;
+        RunTest<DateTime?, DateTimeAttributeMetadata>(value, value.ToString("o"));
+    }
+    [Fact]
+    public void GivenADecimalAttributeAndAField_WhenConverted_ThenItShouldConvertProperly()
+    {
+        var value = 123.4m;
+        RunTest<decimal?, DecimalAttributeMetadata>(value);
+    }
+    [Fact]
+    public void GivenADoubleAttributeAndAField_WhenConverted_ThenItShouldConvertProperly()
+    {
+        var value = 123.4;
+        RunTest<double?, DoubleAttributeMetadata>(value);
+    }
+    [Fact]
+    public void GivenALookupAttributeAndAField_WhenConverted_ThenItShouldConvertProperly()
+    {
+        var value = new EntityReference { Id = Guid.NewGuid(), LogicalName = "randomentity" };
+        RunLookupTest(value);
+    }
+    [Fact]
+    public void GivenAnEmptyValueRegardlessOfAttributeType_WhenConverted_ThenItShouldReturnNull()
+    {
+        //Arrange
+        var field = new Field() { Name = "test", Value = string.Empty };
+        //Act
+        var result = converter.Convert(new AttributeMetadata(), field);
+        //Assert
+        result.ShouldBeNull();
+    }
+    [Fact]
+    public void GivenAnUnsupportedAttributeMetadata_WhenConverted_ThenItShouldThrowProperException()
+    {
+        //Arrange
+        var field = new Field() { Name = "test", Value = "125462" };
+        var amd = new MemoAttributeMetadata();
+        //Act
+        Action act = () => converter.Convert(amd, field);
+        //Assert
+        act.ShouldThrow<NotImplementedException>()
+            .Message.ShouldBe($"{amd.AttributeType.Value} is not implemented.");
+    }
+    private void RunTest<T, TMD>(T expectedValue, string fieldValue = null) where TMD : AttributeMetadata, new()
+    {
         // Arrange
-        int expectedValue = 1;
         var attributeMD =
             FakeAttributeMetadataBuilder.New()
-            .WithLogicalName("customertypecode")
-            .Build<IntegerAttributeMetadata>();
-        var field = new Field() { Name = attributeMD.LogicalName, Value = expectedValue.ToString() };
-        mainConverter.Convert<int?>(field.Value)
+            .WithLogicalName("randomfield")
+            .Build<TMD>();
+        var field = new Field() { Name = attributeMD.LogicalName, Value = fieldValue ?? expectedValue.ToString() };
+        mainConverter.Convert<T>(field.Value)
            .Returns(expectedValue);
         // Act
         var result = converter.Convert(attributeMD, field);
         // Assert
-        result.ShouldBeOfType<int>();
-        ((int?)result).ShouldBe(expectedValue);
+        result.ShouldBe(expectedValue);
         mainConverter.Received(1)
-            .Convert<int?>(field.Value);
+            .Convert<T>(field.Value);
+    }
+    private void RunLookupTest(EntityReference reference)
+    {
+        // Arrange
+        Expression<Predicate<Dictionary<string, string>>> extraPropertiesPredicate = d =>
+                d.ContainsKey("lookuptype") &&
+                d["lookuptype"] == reference.LogicalName;
+
+        var attributeMD =
+            FakeAttributeMetadataBuilder.New()
+            .WithLogicalName("randomfield")
+            .Build<LookupAttributeMetadata>();
+        var field = new Field() { Name = attributeMD.LogicalName, Value = reference.Id.ToString(), Lookupentity = reference.LogicalName };
+        mainConverter.Convert<EntityReference>(
+            field.Value,
+            Arg.Is(extraPropertiesPredicate)
+           )
+            .Returns(reference);
+        // Act
+        var result = converter.Convert(attributeMD, field);
+        // Assert
+        result.ShouldBe(reference);
+        mainConverter.Received(1)
+            .Convert<EntityReference>(field.Value, Arg.Is(extraPropertiesPredicate));
     }
 }

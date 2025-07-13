@@ -1,14 +1,14 @@
 ﻿using Cocona;
+using Cocona.Builder;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Commands;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import
+namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import;
+
+public static class CoconaAppExtensions
 {
-    public static class CoconaAppExtensions
+    public static ICoconaCommandsBuilder UseImportFeature(this ICoconaCommandsBuilder app)
     {
-        public static CoconaApp UseImportFeature(this CoconaApp app)
-        {
-            app.AddCommands<ImportCommands>();
-            return app;
-        }
+        app.AddCommands<ImportCommands>();
+        return app;
     }
 }
