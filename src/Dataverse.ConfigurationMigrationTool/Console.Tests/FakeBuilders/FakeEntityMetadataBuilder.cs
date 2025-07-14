@@ -31,7 +31,7 @@ internal class FakeEntityMetadataBuilder
         {
             Entity1LogicalName = EntityName,
             Entity2LogicalName = TargetEntity,
-
+            IntersectEntityName = SchemaName,
             SchemaName = SchemaName
         };
         ManyToManyRelationships.Add(relationship);
