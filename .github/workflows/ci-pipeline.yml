@@ -1,0 +1,87 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: CI - Pipeline
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+on:
+  push:
+    branches: [ "main","release/**/*" ]
+  pull_request:
+    branches: [ "main","release/*" ]
+env:
+  solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
+  solutionFolder: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool'
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+  
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore ${{  env.solutionPath  }}
+    - name: Build
+      run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
+    - name: Execute unit tests
+      run: dotnet test ${{  env.solutionPath  }} --configuration Release --settings ${{  env.solutionPath  }/Console.Tests/CodeCoverage.runsettings --no-build --logger trx --no-restore --filter FullyQualifiedName!~IntegrationTests --results-directory "TestResults" --collect:"XPlat Code Coverage"
+    - name: Publish Test Report
+      uses: phoenix-actions/test-reporting@v8
+      id: test-report               # Set ID reference for step
+      if: ${{ (success() || failure()) && (github.event_name == 'pull_request')   }}     # run this step even if previous step failed
+      with:
+        name: unit tests            # Name of the check run which will be created
+        path: TestResults/*.trx    # Path to test results
+        reporter: dotnet-trx       # Format of test results
+    - name: Code Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: github.event_name == 'pull_request'
+      with:
+        filename: TestResults/*/coverage.cobertura.xml
+        badge: true
+        fail_below_min: true
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: true
+        indicators: true
+        output: both
+        thresholds: '80 60'
+    - name: Add Coverage PR Comment
+      uses: marocchino/sticky-pull-request-comment@v2
+      if: github.event_name == 'pull_request'
+      with:
+        recreate: true
+        path: code-coverage-results.md
+      
+    - name: ReportGenerator
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
+      if: github.event_name == 'pull_request'
+      with:
+        reports: TestResults/*/coverage.cobertura.xml # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
+        targetdir: 'coveragereport' # REQUIRED # The directory where the generated report should be saved.
+        reporttypes: 'HtmlInline;Cobertura' # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, OpenCover, CsvSummary, Html, Html_Dark, Html_Light, Html_BlueRed, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlInline_AzurePipelines_Light, HtmlSummary, Html_BlueRed_Summary, JsonSummary, Latex, LatexSummary, lcov, MarkdownSummary, MarkdownSummaryGithub, MarkdownDeltaSummary, MHtml, SvgChart, SonarQube, TeamCitySummary, TextSummary, TextDeltaSummary, Xml, XmlSummary
+        tag: '${{ github.run_number }}_${{ github.run_id }}' # Optional tag or build version.
+        toolpath: 'reportgeneratortool' # Default directory for installing the dotnet tool.
+
+    - name: Upload coverage report artifact
+      uses: actions/upload-artifact@v4
+      if: github.event_name == 'pull_request'
+      with:
+        name: CoverageReport # Artifact name        
+        path: coveragereport # Directory containing files to upload
+
+
+  
+
+
+      
+  
+    
+  
