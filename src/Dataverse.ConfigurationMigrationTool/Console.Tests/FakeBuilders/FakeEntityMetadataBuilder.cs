@@ -15,13 +15,17 @@ internal class FakeEntityMetadataBuilder
         PrimaryIdField = primaryIdField;
         PrimaryNameField = primaryNameField;
     }
-    public FakeEntityMetadataBuilder AddAttribute<T>(string logicalName)
+    public FakeEntityMetadataBuilder AddAttribute<T>(string logicalName, Action<T> configureMD = null)
         where T : AttributeMetadata, new()
     {
         var attribute = new T
         {
             LogicalName = logicalName
         };
+        attribute.IsValidForUpdate = true;
+        attribute.IsValidForCreate = true;
+        configureMD?.Invoke(attribute);
+
         Fields.Add(attribute);
         return this;
     }

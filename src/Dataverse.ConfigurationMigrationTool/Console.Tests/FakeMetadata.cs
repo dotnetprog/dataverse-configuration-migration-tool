@@ -10,5 +10,13 @@ internal static class FakeMetadata
             .AddAttribute<StringAttributeMetadata>("lastname")
             .AddRelationship("contact_opportunities", "opportunity")
             .Build();
+    public static EntityMetadata Account =>
+        new FakeEntityMetadataBuilder("account", "accountid", "name")
+            .AddAttribute<StringAttributeMetadata>("name")
+            .AddAttribute<LookupAttributeMetadata>("parentaccountid", (md) =>
+            {
+                md.Targets = new[] { "account" };
+            })
+            .Build();
 
 }

@@ -3,6 +3,7 @@ using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
+using Dataverse.ConfigurationMigrationTool.Console.Tests.Extensions;
 using Dataverse.ConfigurationMigrationTool.Console.Tests.FakeBuilders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xrm.Sdk;
@@ -174,5 +175,117 @@ public class ImportTaskProcessorServiceTests
         var result = await importService.Execute(task, dataImport);
         // Assert
         result.ShouldBe(TaskResult.Failed);
+    }
+    [Fact]
+    public async Task GivenASelfHiearchyEntityTaskImport_WhenExecuted_ThenItShouldProcessInCorrectOrderAndReturnCompleted()
+    {
+        // Arrange
+        var task = new ImportDataTask
+        {
+            EntitySchema = FakeSchemas.SelfHiearchyAccount,
+        };
+        var dataImport = new Entities
+        {
+            Entity = new List<EntityImport>
+            {
+                FakeDatasets.SelfHiearchyAccountSets
+            }
+        };
+        _dataverseValueConverter.Convert(
+            Arg.Is<LookupAttributeMetadata>(md => md.LogicalName == "parentaccountid"),
+            Arg.Is<Field>(f => f.Name == "parentaccountid"))
+            .Returns(x => new EntityReference { LogicalName = "account", Id = Guid.Parse(x.Arg<Field>().Value) });
+        _dataverseValueConverter.Convert(
+            Arg.Is<StringAttributeMetadata>(md => md.LogicalName == "name"),
+            Arg.Is<Field>(f => f.Name == "name")).Returns(x => x.Arg<Field>().Value);
+        metadataService.GetEntity(FakeSchemas.SelfHiearchyAccount.Name).Returns(FakeMetadata.Account);
+        bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.GetAttributeValue<EntityReference>("parentaccountid") != null))
+            .Returns(x => new(new UpsertResponse() { ["Target"] = x.Arg<UpsertRequest>().Target.ToEntityReference() }));
+        // Act
+        var result = await importService.Execute(task, dataImport);
+        // Assert
+        Received.InOrder(() =>
+        {
+            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.Count() == 1));
+            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[2]));
+            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[1]));
+            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[0]));
+        });
+        result.ShouldBe(TaskResult.Completed);
+    }
+    [Fact]
+    public async Task GivenASelfHiearchyEntityTaskImportWothIssues_WhenExecuted_ThenItShouldProcessInCorrectOrderAndReturnFailed()
+    {
+        // Arrange
+        var task = new ImportDataTask
+        {
+            EntitySchema = FakeSchemas.SelfHiearchyAccount,
+        };
+        var dataImport = new Entities
+        {
+            Entity = new List<EntityImport>
+            {
+                FakeDatasets.SelfHiearchyAccountSets
+            }
+        };
+        var fault = new OrganizationServiceFault { Message = "Fault message" };
+        _dataverseValueConverter.Convert(
+            Arg.Is<LookupAttributeMetadata>(md => md.LogicalName == "parentaccountid"),
+            Arg.Is<Field>(f => f.Name == "parentaccountid"))
+            .Returns(x => new EntityReference { LogicalName = "account", Id = Guid.Parse(x.Arg<Field>().Value) });
+        _dataverseValueConverter.Convert(
+            Arg.Is<StringAttributeMetadata>(md => md.LogicalName == "name"),
+            Arg.Is<Field>(f => f.Name == "name")).Returns(x => x.Arg<Field>().Value);
+        metadataService.GetEntity(FakeSchemas.SelfHiearchyAccount.Name).Returns(FakeMetadata.Account);
+        bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.GetAttributeValue<EntityReference>("parentaccountid") != null))
+            .Returns(x => new(new OrganizationResponseFaultedResult() { Fault = fault, OriginalRequest = x.Arg<UpsertRequest>() }));
+
+        bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.Count() == 1))
+            .Returns(x => [new() { Fault = fault, OriginalRequest = x.Arg<IEnumerable<UpsertRequest>>().First() }]);
+        // Act
+        var result = await importService.Execute(task, dataImport);
+        // Assert
+        Received.InOrder(() =>
+        {
+            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.Count() == 1));
+            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[2]));
+            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[1]));
+            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[0]));
+        });
+        result.ShouldBe(TaskResult.Failed);
+    }
+    [Fact]
+    public async Task GivenACircularSelfHiearchyEntityTaskImport_WhenExecuted_ThenItShouldSkipThoseAndReturnCompleted()
+    {
+        // Arrange
+        var task = new ImportDataTask
+        {
+            EntitySchema = FakeSchemas.SelfHiearchyAccount,
+        };
+        var dataImport = new Entities
+        {
+            Entity = new List<EntityImport>
+            {
+                FakeDatasets.CIrcularSelfHiearchyAccountSets
+            }
+        };
+        _dataverseValueConverter.Convert(
+            Arg.Is<LookupAttributeMetadata>(md => md.LogicalName == "parentaccountid"),
+            Arg.Is<Field>(f => f.Name == "parentaccountid"))
+            .Returns(x => new EntityReference { LogicalName = "account", Id = Guid.Parse(x.Arg<Field>().Value) });
+        _dataverseValueConverter.Convert(
+            Arg.Is<StringAttributeMetadata>(md => md.LogicalName == "name"),
+            Arg.Is<Field>(f => f.Name == "name")).Returns(x => x.Arg<Field>().Value);
+        metadataService.GetEntity(FakeSchemas.SelfHiearchyAccount.Name).Returns(FakeMetadata.Account);
+        bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.GetAttributeValue<EntityReference>("parentaccountid") != null))
+            .Returns(x => new(new UpsertResponse() { ["Target"] = x.Arg<UpsertRequest>().Target.ToEntityReference() }));
+        // Act
+        var result = await importService.Execute(task, dataImport);
+        // Assert
+        await bulkOrganizationService.Received().UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.Count() == 0));
+        await bulkOrganizationService.DidNotReceive().Upsert(Arg.Any<UpsertRequest>());
+        logger.ShouldHaveLogged(LogLevel.Warning, $"account({FakeDatasets.AccountIds[0]}) was skipped because his parent was not proccessed.", count: 1);
+        logger.ShouldHaveLogged(LogLevel.Warning, $"account({FakeDatasets.AccountIds[1]}) was skipped because his parent was not proccessed.", count: 1);
+        result.ShouldBe(TaskResult.Completed);
     }
 }

@@ -55,6 +55,123 @@ internal static class FakeDatasets
             }
         }
     };
+    public static readonly EntityImport SelfHiearchyAccountSets = new()
+    {
+        Displayname = "Account",
+        Name = "account",
+        Records = new()
+        {
+            Record = new()
+            {
+                new(){
+                    Id = AccountIds[0],
+                    Field = new(){
+                        new()
+                        {
+                            Name = "name",
+                            Value = "Account 1"
+                        },
+                        new()
+                        {
+                            Name = "parentaccountid",
+                            Value = AccountIds[1].ToString(),
+                            Lookupentity = "account",
+                            Lookupentityname = "Account 2"
+                        }
+                    }
+                },
+                new(){
+                    Id = AccountIds[1],
+                    Field = new(){
+                        new()
+                        {
+                            Name = "name",
+                            Value = "Account 2"
+                        },
+                         new()
+                        {
+                            Name = "parentaccountid",
+                            Value = AccountIds[2].ToString(),
+                            Lookupentity = "account",
+                            Lookupentityname = "Account 3"
+                        }
+                    }
+                },
+                 new(){
+                    Id = AccountIds[2],
+                    Field = new(){
+                        new()
+                        {
+                            Name = "name",
+                            Value = "Account 3"
+                        },
+                         new()
+                        {
+                            Name = "parentaccountid",
+                            Value = AccountIds[3].ToString(),
+                            Lookupentity = "account",
+                            Lookupentityname = "Account 4"
+                        }
+                    }
+                },
+                  new(){
+                    Id = AccountIds[3],
+                    Field = new(){
+                        new()
+                        {
+                            Name = "name",
+                            Value = "Account 4"
+                        }
+                    }
+                }
+            }
+        }
+    };
+    public static readonly EntityImport CIrcularSelfHiearchyAccountSets = new()
+    {
+        Displayname = "Account",
+        Name = "account",
+        Records = new()
+        {
+            Record = new()
+            {
+                new(){
+                    Id = AccountIds[0],
+                    Field = new(){
+                        new()
+                        {
+                            Name = "name",
+                            Value = "Account 1"
+                        },
+                        new()
+                        {
+                            Name = "parentaccountid",
+                            Value = AccountIds[1].ToString(),
+                            Lookupentity = "account",
+                            Lookupentityname = "Account 2"
+                        }
+                    }
+                },
+                new(){
+                    Id = AccountIds[1],
+                    Field = new(){
+                        new()
+                        {
+                            Name = "name",
+                            Value = "Account 2"
+                        },
+                         new()
+                        {
+                            Name = "parentaccountid",
+                            Value = AccountIds[0].ToString(),
+                            Lookupentity = "account",
+                            Lookupentityname = "Account 1"
+                        }
+                    }
+                }
+            }
+        }
+    };
     public static readonly EntityImport OpportunitiesSet = new()
     {
         Displayname = "Opportunity",

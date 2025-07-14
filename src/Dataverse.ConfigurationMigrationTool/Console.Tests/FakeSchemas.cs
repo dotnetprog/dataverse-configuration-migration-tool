@@ -30,6 +30,33 @@ internal static class FakeSchemas
                    }
         },
     };
+    public static readonly EntitySchema SelfHiearchyAccount = new EntitySchema()
+    {
+        Name = "account",
+        Primaryidfield = "accountid",
+        Primarynamefield = "name",
+        Fields = new FieldsSchema
+        {
+            Field = new List<FieldSchema>
+                   {
+                       new FieldSchema
+                       {
+                           Name = "name",
+                           Type = "string"
+
+                       },
+                       new FieldSchema
+                       {
+                           Name = "parentaccountid",
+                           Type = "entityreference",
+                           Customfield = true,
+                           Displayname = "Parent Account",
+                           LookupType = "account",
+                           PrimaryKey = false
+                       }
+                   }
+        },
+    };
     public static readonly EntitySchema Opportunity = new EntitySchema()
     {
         Name = "opportunity",

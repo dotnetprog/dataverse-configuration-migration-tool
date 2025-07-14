@@ -25,7 +25,7 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
     private readonly ILogger<ImportTaskProcessorService> logger;
     private readonly IDataverseValueConverter _dataverseValueConverter;
     private readonly IBulkOrganizationService bulkOrganizationService;
-
+    const int MAX_RETRIES = 3;
     public ImportTaskProcessorService(IMetadataService metadataService,
         ILogger<ImportTaskProcessorService> logger,
         IDataverseValueConverter dataverseValueConverter,
@@ -147,10 +147,11 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
         {
             var record = queue.Dequeue();
 
-            if (record.Field.Any(f => f.Lookupentity == entityImport.Name && queue.Any(r => r.Id.ToString() == f.Value)))
+            if (record.Field.Any(f => f.Lookupentity == entityImport.Name && (queue.Any(r => r.Id.ToString() == f.Value) ||
+                retries.Any(kv => kv.Key.ToString() == f.Value && kv.Value >= MAX_RETRIES))))
             {
 
-                if (retries.ContainsKey(record.Id) && retries[record.Id] >= 3)
+                if (retries.ContainsKey(record.Id) && retries[record.Id] >= MAX_RETRIES)
                 {
                     logger.LogWarning("{entityType}({id}) was skipped because his parent was not proccessed.", entityImport.Name, record.Id);
                     continue;

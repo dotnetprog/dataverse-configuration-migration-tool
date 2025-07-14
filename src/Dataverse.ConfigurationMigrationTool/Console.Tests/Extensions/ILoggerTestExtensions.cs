@@ -8,4 +8,13 @@ internal static class ILoggerTestExtensions
     {
         logger.Received().Log(logLevel, Arg.Any<EventId>(), Arg.Any<object>(), exception, Arg.Any<Func<object, Exception, string>>());
     }
+    public static void ShouldHaveLogged(this ILogger logger, LogLevel logLevel, string message, int count = 1)
+    {
+        logger.Received(count).Log(
+            logLevel,
+            Arg.Any<EventId>(),
+            Arg.Is<object>(o => o.ToString() == message),
+            null,
+            Arg.Any<Func<object, Exception, string>>());
+    }
 }
