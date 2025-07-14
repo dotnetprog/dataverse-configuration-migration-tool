@@ -2,51 +2,27 @@
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Microsoft.Xrm.Sdk.Metadata;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Mappers
+namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Mappers;
+
+public class FieldSchemaToAttributeTypeMapper : IMapper<FieldSchema, AttributeTypeCode?>
 {
-    public class FieldSchemaToAttributeTypeMapper : IMapper<FieldSchema, AttributeTypeCode?>
+    public AttributeTypeCode? Map(FieldSchema source) => source.Type switch
     {
-        public AttributeTypeCode? Map(FieldSchema source)
-        {
-            switch (source.Type)
-            {
-                case "string":
-                    return AttributeTypeCode.String;
-                case "guid":
-                    return AttributeTypeCode.Uniqueidentifier;
-                case "entityreference":
-                    if (source.LookupType == "account|contact")
-                    {
-                        return AttributeTypeCode.Customer;
-                    }
-                    return AttributeTypeCode.Lookup;
-                case "owner":
-                    return AttributeTypeCode.Owner;
-                case "state":
-                    return AttributeTypeCode.State;
-                case "status":
-                    return AttributeTypeCode.Status;
-                case "decimal":
-                    return AttributeTypeCode.Decimal;
-                case "optionsetvalue":
-                    return AttributeTypeCode.Picklist;
-                case "number":
-                    return AttributeTypeCode.Integer;
-                case "bigint":
-                    return AttributeTypeCode.BigInt;
-                case "float":
-                    return AttributeTypeCode.Double;
-                case "bool":
-                    return AttributeTypeCode.Boolean;
-                case "datetime":
-                    return AttributeTypeCode.DateTime;
-                case "money":
-                    return AttributeTypeCode.Money;
-                default:
-                    return null;
+        "string" => AttributeTypeCode.String,
+        "guid" => AttributeTypeCode.Uniqueidentifier,
+        "entityreference" => source.LookupType == "account|contact" ? AttributeTypeCode.Customer : AttributeTypeCode.Lookup,
+        "owner" => AttributeTypeCode.Owner,
+        "state" => AttributeTypeCode.State,
+        "status" => AttributeTypeCode.Status,
+        "decimal" => AttributeTypeCode.Decimal,
+        "optionsetvalue" => AttributeTypeCode.Picklist,
+        "number" => AttributeTypeCode.Integer,
+        "bigint" => AttributeTypeCode.BigInt,
+        "float" => AttributeTypeCode.Double,
+        "bool" => AttributeTypeCode.Boolean,
+        "datetime" => AttributeTypeCode.DateTime,
+        "money" => AttributeTypeCode.Money,
+        _ => null
+    };
 
-
-            }
-        }
-    }
 }
