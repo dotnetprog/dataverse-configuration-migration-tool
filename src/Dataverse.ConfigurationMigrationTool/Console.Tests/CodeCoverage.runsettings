@@ -2,36 +2,12 @@
 <RunSettings>
 	<DataCollectionRunSettings>
 		<DataCollectors>
-			<DataCollector friendlyName="Code Coverage">
+			<DataCollector friendlyName="XPlat code coverage">
 				<Configuration>
-					<CodeCoverage>
-						<ModulePaths>
-							<Include>
-								<ModulePath>Dataverse.ConfigurationMigrationTool.Console.dll$</ModulePath>
-								<!-- Add more ModulePath nodes here. -->
-							</Include>
-
-						</ModulePaths>
-						<Functions>
-							<Exclude>
-								<Function>^Dataverse\.ConfigurationMigrationTool\.Console\.Services\.Dataverse\..*</Function>				
-							</Exclude>
-						</Functions>
-						<Sources>
-							<Exclude>
-								<Source>.*\\Program\\.*</Source>
-							</Exclude>
-						</Sources>
-						<Attributes>
-							<Exclude>
-								<!-- Don't forget "Attribute" at the end of the name -->
-								<Attribute>^System\.Diagnostics\.DebuggerHiddenAttribute$</Attribute>
-								<Attribute>^System\.Diagnostics\.DebuggerNonUserCodeAttribute$</Attribute>
-								<Attribute>^System\.CodeDom\.Compiler\.GeneratedCodeAttribute$</Attribute>
-								<Attribute>^System\.Diagnostics\.CodeAnalysis\.ExcludeFromCodeCoverageAttribute$</Attribute>
-							</Exclude>
-						</Attributes>
-					</CodeCoverage>
+					<Format>cobertura</Format>
+					<Exclude>[*]Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse*</Exclude>
+					<ExcludeByFile>**/Program.cs,</ExcludeByFile>
+					<SkipAutoProps>true</SkipAutoProps>
 				</Configuration>
 			</DataCollector>
 		</DataCollectors>

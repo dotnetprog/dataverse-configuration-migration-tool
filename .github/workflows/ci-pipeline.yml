@@ -31,7 +31,7 @@ jobs:
     - name: Build
       run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
     - name: Execute unit tests
-      run: dotnet test ${{  env.solutionPath  }} --configuration Release --settings ${{  env.solutionFolder  }}/Console.Tests/CodeCoverage.runsettings --no-build --logger trx --no-restore --results-directory "TestResults" --collect:"Code Coverage;Format=Cobertura"
+      run: dotnet test ${{  env.solutionPath  }} --configuration Release --settings ${{  env.solutionFolder  }}/Console.Tests/CodeCoverage.runsettings --no-build --logger trx --no-restore --results-directory "TestResults" --collect:"XPlat code coverage"
     - name: Publish Test Report
       uses: phoenix-actions/test-reporting@v8
       id: test-report               # Set ID reference for step
@@ -44,7 +44,7 @@ jobs:
       uses: irongut/CodeCoverageSummary@v1.3.0
       if: github.event_name == 'pull_request'
       with:
-        filename: TestResults/*/*.cobertura.xml
+        filename: TestResults/*/coverage.cobertura.xml
         badge: true
         fail_below_min: true
         format: markdown
@@ -64,7 +64,7 @@ jobs:
       uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
       if: github.event_name == 'pull_request'
       with:
-        reports: TestResults/*/*.xml # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
+        reports: TestResults/*/coverage.cobertura.xml # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
         targetdir: 'coveragereport' # REQUIRED # The directory where the generated report should be saved.
         reporttypes: 'HtmlInline;Cobertura' # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, OpenCover, CsvSummary, Html, Html_Dark, Html_Light, Html_BlueRed, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlInline_AzurePipelines_Light, HtmlSummary, Html_BlueRed_Summary, JsonSummary, Latex, LatexSummary, lcov, MarkdownSummary, MarkdownSummaryGithub, MarkdownDeltaSummary, MHtml, SvgChart, SonarQube, TeamCitySummary, TextSummary, TextDeltaSummary, Xml, XmlSummary
         tag: '${{ github.run_number }}_${{ github.run_id }}' # Optional tag or build version.
