@@ -64,7 +64,7 @@ jobs:
       uses: danielpalme/ReportGenerator-GitHub-Action@5.2.0
       if: github.event_name == 'pull_request'
       with:
-        reports: TestResults/*/coverage.cobertura.xml # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
+        reports: TestResults/*/*.xml # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
         targetdir: 'coveragereport' # REQUIRED # The directory where the generated report should be saved.
         reporttypes: 'HtmlInline;Cobertura' # The output formats and scope (separated by semicolon) Values: Badges, Clover, Cobertura, OpenCover, CsvSummary, Html, Html_Dark, Html_Light, Html_BlueRed, HtmlChart, HtmlInline, HtmlInline_AzurePipelines, HtmlInline_AzurePipelines_Dark, HtmlInline_AzurePipelines_Light, HtmlSummary, Html_BlueRed_Summary, JsonSummary, Latex, LatexSummary, lcov, MarkdownSummary, MarkdownSummaryGithub, MarkdownDeltaSummary, MHtml, SvgChart, SonarQube, TeamCitySummary, TextSummary, TextDeltaSummary, Xml, XmlSummary
         tag: '${{ github.run_number }}_${{ github.run_id }}' # Optional tag or build version.
