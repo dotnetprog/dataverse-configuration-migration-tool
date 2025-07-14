@@ -31,7 +31,7 @@ jobs:
     - name: Build
       run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
     - name: Execute unit tests
-      run: dotnet test ${{  env.solutionPath  }} --configuration Release --settings ${{  env.solutionFolder  }}/Console.Tests/CodeCoverage.runsettings --no-build --logger trx --no-restore --filter FullyQualifiedName!~IntegrationTests --results-directory "TestResults" --collect:"XPlat Code Coverage"
+      run: dotnet test ${{  env.solutionPath  }} --configuration Release --settings ${{  env.solutionFolder  }}/Console.Tests/CodeCoverage.runsettings --no-build --logger trx --no-restore --results-directory "TestResults" --collect:"Code Coverage;Format=Cobertura"
     - name: Publish Test Report
       uses: phoenix-actions/test-reporting@v8
       id: test-report               # Set ID reference for step
