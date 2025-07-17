@@ -81,6 +81,8 @@ This guide explains how to:
 - Create a schema file that defines the data to export
 - Export configuration data from your environment
 
-*__NOTE__*: the `data_schema.xml` and `data.xml` will be inside the exported zip. You need to extract those files and use them to import command as described above.
+> [!NOTE]  
+> the `data_schema.xml` and `data.xml` will be inside the exported zip. You need to extract those files and use them to import command as described above.
+
 
 
