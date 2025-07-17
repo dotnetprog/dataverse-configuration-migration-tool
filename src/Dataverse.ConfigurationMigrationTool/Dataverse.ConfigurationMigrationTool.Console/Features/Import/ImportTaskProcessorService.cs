@@ -53,6 +53,7 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
 
     private async Task<TaskResult> ImportRelationships(EntityMetadata entity, ImportDataTask task, EntityImport entityImport)
     {
+        this.logger.LogInformation("Importing relationship : {relationshipname} | for entity source : {entityname}", task.RelationshipSchema.Name, entityImport.Name);
         var relMD = entity.ManyToManyRelationships.FirstOrDefault(m => m.IntersectEntityName == task.RelationshipSchema.Name);
         if (relMD == null) return TaskResult.Failed;
 
@@ -95,7 +96,7 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
     }
     private async Task<TaskResult> ImportRecords(EntityMetadata entity, ImportDataTask task, EntityImport entityImport)
     {
-
+        logger.LogInformation("Importing {entityname} records", entityImport.Name);
         var recordsWithNoSelfDependancies = entityImport.Records.Record.Where(r =>
         !r.Field.Any(f => f.Lookupentity == entityImport.Name &&
                          entityImport.Records.Record.Any(r2 => r2.Id != r.Id && r2.Id.ToString() == f.Value))).Select(r => BuildUpsertRequest(entity, entityImport, r)).ToList();
@@ -103,7 +104,8 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
         r.Field.Any(f => f.Lookupentity == entityImport.Name &&
                          entityImport.Records.Record.Any(r2 => r2.Id != r.Id && r2.Id.ToString() == f.Value))).ToList();
 
-
+        logger.LogInformation("records with no self dependancies: {count}", recordsWithNoSelfDependancies.Count);
+        logger.LogInformation("records with self dependancies: {count}", recordsWithSelfDependancies.Count);
         //See if upsert request keep ids
 
         //implement parallelism and batching
@@ -172,6 +174,12 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
             }
 
         }
+        var maxretries = retries.Where(kv => kv.Value >= MAX_RETRIES).Select(kv => kv.Key).ToList();
+        if (maxretries.Any())
+        {
+            logger.LogWarning("The following records ({count}) were not processed due to circular dependencies: {ids}", maxretries.Count, string.Join(", ", maxretries));
+        }
+
         return results;
 
     }
