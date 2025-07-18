@@ -48,7 +48,7 @@ jobs:
         color: brightgreen
         path: TestResults/${{ steps.get_subfolder.outputs.subfolder_name }}/coverage.opencover.xml
         gist-filename: code-coverage.json
-        gist-id: ${{ env.GIST_REPO_ID }}
+        gist-id: ${{ vars.GIST_REPO_ID }}
         gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}       
     - name: Print code coverage
       run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
