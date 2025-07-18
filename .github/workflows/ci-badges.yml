@@ -34,7 +34,7 @@ jobs:
       id: get_subfolder
       shell: pwsh
       run: |
-        $folderPath = 'your/folder/path'
+        $folderPath = 'TestResults'
         $firstSubfolder = Get-ChildItem -Path $folderPath -Directory | Select-Object -First 1
         $name = if ($firstSubfolder) { $firstSubfolder.Name } else { "" }
         echo "subfolder_name=$name" >> $env:GITHUB_OUTPUT
