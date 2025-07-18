@@ -35,8 +35,10 @@ jobs:
       shell: pwsh
       run: |
         $folderPath = 'TestResults'
-        $firstSubfolder = Get-ChildItem -Path $folderPath -Directory | Select-Object -First 1
-        $name = if ($firstSubfolder) { $firstSubfolder.Name } else { "" }
+        $firstGuidFolder = Get-ChildItem -Path $folderPath -Directory | Where-Object {
+          [guid]::TryParse($_.Name, [ref]([guid]::Empty))
+        } | Select-Object -First 1
+        $name = if ($firstGuidFolder) { $firstGuidFolder.Name } else { "" }
         echo "subfolder_name=$name" >> $env:GITHUB_OUTPUT
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
