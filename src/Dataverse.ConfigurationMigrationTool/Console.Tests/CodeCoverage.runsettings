@@ -4,7 +4,7 @@
 		<DataCollectors>
 			<DataCollector friendlyName="XPlat code coverage">
 				<Configuration>
-					<Format>cobertura</Format>
+					<Format>cobertura,opencover</Format>
 					<Exclude>[*]Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse*</Exclude>
 					<ExcludeByFile>**/Program.cs,</ExcludeByFile>
 					<SkipAutoProps>true</SkipAutoProps>

@@ -1,0 +1,63 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: CI - Main
+permissions:
+  contents: read
+  issues: read
+  checks: write
+on:
+  push:
+    branches: [ "main" ]
+ 
+env:
+  solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
+  solutionFolder: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool'
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+  
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore ${{  env.solutionPath  }}
+    - name: Build
+      run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
+    - name: Execute unit tests
+      run: dotnet test ${{  env.solutionPath  }} --configuration Release --settings ${{  env.solutionFolder  }}/Console.Tests/CodeCoverage.runsettings --no-build --logger trx --no-restore --results-directory "TestResults" --collect:"XPlat code coverage"
+    - name: Get first subfolder name
+      id: get_subfolder
+      shell: pwsh
+      run: |
+        $folderPath = 'TestResults'
+        $firstGuidFolder = Get-ChildItem -Path $folderPath -Directory | Where-Object {
+          [guid]::TryParse($_.Name, [ref]([guid]::Empty))
+        } | Select-Object -First 1
+        $name = if ($firstGuidFolder) { $firstGuidFolder.Name } else { "" }
+        echo "subfolder_name=$name" >> $env:GITHUB_OUTPUT
+    - name: Create Test Coverage Badge
+      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+      id: create_coverage_badge
+      with:
+        label: Unit Test Coverage
+        color: brightgreen
+        path: TestResults/${{ steps.get_subfolder.outputs.subfolder_name }}/coverage.opencover.xml
+        gist-filename: code-coverage.json
+        gist-id: ${{ vars.GIST_REPO_ID }}
+        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}       
+    - name: Print code coverage
+      run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
+
+
+  
+
+
+      
+  
+    
+  

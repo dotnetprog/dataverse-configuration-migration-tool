@@ -1,17 +1,15 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: CI - Pipeline
+name: CI - Pipeline - Validation
 permissions:
   contents: read
   issues: read
   checks: write
   pull-requests: write
 on:
-  push:
-    branches: [ "main","release/**/*" ]
   pull_request:
-    branches: [ "main","release/*" ]
+    branches: [ "main" ]
 env:
   solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
   solutionFolder: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool'

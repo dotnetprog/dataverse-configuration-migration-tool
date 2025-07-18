@@ -1,5 +1,4 @@
-﻿
-
+﻿![.Net](https://img.shields.io/badge/.NET_8_SDK-5C2D91?style=for-the-badge&logoColor=white) ![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/dotnetprog/aa1b559b3f614ea0719286f9e2972219/raw/code-coverage.json) 
 # Dataverse Configuration Migration Tool
 
 This repository contains a custom .NET CLI tool designed to import configuration data into Microsoft Dataverse environments. It streamlines the migration of configuration data, supports schema validation, and offers extensibility for advanced scenarios.
