@@ -9,9 +9,9 @@ permissions:
   pull-requests: write
 on:
   push:
-    branches: [ "main","release/**/*" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main","release/*" ]
+    branches: [ "main" ]
 env:
   solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
   solutionFolder: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool'
