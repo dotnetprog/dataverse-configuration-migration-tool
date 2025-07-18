@@ -30,21 +30,21 @@ jobs:
       run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
     - name: Execute unit tests
       run: dotnet test ${{  env.solutionPath  }} --configuration Release --settings ${{  env.solutionFolder  }}/Console.Tests/CodeCoverage.runsettings --no-build --logger trx --no-restore --results-directory "TestResults" --collect:"XPlat code coverage"
-    - name: Publish Test Report
-      uses: phoenix-actions/test-reporting@v8
-      id: test-report               # Set ID reference for step
-      if: ${{ (success() || failure()) && (github.event_name == 'pull_request')   }}     # run this step even if previous step failed
-      with:
-        name: unit tests            # Name of the check run which will be created
-        path: TestResults/*.trx    # Path to test results
-        reporter: dotnet-trx       # Format of test results
+    - name: Get first subfolder name
+      id: get_subfolder
+      shell: pwsh
+      run: |
+        $folderPath = 'your/folder/path'
+        $firstSubfolder = Get-ChildItem -Path $folderPath -Directory | Select-Object -First 1
+        $name = if ($firstSubfolder) { $firstSubfolder.Name } else { "" }
+        echo "subfolder_name=$name" >> $env:GITHUB_OUTPUT
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
       id: create_coverage_badge
       with:
         label: Unit Test Coverage
         color: brightgreen
-        path: TestResults/*/coverage.opencover.xml
+        path: TestResults/${{ steps.get_subfolder.outputs.subfolder_name }}/coverage.opencover.xml
         gist-filename: code-coverage.json
         gist-id: ${{ env.GIST_REPO_ID }}
         gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}       
