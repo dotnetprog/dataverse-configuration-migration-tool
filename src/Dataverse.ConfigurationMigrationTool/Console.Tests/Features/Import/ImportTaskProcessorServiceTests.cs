@@ -199,22 +199,21 @@ public class ImportTaskProcessorServiceTests
             Arg.Is<StringAttributeMetadata>(md => md.LogicalName == "name"),
             Arg.Is<Field>(f => f.Name == "name")).Returns(x => x.Arg<Field>().Value);
         metadataService.GetEntity(FakeSchemas.SelfHiearchyAccount.Name).Returns(FakeMetadata.Account);
-        bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.GetAttributeValue<EntityReference>("parentaccountid") != null))
-            .Returns(x => new(new UpsertResponse() { ["Target"] = x.Arg<UpsertRequest>().Target.ToEntityReference() }));
+
         // Act
         var result = await importService.Execute(task, dataImport);
         // Assert
         Received.InOrder(() =>
         {
-            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.Count() == 1));
-            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[2]));
-            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[1]));
-            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[0]));
+            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.First().Target.Id == FakeDatasets.AccountIds[3]));
+            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.First().Target.Id == FakeDatasets.AccountIds[2]));
+            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.First().Target.Id == FakeDatasets.AccountIds[1]));
+            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.First().Target.Id == FakeDatasets.AccountIds[0]));
         });
         result.ShouldBe(TaskResult.Completed);
     }
     [Fact]
-    public async Task GivenASelfHiearchyEntityTaskImportWothIssues_WhenExecuted_ThenItShouldProcessInCorrectOrderAndReturnFailed()
+    public async Task GivenASelfHiearchyEntityTaskImportWithIssues_WhenExecuted_ThenItShouldProcessInCorrectOrderAndReturnFailed()
     {
         // Arrange
         var task = new ImportDataTask
@@ -237,8 +236,6 @@ public class ImportTaskProcessorServiceTests
             Arg.Is<StringAttributeMetadata>(md => md.LogicalName == "name"),
             Arg.Is<Field>(f => f.Name == "name")).Returns(x => x.Arg<Field>().Value);
         metadataService.GetEntity(FakeSchemas.SelfHiearchyAccount.Name).Returns(FakeMetadata.Account);
-        bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.GetAttributeValue<EntityReference>("parentaccountid") != null))
-            .Returns(x => new(new OrganizationResponseFaultedResult() { Fault = fault, OriginalRequest = x.Arg<UpsertRequest>() }));
 
         bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.Count() == 1))
             .Returns(x => [new() { Fault = fault, OriginalRequest = x.Arg<IEnumerable<UpsertRequest>>().First() }]);
@@ -247,10 +244,10 @@ public class ImportTaskProcessorServiceTests
         // Assert
         Received.InOrder(() =>
         {
-            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.Count() == 1));
-            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[2]));
-            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[1]));
-            bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.Id == FakeDatasets.AccountIds[0]));
+            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.First().Target.Id == FakeDatasets.AccountIds[3]));
+            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.First().Target.Id == FakeDatasets.AccountIds[2]));
+            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.First().Target.Id == FakeDatasets.AccountIds[1]));
+            bulkOrganizationService.UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.First().Target.Id == FakeDatasets.AccountIds[0]));
         });
         result.ShouldBe(TaskResult.Failed);
     }
@@ -277,15 +274,12 @@ public class ImportTaskProcessorServiceTests
             Arg.Is<StringAttributeMetadata>(md => md.LogicalName == "name"),
             Arg.Is<Field>(f => f.Name == "name")).Returns(x => x.Arg<Field>().Value);
         metadataService.GetEntity(FakeSchemas.SelfHiearchyAccount.Name).Returns(FakeMetadata.Account);
-        bulkOrganizationService.Upsert(Arg.Is<UpsertRequest>(r => r.Target.GetAttributeValue<EntityReference>("parentaccountid") != null))
-            .Returns(x => new(new UpsertResponse() { ["Target"] = x.Arg<UpsertRequest>().Target.ToEntityReference() }));
+
         // Act
         var result = await importService.Execute(task, dataImport);
         // Assert
-        await bulkOrganizationService.Received().UpsertBulk(Arg.Is<IEnumerable<UpsertRequest>>(r => r.Count() == 0));
-        await bulkOrganizationService.DidNotReceive().Upsert(Arg.Any<UpsertRequest>());
-        logger.ShouldHaveLogged(LogLevel.Warning, $"account({FakeDatasets.AccountIds[0]}) was skipped because his parent was not proccessed.", count: 1);
-        logger.ShouldHaveLogged(LogLevel.Warning, $"account({FakeDatasets.AccountIds[1]}) was skipped because his parent was not proccessed.", count: 1);
+        await bulkOrganizationService.DidNotReceive().UpsertBulk(Arg.Any<IEnumerable<UpsertRequest>>());
+        logger.ShouldHaveLogged(LogLevel.Warning, "2 records skipped because of circular dependancies.", count: 1);
         result.ShouldBe(TaskResult.Completed);
     }
 }
