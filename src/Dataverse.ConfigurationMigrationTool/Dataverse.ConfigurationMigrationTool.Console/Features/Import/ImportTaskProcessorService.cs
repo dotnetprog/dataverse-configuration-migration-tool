@@ -96,21 +96,10 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
     }
     private async Task<TaskResult> ImportRecords(EntityMetadata entity, ImportDataTask task, EntityImport entityImport)
     {
-        logger.LogInformation("Importing {entityname} records", entityImport.Name);
-        var recordsWithNoSelfDependancies = entityImport.Records.Record.Where(r =>
-        !r.Field.Any(f => f.Lookupentity == entityImport.Name &&
-                         entityImport.Records.Record.Any(r2 => r2.Id != r.Id && r2.Id.ToString() == f.Value))).Select(r => BuildUpsertRequest(entity, entityImport, r)).ToList();
-        var recordsWithSelfDependancies = entityImport.Records.Record.Where(r =>
-        r.Field.Any(f => f.Lookupentity == entityImport.Name &&
-                         entityImport.Records.Record.Any(r2 => r2.Id != r.Id && r2.Id.ToString() == f.Value))).ToList();
+        logger.LogInformation("Importing {entityname} records ({count})", entityImport.Name, entityImport.Records.Record.Count);
 
-        logger.LogInformation("records with no self dependancies: {count}", recordsWithNoSelfDependancies.Count);
-        logger.LogInformation("records with self dependancies: {count}", recordsWithSelfDependancies.Count);
-        //See if upsert request keep ids
 
-        //implement parallelism and batching
-        var responses = await bulkOrganizationService.UpsertBulk(recordsWithNoSelfDependancies);
-
+        var responses = await ProcessDependantRecords(entityImport.Records.Record, entity, entityImport);
         foreach (var response in responses)
         {
 
@@ -122,19 +111,6 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
 
         }
         var resultTask = responses.Any() ? TaskResult.Failed : TaskResult.Completed;
-
-        var singleResponses = await ProcessDependantRecords(recordsWithSelfDependancies, entity, entityImport);
-        foreach (var response in singleResponses)
-        {
-
-            var targetRequest = (response.OriginalRequest as UpsertRequest).Target;
-
-
-            logger.LogError("{logicalname}({id}) upsert failed because: {fault}", targetRequest.LogicalName, targetRequest.Id, response.Fault.Message);
-
-
-        }
-        resultTask = singleResponses.Any() ? TaskResult.Failed : resultTask;
         logger.LogInformation("Import Task of {entityname} records terminated in a {State} state", entityImport.Name, resultTask);
         return resultTask;
 
@@ -142,46 +118,24 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
     private async Task<IEnumerable<OrganizationResponseFaultedResult>> ProcessDependantRecords(IEnumerable<Record> records, EntityMetadata entity, EntityImport entityImport)
     {
 
-        var retries = new Dictionary<Guid, int>();
-        var queue = new Queue<Record>(records);
         var results = new List<OrganizationResponseFaultedResult>();
-        while (queue.Count > 0)
+        var recordsCanBeProcessed = records.Where(r => !r.Field.Any(f => f.Lookupentity == entityImport.Name &&
+                        records.Any(r2 => r2.Id != r.Id && r2.Id.ToString() == f.Value))).Select(r => BuildUpsertRequest(entity, entityImport, r)).ToList();
+        logger.LogInformation("Processing {count} records", recordsCanBeProcessed.Count);
+        if (recordsCanBeProcessed.Count == 0)
         {
-            var record = queue.Dequeue();
-
-            if (record.Field.Any(f => f.Lookupentity == entityImport.Name && (queue.Any(r => r.Id.ToString() == f.Value) ||
-                retries.Any(kv => kv.Key.ToString() == f.Value && kv.Value >= MAX_RETRIES))))
+            if (records.Any())
             {
-
-                if (retries.ContainsKey(record.Id) && retries[record.Id] >= MAX_RETRIES)
-                {
-                    logger.LogWarning("{entityType}({id}) was skipped because his parent was not proccessed.", entityImport.Name, record.Id);
-                    continue;
-                }
-
-
-                //Enqueue record again until his parent is processed.
-                queue.Enqueue(record);
-                retries[record.Id] = retries.ContainsKey(record.Id) ? retries[record.Id] + 1 : 1;
-                continue;
+                logger.LogWarning("{count} records skipped because of circular dependancies.", records.Count());
             }
-            var request = BuildUpsertRequest(entity, entityImport, record);
-
-            var result = await bulkOrganizationService.Upsert(request);
-            if (result.IsFailure)
-            {
-                results.Add(result.Failure);
-            }
-
+            return results;
         }
-        var maxretries = retries.Where(kv => kv.Value >= MAX_RETRIES).Select(kv => kv.Key).ToList();
-        if (maxretries.Any())
-        {
-            logger.LogWarning("The following records ({count}) were not processed due to circular dependencies: {ids}", maxretries.Count, string.Join(", ", maxretries));
-        }
+        var responses = await bulkOrganizationService.UpsertBulk(recordsCanBeProcessed);
+        results.AddRange(responses);
 
+        responses = await ProcessDependantRecords(records.Where(r => !recordsCanBeProcessed.Any(r2 => r.Id == r2.Target.Id)), entity, entityImport);
+        results.AddRange(responses);
         return results;
-
     }
     private UpsertRequest BuildUpsertRequest(EntityMetadata entityMD, EntityImport entityImport, Record record)
     {

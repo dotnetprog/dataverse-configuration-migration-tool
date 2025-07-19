@@ -23,6 +23,21 @@ public class FieldTypeMustMatchWithAttributeValidationRuleTests : BaseFieldSchem
         result.IsSuccess.ShouldBe(true);
     }
     [Fact]
+    public async Task GivenAFieldSchemaWithAttributeTypeCodeMemo_WhenItIsValidated_ThenItShouldReturnSuccess()
+    {
+        // Arrange
+        var fieldSchema = new FieldSchema
+        {
+            Name = "testField",
+            Type = "string"
+        };
+        var attributeMetadata = CreateAttributeMetadata<MemoAttributeMetadata>();
+        // Act
+        var result = await ExecuteRule(fieldSchema, attributeMetadata);
+        // Assert
+        result.IsSuccess.ShouldBe(true);
+    }
+    [Fact]
     public async Task GivenAnUnresolvedFieldSchemaWithAttributeTypeCode_WhenItIsValidated_ThenItShouldReturnTheProperFailure()
     {
         var fieldSchema = new FieldSchema
