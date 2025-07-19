@@ -36,6 +36,10 @@ public class ImportCommands
         if (schemaValidationResult.IsError)
         {
             _logger.LogError("Schema failed validation process with {count} failure(s).", schemaValidationResult.Failures.Count);
+            foreach (var failure in schemaValidationResult.Failures)
+            {
+                _logger.LogError("schema validation failure: {property} => {failure}", failure.PropertyBound, failure.Message);
+            }
             throw new Exception("Provided Schema was not valid.");
         }
         _logger.LogInformation("Schema validation succeeded.");
