@@ -2,8 +2,10 @@
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Commands;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using Dataverse.ConfigurationMigrationTool.Console.Tests.Extensions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using Shouldly;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Import.Commands;
 public class ImportCommandsTest
@@ -69,5 +71,48 @@ public class ImportCommandsTest
         });
 
     }
+    [Fact]
+    public async Task GivenAnInvalidSchema_WhenTheCommandExecutes_ThenItShouldFailAndLogIssues()
+    {
+        //Arrange
+        var importSchema = new ImportSchema
+        {
+            Entity = new()
+            {
+                FakeSchemas.Account,
+                FakeSchemas.Contact,
+                FakeSchemas.Opportunity
 
+            }
+        };
+        var datasets = new Entities
+        {
+            Entity = new()
+            {
+                FakeDatasets.AccountSets,
+                FakeDatasets.ContactSets,
+                FakeDatasets.OpportunitiesSet
+            }
+        };
+        _importDataService.Execute(Arg.Any<ImportDataTask>(), Arg.Any<Entities>())
+            .Returns(TaskResult.Completed);
+        _importDataProvider.ReadFromFile(DataFilePath).Returns(datasets);
+        _importDataProvider.ReadSchemaFromFile(SchemaFilePath).Returns(importSchema);
+        _schemaValidator.Validate(importSchema).Returns(new ValidationResult()
+        {
+            Failures = new List<ValidationFailure>
+            {
+                new ("Entity", "Entity is not valid")
+            }
+        });
+        //Act
+        Func<Task> act = () => _importCommands.Import(SchemaFilePath, DataFilePath);
+
+        //Assert
+        var ex = await act.ShouldThrowAsync<Exception>();
+        ex.Message.ShouldBe("Provided Schema was not valid.");
+        _logger.ShouldHaveLogged(LogLevel.Error, "Schema failed validation process with 1 failure(s).");
+
+
+    }
 }
