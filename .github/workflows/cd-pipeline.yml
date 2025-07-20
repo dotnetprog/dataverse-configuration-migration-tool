@@ -48,6 +48,7 @@ jobs:
             dotnet Dataverse.ConfigurationMigrationTool.Console.dll import --schema "../data/data_schema.xml" --data "../data/data.xml"
           env:
             DOTNET_ENVIRONMENT: Production
+            environment: Production
 
         
 

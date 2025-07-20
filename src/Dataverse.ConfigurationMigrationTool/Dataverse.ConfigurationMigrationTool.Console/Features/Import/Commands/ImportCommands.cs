@@ -29,10 +29,10 @@ public class ImportCommands
     {
 
         var ImportQueue = new Queue<ImportDataTask>();
-        ConsoleApp.WriteLine("Importing data from file {datafilepath} with schema {schemafilepath}", datafilepath, schemafilepath);
+        ConsoleApp.WriteLine($"{datafilepath} with schema {schemafilepath}");
         var schema = await _importDataProvider.ReadSchemaFromFile(schemafilepath);
         var importdata = await _importDataProvider.ReadFromFile(datafilepath);
-        ConsoleApp.WriteLine("Schema Count: {schema} | Data count {data}", schema.Entity.Count, importdata.Entity.Count);
+        ConsoleApp.WriteLine($"Schema Count: {schema.Entity.Count} | Data count {importdata.Entity.Count}");
 
 
         var schemaValidationResult = await _schemaValidator.Validate(schema);

@@ -18,7 +18,7 @@ public class SdkDataverseServiceFactory : IDataverseClientFactory
     }
     public IOrganizationServiceAsync2 Create()
     {
-        throw new InvalidOperationException($"test: {_options.Url} {_options.ClientId} {_options.ClientSecret}");
+        // throw new InvalidOperationException($"test: {_options.Url} {_options.ClientId} {_options.ClientSecret}");
         var serviceClient = new ServiceClient(
             new Uri(_options.Url),
             _options.ClientId.ToString(),
