@@ -1,4 +1,4 @@
-﻿namespace Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+﻿namespace Dataverse.ConfigurationMigrationTool.Console.Features;
 public class CommandProcessorHostingServiceOptions
 {
     public string CommandVerb { get; set; }

@@ -1,9 +1,7 @@
-﻿using Cocona;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ConsoleApp = System.Console;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Commands;
 [CommandVerb("import")]
@@ -31,15 +29,12 @@ public class ImportCommands : ICommand
     public async Task Execute() => await Import(_options.schema, _options.data);
 
 
-    [Command("import")]
-    public async Task Import([Option("schema")] string schemafilepath, [Option("data")] string datafilepath)
+    private async Task Import(string schemafilepath, string datafilepath)
     {
 
         var ImportQueue = new Queue<ImportDataTask>();
-        ConsoleApp.WriteLine($"{datafilepath} with schema {schemafilepath}");
         var schema = await _importDataProvider.ReadSchemaFromFile(schemafilepath);
         var importdata = await _importDataProvider.ReadFromFile(datafilepath);
-        ConsoleApp.WriteLine($"Schema Count: {schema.Entity.Count} | Data count {importdata.Entity.Count}");
 
 
         var schemaValidationResult = await _schemaValidator.Validate(schema);
@@ -66,7 +61,7 @@ public class ImportCommands : ICommand
             }
         }
 
-
+        var taskResults = new List<TaskResult>();
         while (ImportQueue.Count > 0)
         {
             var importTask = ImportQueue.Dequeue();
@@ -90,10 +85,15 @@ public class ImportCommands : ICommand
             }
             #endregion
 
-            await _importDataService.Execute(importTask, importdata);
+            var result = await _importDataService.Execute(importTask, importdata);
+            taskResults.Add(result);
 
 
-
+        }
+        if (taskResults.Any(r => r == TaskResult.Failed))
+        {
+            _logger.LogError("Import process failed.");
+            throw new Exception("Import process failed.");
         }
 
 

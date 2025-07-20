@@ -68,7 +68,7 @@ public class ImportCommandsTest
         _importDataProvider.ReadSchemaFromFile(SchemaFilePath).Returns(importSchema);
         _schemaValidator.Validate(importSchema).Returns(new ValidationResult());
         //Act
-        await _importCommands.Import(SchemaFilePath, DataFilePath);
+        await _importCommands.Execute();
 
         //Assert
         Received.InOrder(async () =>
@@ -78,6 +78,44 @@ public class ImportCommandsTest
             await _importDataService.Execute(Arg.Is<ImportDataTask>(x => x.EntitySchema == FakeSchemas.Account), datasets);
             await _importDataService.Execute(Arg.Is<ImportDataTask>(x => x.RelationshipSchema == FakeSchemas.Contact.Relationships.Relationship.First()), datasets);
         });
+
+    }
+    [Fact]
+    public async Task GivenDataToImportWithSchema_WhenTheCommandExecutesAndFails_ThenItShouldThrowAnError()
+    {
+        //Arrange
+        var importSchema = new ImportSchema
+        {
+            Entity = new()
+            {
+                FakeSchemas.Account,
+                FakeSchemas.Contact,
+                FakeSchemas.Opportunity
+
+            }
+        };
+        var datasets = new Entities
+        {
+            Entity = new()
+            {
+                FakeDatasets.AccountSets,
+                FakeDatasets.ContactSets,
+                FakeDatasets.OpportunitiesSet
+            }
+        };
+        _importDataService.Execute(Arg.Any<ImportDataTask>(), Arg.Any<Entities>())
+            .Returns(TaskResult.Failed);
+        _importDataProvider.ReadFromFile(DataFilePath).Returns(datasets);
+        _importDataProvider.ReadSchemaFromFile(SchemaFilePath).Returns(importSchema);
+        _schemaValidator.Validate(importSchema).Returns(new ValidationResult());
+        //Act
+        Func<Task> act = () => _importCommands.Execute();
+
+        //Assert
+        var ex = await act.ShouldThrowAsync<Exception>();
+        ex.Message.ShouldBe("Import process failed.");
+
+
 
     }
     [Fact]
@@ -115,7 +153,7 @@ public class ImportCommandsTest
             }
         });
         //Act
-        Func<Task> act = () => _importCommands.Import(SchemaFilePath, DataFilePath);
+        Func<Task> act = () => _importCommands.Execute();
 
         //Assert
         var ex = await act.ShouldThrowAsync<Exception>();
