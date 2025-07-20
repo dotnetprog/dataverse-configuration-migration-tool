@@ -14,8 +14,8 @@ on:
 env:
   solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
   solutionFolder: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool'
-  toolpublishlocation: '${{ github.workspace }/configurationmigrationtool'
-  datapublishlocation: '${{ github.workspace }/data'
+  toolpublishlocation: '${{ github.workspace }}/configurationmigrationtool'
+  datapublishlocation: '${{ github.workspace }}/data'
 jobs:
   build:
 
