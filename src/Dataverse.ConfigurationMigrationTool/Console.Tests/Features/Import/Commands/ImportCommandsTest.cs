@@ -4,6 +4,7 @@ using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Tests.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using Shouldly;
 
@@ -17,6 +18,11 @@ public class ImportCommandsTest
     private readonly ImportCommands _importCommands;
     const string DataFilePath = "data.json";
     const string SchemaFilePath = "schema.json";
+    private ImportCommandOptions _options => new()
+    {
+        data = DataFilePath,
+        schema = SchemaFilePath
+    };
 
     public ImportCommandsTest()
     {
@@ -24,10 +30,13 @@ public class ImportCommandsTest
         _importDataProvider = Substitute.For<IImportDataProvider>();
         _schemaValidator = Substitute.For<IValidator<ImportSchema>>();
         _importDataService = Substitute.For<IImportTaskProcessorService>();
+        var options = Substitute.For<IOptions<ImportCommandOptions>>();
+        options.Value.Returns(_options);
         _importCommands = new ImportCommands(_logger,
             _importDataProvider,
             _schemaValidator,
-            _importDataService);
+            _importDataService,
+            options);
     }
 
     [Fact]
