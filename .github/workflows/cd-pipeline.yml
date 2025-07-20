@@ -46,7 +46,7 @@ jobs:
           run: |
             cd ${{ github.workspace }}/configurationmigrationtool
             chmod +x ./Dataverse.ConfigurationMigrationTool.Console
-            ./Dataverse.ConfigurationMigrationTool.Console import --schema ${{ github.workspace }}/data/data_schema.xml --data ${{ github.workspace }}/data/data.xml
+            ./Dataverse.ConfigurationMigrationTool.Console import --schema "${{ github.workspace }}/data/data_schema.xml" --data "${{ github.workspace }}/data/data.xml"
           env:
             DOTNET_ENVIRONMENT: Production
 
