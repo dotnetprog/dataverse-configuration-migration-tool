@@ -39,13 +39,13 @@ jobs:
       run: dotnet publish ${{  env.solutionFolder  }}/Dataverse.ConfigurationMigrationTool.Console/Dataverse.ConfigurationMigrationTool.Console.csproj -c Release -o ${{env.toolpublishlocation}}
     - name: Upload tool artifact
       if: ${{ (github.ref == 'refs/heads/main' || contains(github.ref, 'release')) && github.event_name != 'pull_request' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
          name: configurationmigrationtool
          path: ${{env.toolpublishlocation}}
     - name: Upload data artifact
       if: ${{ (github.ref == 'refs/heads/main' || contains(github.ref, 'release')) && github.event_name != 'pull_request' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
          name: data
          path: ${{env.datapublishlocation}}
