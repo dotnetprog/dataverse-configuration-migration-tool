@@ -57,7 +57,10 @@ jobs:
    if: ${{ (github.ref == 'refs/heads/main' || contains(github.ref, 'release')) && github.event_name != 'pull_request' }}
    with:
      environment: 'staging'   
-   
+   secrets:
+      DATAVERSECLIENTID: ${{ secrets.DATAVERSECLIENTID }}
+      DATAVERSECLIENTSECRET: ${{ secrets.DATAVERSECLIENTSECRET  }}
+      DATAVERSEENVURL: ${{ secrets.DATAVERSEENVURL }}
    
   
 

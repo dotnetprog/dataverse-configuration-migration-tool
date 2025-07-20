@@ -8,7 +8,13 @@ on:
       environment:
         required: true
         type: string
-   
+    secrets:
+      DATAVERSECLIENTID:
+       required: true
+      DATAVERSECLIENTSECRET:
+       required: true
+      DATAVERSEENVURL:
+       required: true
       
 jobs:
   Deployment:
