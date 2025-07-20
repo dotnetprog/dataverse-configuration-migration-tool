@@ -1,0 +1,67 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: 'Main Workflow'
+run-name: ${{ github.event.repository.name }}_${{ github.run_number }}
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+on:
+  workflow_dispatch:
+
+env:
+  solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
+  solutionFolder: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool'
+  toolpublishlocation: '${{ github.workspace }/configurationmigrationtool'
+  datapublishlocation: '${{ github.workspace }/data'
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+  
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore ${{  env.solutionPath  }}
+    - name: Build
+      run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
+    - name: dotnet publish
+      if: ${{ (github.ref == 'refs/heads/main' || contains(github.ref, 'release')) && github.event_name != 'pull_request' }}
+      run: dotnet publish ${{  env.solutionFolder  }}/Dataverse.ConfigurationMigrationTool.Console/Dataverse.ConfigurationMigrationTool.Console.csproj -c Release -o ${{env.toolpublishlocation}}
+    - name: Upload tool artifact
+      if: ${{ (github.ref == 'refs/heads/main' || contains(github.ref, 'release')) && github.event_name != 'pull_request' }}
+      uses: actions/upload-artifact@v3
+      with:
+         name: configurationmigrationtool
+         path: ${{env.toolpublishlocation}}
+    - name: Upload data artifact
+      if: ${{ (github.ref == 'refs/heads/main' || contains(github.ref, 'release')) && github.event_name != 'pull_request' }}
+      uses: actions/upload-artifact@v3
+      with:
+         name: data
+         path: ${{env.datapublishlocation}}
+
+  deployStaging:
+   name: 'staging'
+   needs: build
+   uses: ./.github/workflows/cd-pipeline.yml
+   if: ${{ (github.ref == 'refs/heads/main' || contains(github.ref, 'release')) && github.event_name != 'pull_request' }}
+   with:
+     environment: 'staging'   
+   
+   
+  
+
+      
+  
+    
+  
