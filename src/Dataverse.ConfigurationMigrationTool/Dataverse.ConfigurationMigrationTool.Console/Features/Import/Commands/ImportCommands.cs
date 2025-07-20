@@ -2,27 +2,34 @@
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ConsoleApp = System.Console;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Commands;
-
-public class ImportCommands
+[CommandVerb("import")]
+public class ImportCommands : ICommand
 {
     private readonly ILogger<ImportCommands> _logger;
     private readonly IImportDataProvider _importDataProvider;
     private readonly IValidator<ImportSchema> _schemaValidator;
     private readonly IImportTaskProcessorService _importDataService;
+    private readonly ImportCommandOptions _options;
 
     public ImportCommands(ILogger<ImportCommands> logger,
         IImportDataProvider importDataProvider,
         IValidator<ImportSchema> schemaValidator,
-        IImportTaskProcessorService importDataService)
+        IImportTaskProcessorService importDataService,
+        IOptions<ImportCommandOptions> options)
     {
         _logger = logger;
         _importDataProvider = importDataProvider;
         _schemaValidator = schemaValidator;
         _importDataService = importDataService;
+        _options = options.Value;
     }
+
+    public async Task Execute() => await Import(_options.schema, _options.data);
+
 
     [Command("import")]
     public async Task Import([Option("schema")] string schemafilepath, [Option("data")] string datafilepath)

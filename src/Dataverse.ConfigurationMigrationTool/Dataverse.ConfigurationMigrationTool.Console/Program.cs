@@ -14,12 +14,14 @@ var builder = new HostBuilder();
 builder.ConfigureHostConfiguration((config) =>
 {
     // Configure the host configuration, such as environment variables, command line arguments, etc.
-    config.AddEnvironmentVariables();
+    config.AddEnvironmentVariables().AddCommandLine(args);
+
 });
 builder.ConfigureAppConfiguration((context, config) =>
 {
     config
         .AddEnvironmentVariables()
+        .AddCommandLine(args)
         .AddJsonFile("appsettings.json", false, false)
         .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", false, false);
     if (!context.HostingEnvironment.IsProduction())
@@ -41,6 +43,7 @@ builder.ConfigureServices((context, services) =>
 
     services
     .AddLogging(lb => lb.AddConsole())
+
     .Configure<SdkDataverseServiceFactoryOptions>(context.Configuration.GetSection("Dataverse"))
     .Configure<ParallelismBulkOrganizationServiceOptions>(context.Configuration.GetSection("Dataverse"))
     .AddTransient<IImportDataProvider, FileReaderDataImportProvider>()
@@ -49,7 +52,8 @@ builder.ConfigureServices((context, services) =>
     .AddTransient<ServiceClient>((sp) => (ServiceClient)sp.GetRequiredService<IDataverseClientFactory>().Create())
     .AddSingleton<IBulkOrganizationService, ParallelismBulkOrganizationService>()
     .AddDataverseClient()
-    .AddImportFeature();
+    .UseCommands(args)
+    .AddImportFeature(context.Configuration);
     // Configure other services.
 });
 builder.ConfigureCocona(args, configureApplication: app =>
@@ -57,7 +61,8 @@ builder.ConfigureCocona(args, configureApplication: app =>
     // Configure your app's commands normally as you would with app
     app.UseImportFeature();
 });
-await builder.RunConsoleAsync(x => x.SuppressStatusMessages = true);
+var app = builder.Build();
+await app.RunAsync();
 //var builder = CoconaApp.CreateBuilder();
 //builder.Configuration
 //        .AddEnvironmentVariables()
