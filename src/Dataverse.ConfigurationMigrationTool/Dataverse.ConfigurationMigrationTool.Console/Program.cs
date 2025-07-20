@@ -8,6 +8,7 @@ using Dataverse.ConfigurationMigrationTool.Console.Services.Metadata;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.PowerPlatform.Dataverse.Client;
 using System.Reflection;
 
@@ -26,7 +27,7 @@ if (!builder.Environment.IsProduction())
     builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly());
 }
 builder.Services
-    .AddLogging()
+    .AddLogging(lb => lb.AddConsole())
     .Configure<SdkDataverseServiceFactoryOptions>(builder.Configuration.GetSection("Dataverse"))
     .Configure<ParallelismBulkOrganizationServiceOptions>(builder.Configuration.GetSection("Dataverse"))
     .AddTransient<IImportDataProvider, FileReaderDataImportProvider>()
@@ -36,7 +37,8 @@ builder.Services
     .AddSingleton<IBulkOrganizationService, ParallelismBulkOrganizationService>()
     .AddDataverseClient()
     .AddImportFeature();
-
+Console.WriteLine($"Services are completed");
 var app = builder.Build();
 app.UseImportFeature();
+Console.WriteLine($"Running App");
 await app.RunAsync();
