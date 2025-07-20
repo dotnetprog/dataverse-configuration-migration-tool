@@ -1,0 +1,59 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: deploy workflow
+on:
+   workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+   
+      
+jobs:
+  Deployment:
+    name: Deployment
+    runs-on: ubuntu-latest
+    environment:
+        name: ${{ inputs.environment }}
+   
+    steps:
+        - uses: actions/checkout@v3
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: 8.0.x
+        - name: Download tool artifact
+          uses: actions/download-artifact@v3
+          with:
+            name: configurationmigrationtool
+            path: '${{ github.workspace }}/configurationmigrationtool'
+        - name: Download data artifact
+          uses: actions/download-artifact@v3
+          with:
+            name: data
+            path: '${{ github.workspace }}/data'
+        - name: Replace tokens
+          uses: cschleiden/replace-tokens@v1
+          with:
+            tokenPrefix: '${'
+            tokenSuffix: '}$'
+            files: '["**/*.json"]'
+          env:
+            DataverseClientId: ${{ secrets.DATAVERSECLIENTID }}
+            DataverseClientSecret: ${{ secrets.DATAVERSECLIENTSECRET  }}
+            DataverseEnvUrl: ${{ secrets.DATAVERSEENVURL }}
+        - name: import configuration data
+          run: |
+            cd ${{ github.workspace }}/configurationmigrationtool/Release
+            Dataverse.ConfigurationMigrationTool.Console.exe import --schema ${{ github.workspace }}/data/data_schema.xml --data ${{ github.workspace }}/data/data.xml
+          env:
+            DOTNET_ENVIRONMENT: Production
+
+        
+
+
+
+  
+    
+  

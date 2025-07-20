@@ -1,0 +1,671 @@
+
+<entities xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" timestamp="2025-06-29T16:27:50.4009413Z">
+  <entity name="fdn_insuranceproductnature" displayname="insurance product nature">
+    <records>
+      <record id="6afe7cda-9d4f-f011-877b-6045bdccf7ac">
+        <field name="fdn_amount" value="4325.0000000000" />
+        <field name="fdn_amount_base" value="4325.0000000000" />
+        <field name="fdn_category" value="2" />
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="transactioncurrencyid" value="1fef582d-45ec-ef11-9342-000d3a09f136" lookupentity="transactioncurrency" lookupentityname="Canadian Dollar" />
+        <field name="fdn_customer" value="9cf56f73-aeef-ef11-9342-000d3a09f246" lookupentity="contact" lookupentityname="Dolce Gabana" />
+        <field name="fdn_duedate" value="2025-06-10T12:00:00.0000000Z" />
+        <field name="exchangerate" value="1.000000000000" />
+        <field name="fdn_insuranceproductnatureid" value="6afe7cda-9d4f-f011-877b-6045bdccf7ac" />
+        <field name="fdn_isvalid" value="True" />
+        <field name="fdn_maxspeed" value="2223.45" />
+        <field name="fdn_membercount" value="33" />
+        <field name="modifiedby" value="b361f574-19ec-ef11-9342-000d3a09f136" lookupentity="systemuser" lookupentityname="François Desjardins-Nadeau" />
+        <field name="modifiedon" value="2025-06-29T16:23:51.0000000Z" />
+        <field name="fdn_newcolumn" value="test 1" />
+        <field name="fdn_naturelevel" value="794560000" />
+        <field name="organizationid" value="27b939f9-71ef-ef11-933e-0022486dbff5" lookupentity="organization" lookupentityname="pcflab" />
+        <field name="fdn_parentinsuranceproductnatureid" value="42e9276a-0555-f011-877a-7c1e52064ef6" lookupentity="fdn_insuranceproductnature" lookupentityname="Root &lt;&quot;&quot;&gt; ''é&amp;&amp;@ \ /" />
+        <field name="fdn_rating" value="2323.0000000000" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+        <field name="timezoneruleversionnumber" value="4" />
+        <field name="utcconversiontimezonecode" value="92" />
+      </record>
+      <record id="6efe7cda-9d4f-f011-877b-6045bdccf7ac">
+        <field name="fdn_amount" value="34556.0000000000" />
+        <field name="fdn_amount_base" value="34556.0000000000" />
+        <field name="fdn_category" value="1" />
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="transactioncurrencyid" value="1fef582d-45ec-ef11-9342-000d3a09f136" lookupentity="transactioncurrency" lookupentityname="Canadian Dollar" />
+        <field name="fdn_customer" value="92bd1960-aeef-ef11-9342-000d3a09f246" lookupentity="contact" lookupentityname="Eric Bonin" />
+        <field name="fdn_duedate" value="2025-06-18T12:00:00.0000000Z" />
+        <field name="exchangerate" value="1.000000000000" />
+        <field name="fdn_insuranceproductnatureid" value="6efe7cda-9d4f-f011-877b-6045bdccf7ac" />
+        <field name="fdn_isvalid" value="True" />
+        <field name="fdn_maxspeed" value="333.66" />
+        <field name="fdn_membercount" value="324" />
+        <field name="modifiedby" value="b361f574-19ec-ef11-9342-000d3a09f136" lookupentity="systemuser" lookupentityname="François Desjardins-Nadeau" />
+        <field name="modifiedon" value="2025-06-29T16:22:30.0000000Z" />
+        <field name="fdn_newcolumn" value="test 2" />
+        <field name="fdn_naturelevel" value="794560000" />
+        <field name="organizationid" value="27b939f9-71ef-ef11-933e-0022486dbff5" lookupentity="organization" lookupentityname="pcflab" />
+        <field name="fdn_parentinsuranceproductnatureid" value="6afe7cda-9d4f-f011-877b-6045bdccf7ac" lookupentity="fdn_insuranceproductnature" lookupentityname="test 1" />
+        <field name="fdn_rating" value="4.9000000000" />
+        <field name="statecode" value="1" />
+        <field name="statuscode" value="2" />
+        <field name="timezoneruleversionnumber" value="4" />
+        <field name="utcconversiontimezonecode" value="92" />
+      </record>
+      <record id="42e9276a-0555-f011-877a-7c1e52064ef6">
+        <field name="fdn_amount" value="23545.0000000000" />
+        <field name="fdn_amount_base" value="23545.0000000000" />
+        <field name="fdn_category" value="1000" />
+        <field name="createdby" value="b361f574-19ec-ef11-9342-000d3a09f136" lookupentity="systemuser" lookupentityname="François Desjardins-Nadeau" />
+        <field name="createdon" value="2025-06-29T16:23:40.0000000Z" />
+        <field name="transactioncurrencyid" value="1fef582d-45ec-ef11-9342-000d3a09f136" lookupentity="transactioncurrency" lookupentityname="Canadian Dollar" />
+        <field name="fdn_customer" value="6056fb59-aeef-ef11-9342-000d3a09f246" lookupentity="contact" lookupentityname="Jean Dumas" />
+        <field name="fdn_duedate" value="2025-06-09T12:00:00.0000000Z" />
+        <field name="exchangerate" value="1.000000000000" />
+        <field name="fdn_insuranceproductnatureid" value="42e9276a-0555-f011-877a-7c1e52064ef6" />
+        <field name="fdn_isvalid" value="True" />
+        <field name="fdn_maxspeed" value="234" />
+        <field name="fdn_membercount" value="222" />
+        <field name="modifiedby" value="b361f574-19ec-ef11-9342-000d3a09f136" lookupentity="systemuser" lookupentityname="François Desjardins-Nadeau" />
+        <field name="modifiedon" value="2025-06-29T16:25:51.0000000Z" />
+        <field name="fdn_newcolumn" value="Root &amp;lt;&amp;quot;&amp;quot;&amp;gt; &amp;#39;&amp;#39;&amp;#233;&amp;amp;&amp;amp;@ \ /" />
+        <field name="fdn_naturelevel" value="794560000" />
+        <field name="organizationid" value="27b939f9-71ef-ef11-933e-0022486dbff5" lookupentity="organization" lookupentityname="pcflab" />
+        <field name="fdn_rating" value="1111.0000000000" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+        <field name="timezoneruleversionnumber" value="0" />
+        <field name="utcconversiontimezonecode" value="35" />
+      </record>
+      <record id="a873b483-0555-f011-877a-7c1e52064ef6">
+        <field name="fdn_amount" value="3333.0000000000" />
+        <field name="fdn_amount_base" value="3333.0000000000" />
+        <field name="fdn_category" value="3" />
+        <field name="createdby" value="b361f574-19ec-ef11-9342-000d3a09f136" lookupentity="systemuser" lookupentityname="François Desjardins-Nadeau" />
+        <field name="createdon" value="2025-06-29T16:24:23.0000000Z" />
+        <field name="transactioncurrencyid" value="1fef582d-45ec-ef11-9342-000d3a09f136" lookupentity="transactioncurrency" lookupentityname="Canadian Dollar" />
+        <field name="exchangerate" value="1.000000000000" />
+        <field name="fdn_insuranceproductnatureid" value="a873b483-0555-f011-877a-7c1e52064ef6" />
+        <field name="fdn_isvalid" value="False" />
+        <field name="modifiedby" value="b361f574-19ec-ef11-9342-000d3a09f136" lookupentity="systemuser" lookupentityname="François Desjardins-Nadeau" />
+        <field name="modifiedon" value="2025-06-29T16:24:23.0000000Z" />
+        <field name="fdn_newcolumn" value="test 1.1" />
+        <field name="organizationid" value="27b939f9-71ef-ef11-933e-0022486dbff5" lookupentity="organization" lookupentityname="pcflab" />
+        <field name="fdn_parentinsuranceproductnatureid" value="42e9276a-0555-f011-877a-7c1e52064ef6" lookupentity="fdn_insuranceproductnature" lookupentityname="Root &lt;&quot;&quot;&gt; ''é&amp;&amp;@ \ /" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="84b2978e-0555-f011-877a-7c1e52064ef6">
+        <field name="fdn_amount" value="111.0000000000" />
+        <field name="fdn_amount_base" value="111.0000000000" />
+        <field name="createdby" value="b361f574-19ec-ef11-9342-000d3a09f136" lookupentity="systemuser" lookupentityname="François Desjardins-Nadeau" />
+        <field name="createdon" value="2025-06-29T16:24:44.0000000Z" />
+        <field name="transactioncurrencyid" value="1fef582d-45ec-ef11-9342-000d3a09f136" lookupentity="transactioncurrency" lookupentityname="Canadian Dollar" />
+        <field name="exchangerate" value="1.000000000000" />
+        <field name="fdn_insuranceproductnatureid" value="84b2978e-0555-f011-877a-7c1e52064ef6" />
+        <field name="fdn_isvalid" value="False" />
+        <field name="modifiedby" value="b361f574-19ec-ef11-9342-000d3a09f136" lookupentity="systemuser" lookupentityname="François Desjardins-Nadeau" />
+        <field name="modifiedon" value="2025-06-29T16:24:44.0000000Z" />
+        <field name="fdn_newcolumn" value="test 323" />
+        <field name="fdn_naturelevel" value="794560000" />
+        <field name="organizationid" value="27b939f9-71ef-ef11-933e-0022486dbff5" lookupentity="organization" lookupentityname="pcflab" />
+        <field name="fdn_parentinsuranceproductnatureid" value="a873b483-0555-f011-877a-7c1e52064ef6" lookupentity="fdn_insuranceproductnature" lookupentityname="test 1.1" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+    </records>
+    <m2mrelationships />
+  </entity>
+  <entity name="fdn_insurancesubcategory" displayname="Insurance Sub Category">
+    <records>
+      <record id="5525cebe-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_insurancecategory" value="49346346-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancecategory" lookupentityname="Auto Insurance" />
+        <field name="fdn_insurancesubcategoryid" value="5525cebe-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_name" value="Small Car Sub-type" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="0e59fcbe-b9fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_insurancecategory" value="4b346346-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancecategory" lookupentityname="Home Insurance" />
+        <field name="fdn_insurancesubcategoryid" value="0e59fcbe-b9fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_name" value="Home Valued 2m +" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="1059fcbe-b9fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_insurancecategory" value="4b346346-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancecategory" lookupentityname="Home Insurance" />
+        <field name="fdn_insurancesubcategoryid" value="1059fcbe-b9fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_name" value="Home Valued 500k-2m" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="1259fcbe-b9fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_insurancecategory" value="4b346346-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancecategory" lookupentityname="Home Insurance" />
+        <field name="fdn_insurancesubcategoryid" value="1259fcbe-b9fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_name" value="Home Valued 500k max" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="1459fcbe-b9fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_insurancecategory" value="43346346-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancecategory" lookupentityname="Business Insurance" />
+        <field name="fdn_insurancesubcategoryid" value="1459fcbe-b9fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_name" value="International Business Sub-type" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="1659fcbe-b9fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_insurancecategory" value="43346346-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancecategory" lookupentityname="Business Insurance" />
+        <field name="fdn_insurancesubcategoryid" value="1659fcbe-b9fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_name" value="Large Business Sub-type" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="1859fcbe-b9fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_insurancecategory" value="43346346-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancecategory" lookupentityname="Business Insurance" />
+        <field name="fdn_insurancesubcategoryid" value="1859fcbe-b9fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_name" value="Medium Business Sub-type" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="1a59fcbe-b9fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:21.0000000Z" />
+        <field name="fdn_insurancecategory" value="43346346-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancecategory" lookupentityname="Business Insurance" />
+        <field name="fdn_insurancesubcategoryid" value="1a59fcbe-b9fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="Small Business Sub-type" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="1c59fcbe-b9fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insurancecategory" value="49346346-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancecategory" lookupentityname="Auto Insurance" />
+        <field name="fdn_insurancesubcategoryid" value="1c59fcbe-b9fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="Truck Sub-type" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="1e59fcbe-b9fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insurancecategory" value="49346346-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancecategory" lookupentityname="Auto Insurance" />
+        <field name="fdn_insurancesubcategoryid" value="1e59fcbe-b9fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="Deluxe car Sub-type" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+    </records>
+    <m2mrelationships />
+  </entity>
+  <entity name="fdn_insuranceproduct" displayname="Insurance Product">
+    <records>
+      <record id="2c41fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insuranceproductid" value="2c41fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1a59fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Small Business Sub-type" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="SMB 51 employes" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="2e41fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insuranceproductid" value="2e41fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1a59fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Small Business Sub-type" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="SMB 10 employes" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3041fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insuranceproductid" value="3041fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="0e59fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Home Valued 2m +" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="Home min 2m - VIP" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3241fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insuranceproductid" value="3241fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="0e59fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Home Valued 2m +" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="Home min 2m - Regular " />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3441fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insuranceproductid" value="3441fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1059fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Home Valued 500k-2m" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="Home 5-2m - Regular" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3641fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_insuranceproductid" value="3641fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1059fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Home Valued 500k-2m" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_name" value="Home 5-2m - VIP" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3841fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_insuranceproductid" value="3841fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1259fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Home Valued 500k max" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_name" value="Home 500k - VIP" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3a41fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_insuranceproductid" value="3a41fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1259fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Home Valued 500k max" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_name" value="Home 500k - Regular" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3c41fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_insuranceproductid" value="3c41fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1c59fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Truck Sub-type" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_name" value="Truck - two sided" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3e41fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_insuranceproductid" value="3e41fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1c59fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Truck Sub-type" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_name" value="Truck - one sided" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="4041fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insuranceproductid" value="4041fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="5525cebe-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Small Car Sub-type" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="SmallCar - one sided" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="4241fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insuranceproductid" value="4241fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="5525cebe-b8fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Small Car Sub-type" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="SmallCar - two sided" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="4441fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insuranceproductid" value="4441fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1e59fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Deluxe car Sub-type" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="DeluxeCar 100k+ one-sided" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="4641fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insuranceproductid" value="4641fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1e59fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Deluxe car Sub-type" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="DeluxeCar 100k+ two-sided" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="4841fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_insuranceproductid" value="4841fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1e59fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Deluxe car Sub-type" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:22.0000000Z" />
+        <field name="fdn_name" value="DeluxeCar 50k - 100k two-sided" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="4a41fdd4-bbfa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_insuranceproductid" value="4a41fdd4-bbfa-ef11-9341-000d3af43a95" />
+        <field name="fdn_insurancesubcategory" value="1e59fcbe-b9fa-ef11-9341-000d3af43a95" lookupentity="fdn_insurancesubcategory" lookupentityname="Deluxe car Sub-type" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:23.0000000Z" />
+        <field name="fdn_name" value="DeluxeCar 50k - 100k One sided" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+    </records>
+    <m2mrelationships>
+      <m2mrelationship sourceid="2e41fdd4-bbfa-ef11-9341-000d3af43a95" targetentityname="fdn_insuranceproductnature" targetentitynameidfield="fdn_insuranceproductnatureid" m2mrelationshipname="fdn_insuranceproductnature_fdn_insuranc">
+        <targetids>
+          <targetid>6efe7cda-9d4f-f011-877b-6045bdccf7ac</targetid>
+        </targetids>
+      </m2mrelationship>
+      <m2mrelationship sourceid="3041fdd4-bbfa-ef11-9341-000d3af43a95" targetentityname="fdn_insuranceproductnature" targetentitynameidfield="fdn_insuranceproductnatureid" m2mrelationshipname="fdn_insuranceproductnature_fdn_insuranc">
+        <targetids>
+          <targetid>6efe7cda-9d4f-f011-877b-6045bdccf7ac</targetid>
+        </targetids>
+      </m2mrelationship>
+      <m2mrelationship sourceid="3c41fdd4-bbfa-ef11-9341-000d3af43a95" targetentityname="fdn_insuranceproductnature" targetentitynameidfield="fdn_insuranceproductnatureid" m2mrelationshipname="fdn_insuranceproductnature_fdn_insuranc">
+        <targetids>
+          <targetid>6afe7cda-9d4f-f011-877b-6045bdccf7ac</targetid>
+          <targetid>6efe7cda-9d4f-f011-877b-6045bdccf7ac</targetid>
+        </targetids>
+      </m2mrelationship>
+      <m2mrelationship sourceid="4641fdd4-bbfa-ef11-9341-000d3af43a95" targetentityname="fdn_insuranceproductnature" targetentitynameidfield="fdn_insuranceproductnatureid" m2mrelationshipname="fdn_insuranceproductnature_fdn_insuranc">
+        <targetids>
+          <targetid>6efe7cda-9d4f-f011-877b-6045bdccf7ac</targetid>
+        </targetids>
+      </m2mrelationship>
+      <m2mrelationship sourceid="4841fdd4-bbfa-ef11-9341-000d3af43a95" targetentityname="fdn_insuranceproductnature" targetentitynameidfield="fdn_insuranceproductnatureid" m2mrelationshipname="fdn_insuranceproductnature_fdn_insuranc">
+        <targetids>
+          <targetid>6afe7cda-9d4f-f011-877b-6045bdccf7ac</targetid>
+          <targetid>6efe7cda-9d4f-f011-877b-6045bdccf7ac</targetid>
+        </targetids>
+      </m2mrelationship>
+    </m2mrelationships>
+  </entity>
+  <entity name="fdn_insurancecategory" displayname="Insurance Category">
+    <records>
+      <record id="39346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="39346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_name" value="Critical Illness Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3b346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="3b346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_name" value="Disability Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3d346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="3d346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_name" value="Mortgage Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="3f346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="3f346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_name" value="Legal Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="41346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="41346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_name" value="Pet Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="43346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="43346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="fdn_name" value="Business Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="45346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="45346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="fdn_name" value="Travel Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="47346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="47346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="fdn_name" value="Health Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="49346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="49346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="fdn_name" value="Auto Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="4b346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="4b346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:20.0000000Z" />
+        <field name="fdn_name" value="Home Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+      <record id="4d346346-b8fa-ef11-9341-000d3af43a95">
+        <field name="createdby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="createdon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_insurancecategoryid" value="4d346346-b8fa-ef11-9341-000d3af43a95" />
+        <field name="modifiedby" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="modifiedon" value="2025-06-28T19:06:19.0000000Z" />
+        <field name="fdn_name" value="Life Insurance" />
+        <field name="ownerid" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" lookupentityname="# Dataverse App User" />
+        <field name="owningbusinessunit" value="305af574-19ec-ef11-9342-000d3a09f136" lookupentity="businessunit" lookupentityname="pcflab" />
+        <field name="owninguser" value="da5cb0d1-a9ef-ef11-9342-000d3a09f246" lookupentity="systemuser" />
+        <field name="statecode" value="0" />
+        <field name="statuscode" value="1" />
+      </record>
+    </records>
+    <m2mrelationships />
+  </entity>
+</entities>
