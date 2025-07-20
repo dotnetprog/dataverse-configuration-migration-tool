@@ -19,7 +19,10 @@ public class CommandProcessorHostingService : BackgroundService
         _lifetime = lifetime;
         _commandAssemblies = commandAssemblies.Length > 0 ? commandAssemblies : new[] { Assembly.GetExecutingAssembly() };
     }
+    public CommandProcessorHostingService(IOptions<CommandProcessorHostingServiceOptions> options, IServiceScopeFactory serviceProviderFactory, IHostApplicationLifetime lifetime) : this(options, serviceProviderFactory, lifetime, [])
+    {
 
+    }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var types = from type in _commandAssemblies.SelectMany(a => a.GetTypes())
