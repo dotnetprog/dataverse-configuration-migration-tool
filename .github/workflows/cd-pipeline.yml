@@ -45,7 +45,7 @@ jobs:
         - name: import configuration data
           run: |
             cd ${{ github.workspace }}/configurationmigrationtool
-            dotnet Dataverse.ConfigurationMigrationTool.Console.dll import --schema "${{ github.workspace }}/data/data_schema.xml" --data "${{ github.workspace }}/data/data.xml"
+            dotnet Dataverse.ConfigurationMigrationTool.Console.dll import --schema "../data/data_schema.xml" --data "../data/data.xml"
           env:
             DOTNET_ENVIRONMENT: Production
 
