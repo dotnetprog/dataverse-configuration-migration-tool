@@ -16,6 +16,7 @@ builder.Configuration
         .AddEnvironmentVariables()
         .AddJsonFile("appsettings.json", false, false)
         .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", false, false);
+Console.WriteLine($"Using configuration file: appsettings.{builder.Environment.EnvironmentName}.json");
 if (!builder.Environment.IsProduction())
 {
     //Secrets should never be in clear text in source controlled file such appsettings.json.
