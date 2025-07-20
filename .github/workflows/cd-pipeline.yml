@@ -14,10 +14,12 @@ jobs:
   Deployment:
     name: Deployment
     runs-on: ubuntu-latest
-    environment:
-        name: ${{ inputs.environment }}
-   
+    environment: ${{ inputs.environment }}
     steps:
+        - name: Show default environment variables
+          run: |
+            echo "The url is: ${{ secrets.DATAVERSEENVURL }}"   # reference the default environment variables
+ 
         - name: Setup .NET
           uses: actions/setup-dotnet@v3
           with:
@@ -39,9 +41,9 @@ jobs:
             tokenSuffix: '}$'
             files: '["**/*.json"]'
           env:
-            DataverseClientId: ${{ secrets.DATAVERSECLIENTID }}
-            DataverseClientSecret: ${{ secrets.DATAVERSECLIENTSECRET  }}
-            DataverseEnvUrl: ${{ secrets.DATAVERSEENVURL }}
+            DATAVERSECLIENTID: ${{ secrets.DATAVERSECLIENTID }}
+            DATAVERSECLIENTSECRET: ${{ secrets.DATAVERSECLIENTSECRET  }}
+            DATAVERSEENVURL: ${{ secrets.DATAVERSEENVURL }}
         - name: import configuration data
           run: |
             cd ${{ github.workspace }}/configurationmigrationtool
