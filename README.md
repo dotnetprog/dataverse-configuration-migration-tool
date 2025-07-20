@@ -1,4 +1,4 @@
-﻿![.Net](https://img.shields.io/badge/.NET_8_SDK-5C2D91?style=for-the-badge&logoColor=white) ![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/dotnetprog/aa1b559b3f614ea0719286f9e2972219/raw/code-coverage.json) 
+﻿![.Net](https://img.shields.io/badge/.NET_8_SDK-5C2D91?style=for-the-badge&logoColor=white) [![Main Workflow](https://github.com/dotnetprog/dataverse-configuration-migration-tool/actions/workflows/main-pipeline.yml/badge.svg)](https://github.com/dotnetprog/dataverse-configuration-migration-tool/actions/workflows/main-pipeline.yml) ![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/dotnetprog/aa1b559b3f614ea0719286f9e2972219/raw/code-coverage.json) 
 # Dataverse Configuration Migration Tool
 
 This repository contains a custom .NET CLI tool designed to import configuration data into Microsoft Dataverse environments. It streamlines the migration of configuration data, supports schema validation, and offers extensibility for advanced scenarios.
@@ -44,7 +44,7 @@ dotnet user-secrets set "Dataverse:Url" "<your-env-url>"
 Run the CLI tool with the required arguments (no need to pass clientId or clientSecret on the command line):
 
 ```powershell
-dotnet run --project Dataverse.ConfigurationMigrationTool.Console -- import --data "path/to/data.xml" --schema "path/to/schema.xml"
+dotnet run --environment DOTNET_ENVIRONMENT=Development --project Dataverse.ConfigurationMigrationTool.Console -- import --data "path/to/data.xml" --schema "path/to/schema.xml"
 ```
 
 #### Import Command Line Arguments
@@ -52,8 +52,6 @@ dotnet run --project Dataverse.ConfigurationMigrationTool.Console -- import --da
 Verb: `import`
 - `--data` : Path to the data xml file
 - `--schema` : Path to the schema XML file
-
-Additional options and advanced usage can be found by running `dotnet run -- --help`.
 
 ## Contributing
 

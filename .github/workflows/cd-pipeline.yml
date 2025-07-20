@@ -22,10 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-        - name: Show default environment variables
-          run: |
-            echo "The url is: ${{ secrets.DATAVERSEENVURL }}"   # reference the default environment variables
- 
         - name: Setup .NET
           uses: actions/setup-dotnet@v3
           with:
@@ -56,7 +52,6 @@ jobs:
             dotnet Dataverse.ConfigurationMigrationTool.Console.dll import --schema "../data/data_schema.xml" --data "../data/data.xml"
           env:
             DOTNET_ENVIRONMENT: Production
-            environment: Production
 
         
 
