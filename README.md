@@ -18,7 +18,7 @@ This new tool enables you to:
 :heavy_check_mark: Schema validation and rule-based checks \
 :heavy_check_mark: Support for special characters and self-hierarchy imports \
 :heavy_check_mark: Extensible for custom validation and reporting \
-:heavy_check_mark: Many to Many Relationships supported 
+:heavy_check_mark: Many to Many Relationships supported \
 :heavy_check_mark: Supports schemas and data files generated from :
 - [PowerPlatform CLI Export](https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/data#pac-data-export)
 - [Configuration Migration tool](https://learn.microsoft.com/en-us/power-platform/admin/create-schema-export-configuration-data)
