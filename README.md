@@ -3,12 +3,34 @@
 
 This repository contains a custom .NET CLI tool designed to import configuration data into Microsoft Dataverse environments. It streamlines the migration of configuration data, supports schema validation, and offers extensibility for advanced scenarios.
 
-## Features
+## Why ❓
 
-- Import configuration data into Dataverse
-- Schema validation and rule-based checks
-- Support for special characters and self-hierarchy imports
-- Extensible for custom validation and reporting
+Configuration Migration Tool and the PowerPlatform Cli Tool (pac data import verb) seem to have it's limitations when automating in ci/cd. Also, these two only works on a windows machine. \
+This new tool enables you to:
+
+- customize/extend the tool to your needs
+- use in CD pipeline easily
+- runs on windows and **linux**
+
+## ⭐Features⭐
+
+:heavy_check_mark: Import configuration data into Dataverse \
+:heavy_check_mark: Schema validation and rule-based checks \
+:heavy_check_mark: Support for special characters and self-hierarchy imports \
+:heavy_check_mark: Extensible for custom validation and reporting \
+:heavy_check_mark: Many to Many Relationships supported \
+- :heavy_check_mark: Supports schemas and data files generated from :
+  - [PowerPlatform CLI Export](https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/data#pac-data-export)
+  - [Configuration Migration tool](https://learn.microsoft.com/en-us/power-platform/admin/create-schema-export-configuration-data)
+
+❌Field types not supported:
+- MultiSelectOptionsets
+- Image
+- File
+- Memo ⚠️ May work haven't tested yet
+- Owner ⚠️ Will eventually support it. No user mapping has been done currently
+
+
 
 ## Getting Started
 
@@ -17,8 +39,7 @@ This repository contains a custom .NET CLI tool designed to import configuration
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - Access to a Microsoft Dataverse environment
 
-### Building the Tool
-
+### 🛠️Building the Tool🛠️
 1. Clone the repository:
    ```powershell
    git clone https://github.com/dotnetprog/dataverse-configuration-migration-tool.git
@@ -47,13 +68,13 @@ Run the CLI tool with the required arguments (no need to pass clientId or client
 dotnet run --environment DOTNET_ENVIRONMENT=Development --project Dataverse.ConfigurationMigrationTool.Console -- import --data "path/to/data.xml" --schema "path/to/schema.xml"
 ```
 
-#### Import Command Line Arguments
+#### 💻 Import Command Line Arguments 💻
 
 Verb: `import`
 - `--data` : Path to the data xml file
 - `--schema` : Path to the schema XML file
 
-## Contributing
+## 🤝 Contributing 🤝
 
 Contributions are welcome! To get started:
 
@@ -68,7 +89,7 @@ Contributions are welcome! To get started:
 Please review open issues and the todo list below for ideas on what to contribute.
 
 
-## Continuous Delivery
+## 🚀Continuous Delivery🚀
 
 This repository includes example GitHub Actions workflows for building, testing, and deploying the tool:
 
@@ -78,7 +99,7 @@ This repository includes example GitHub Actions workflows for building, testing,
 You can use these workflows as a starting point for your own CI/CD automation. See the workflow files for details on environment variables, secrets, and deployment steps.
 
 
-### Generating Schema and Data Files
+### </> Generating Schema and Data Files </>
 
 To use the `import` command, you need a schema file and a data file. These can be generated from your Dataverse environment using the official Configuration Migration tool. For detailed instructions, refer to the Microsoft documentation:
 
