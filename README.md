@@ -68,6 +68,16 @@ Contributions are welcome! To get started:
 Please review open issues and the todo list below for ideas on what to contribute.
 
 
+## Continuous Delivery
+
+This repository includes example GitHub Actions workflows for building, testing, and deploying the tool:
+
+- [`main-pipeline.yml`](.github/workflows/main-pipeline.yml): Handles build, test, artifact publishing, and triggers deployment workflows.
+- [`cd-pipeline.yml`](.github/workflows/cd-pipeline.yml): Example deployment workflow for importing configuration data into a Dataverse environment using published artifacts and environment secrets.
+
+You can use these workflows as a starting point for your own CI/CD automation. See the workflow files for details on environment variables, secrets, and deployment steps.
+
+
 ### Generating Schema and Data Files
 
 To use the `import` command, you need a schema file and a data file. These can be generated from your Dataverse environment using the official Configuration Migration tool. For detailed instructions, refer to the Microsoft documentation:
