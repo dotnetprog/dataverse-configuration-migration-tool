@@ -40,6 +40,7 @@ jobs:
  
   release:
     name: Create Release from tag
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download tool artifact
