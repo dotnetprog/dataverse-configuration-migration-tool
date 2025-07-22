@@ -40,7 +40,19 @@ public class CommandProcessorHostingService : BackgroundService
                 throw new InvalidOperationException($"No command found for verb '{_options.CommandVerb}'");
             }
             var command = ActivatorUtilities.CreateInstance(scope.ServiceProvider, mathingVerbCommandType) as ICommand;
-            await command.Execute();
+            if (command == null)
+            {
+                throw new InvalidOperationException($"Command type '{mathingVerbCommandType.FullName}' could not be instantiated.");
+            }
+            try
+            {
+                await command.Execute();
+            }
+            catch
+            {
+                Environment.ExitCode = -100;
+                throw;
+            }
 
 
         }
