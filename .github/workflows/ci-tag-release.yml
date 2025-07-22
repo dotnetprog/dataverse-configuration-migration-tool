@@ -1,0 +1,72 @@
+name: Create Release on Tag
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+
+env:
+  solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
+  solutionFolder: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool'
+  toolpublishlocation: '${{ github.workspace }}/configurationmigrationtool'
+jobs:
+
+
+  build:
+
+    runs-on: ubuntu-latest
+  
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore ${{  env.solutionPath  }}
+    - name: Build
+      run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
+    - name: dotnet publish
+      run: dotnet publish ${{  env.solutionFolder  }}/Dataverse.ConfigurationMigrationTool.Console/Dataverse.ConfigurationMigrationTool.Console.csproj -c Release -o ${{env.toolpublishlocation}}
+    - name: Upload tool artifact
+      uses: actions/upload-artifact@v4
+      with:
+         name: configurationmigrationtool
+         path: ${{env.toolpublishlocation}}
+ 
+  release:
+    name: Create Release from tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download tool artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: configurationmigrationtool
+          path: '${{ github.workspace }}/configurationmigrationtool'
+      - name: zip artifact # This would actually build your project, using zip for an example artifact
+        run: |
+          zip -r configurationmigrationtool${{ github.ref }}.zip configurationmigrationtool
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./configurationmigrationtool${{ github.ref }}.zip
+          asset_name: configurationmigrationtool${{ github.ref }}.zip
+          asset_content_type: application/zip
