@@ -50,7 +50,7 @@ jobs:
           path: '${{ github.workspace }}/configurationmigrationtool'
       - name: zip artifact # This would actually build your project, using zip for an example artifact
         run: |
-          zip -r configurationmigrationtool${{ github.ref }}.zip configurationmigrationtool
+          zip -r configurationmigrationtool${{  github.ref_name }}.zip configurationmigrationtool
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -68,6 +68,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./configurationmigrationtool${{ github.ref }}.zip
-          asset_name: configurationmigrationtool${{ github.ref }}.zip
+          asset_path: ./configurationmigrationtool${{  github.ref_name }}.zip
+          asset_name: configurationmigrationtool${{  github.ref_name }}.zip
           asset_content_type: application/zip
