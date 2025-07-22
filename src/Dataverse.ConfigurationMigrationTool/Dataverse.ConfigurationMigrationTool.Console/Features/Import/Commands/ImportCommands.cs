@@ -26,13 +26,11 @@ public class ImportCommands : ICommand
         _options = options.Value;
     }
 
-    public async Task Execute() => await Import(_options.schema, _options.data);
+    public Task Execute() => Import(_options.schema, _options.data);
 
 
     private async Task Import(string schemafilepath, string datafilepath)
     {
-
-        var ImportQueue = new Queue<ImportDataTask>();
         var schema = await _importDataProvider.ReadSchemaFromFile(schemafilepath);
         var importdata = await _importDataProvider.ReadFromFile(datafilepath);
 
@@ -48,19 +46,19 @@ public class ImportCommands : ICommand
             throw new Exception("Provided Schema was not valid.");
         }
         _logger.LogInformation("Schema validation succeeded.");
+        var ImportQueue = CreateQueue(schema);
 
-        foreach (var schemaEntity in schema.Entity)
+
+        var taskResults = await ProcessQueue(ImportQueue, importdata);
+        if (taskResults.Any(r => r == TaskResult.Failed))
         {
-            ImportQueue.Enqueue(new ImportDataTask { EntitySchema = schemaEntity });
-            if (schemaEntity.Relationships.Relationship.Any())
-            {
-                foreach (var relationshipSchema in schemaEntity.Relationships.Relationship)
-                {
-                    ImportQueue.Enqueue(new ImportDataTask { RelationshipSchema = relationshipSchema, SouceEntityName = schemaEntity.Name });
-                }
-            }
+            _logger.LogError("Import process failed.");
+            throw new Exception("Import process failed.");
         }
 
+    }
+    private async Task<IEnumerable<TaskResult>> ProcessQueue(Queue<ImportDataTask> ImportQueue, Entities importdata)
+    {
         var taskResults = new List<TaskResult>();
         while (ImportQueue.Count > 0)
         {
@@ -78,7 +76,7 @@ public class ImportCommands : ICommand
             }
             if (importTask.RelationshipSchema != null &&
                 ImportQueue.Any(t => t.EntitySchema != null &&
-                                     t.EntitySchema.Name == importTask.RelationshipSchema.M2mTargetEntity || t.EntitySchema.Name == importTask.SouceEntityName))
+                                     (t.EntitySchema.Name == importTask.RelationshipSchema.M2mTargetEntity || t.EntitySchema.Name == importTask.SouceEntityName)))
             {
                 ImportQueue.Enqueue(importTask);
                 continue;
@@ -90,14 +88,23 @@ public class ImportCommands : ICommand
 
 
         }
-        if (taskResults.Any(r => r == TaskResult.Failed))
+        return taskResults;
+    }
+    private static Queue<ImportDataTask> CreateQueue(ImportSchema schema)
+    {
+        var ImportQueue = new Queue<ImportDataTask>();
+        foreach (var schemaEntity in schema.Entity)
         {
-            _logger.LogError("Import process failed.");
-            throw new Exception("Import process failed.");
+            ImportQueue.Enqueue(new ImportDataTask { EntitySchema = schemaEntity });
+            if (schemaEntity.Relationships.Relationship.Any())
+            {
+                foreach (var relationshipSchema in schemaEntity.Relationships.Relationship)
+                {
+                    ImportQueue.Enqueue(new ImportDataTask { RelationshipSchema = relationshipSchema, SouceEntityName = schemaEntity.Name });
+                }
+            }
         }
-
-
-
+        return ImportQueue;
     }
 
 }

@@ -93,7 +93,7 @@ public class DataverseValueConverterTests
     {
         //Arrange
         var field = new Field() { Name = "test", Value = "125462" };
-        var amd = new MemoAttributeMetadata();
+        var amd = new ImageAttributeMetadata();
         //Act
         Action act = () => converter.Convert(amd, field);
         //Assert

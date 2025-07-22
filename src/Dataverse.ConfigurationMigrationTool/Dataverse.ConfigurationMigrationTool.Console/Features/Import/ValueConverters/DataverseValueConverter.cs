@@ -24,6 +24,7 @@ public class DataverseValueConverter : IDataverseValueConverter
         switch (attributeMetadata.AttributeType.Value)
         {
             case AttributeTypeCode.String:
+            case AttributeTypeCode.Memo:
                 return _mainConverter.Convert<string>(value);
             case AttributeTypeCode.Picklist:
             case AttributeTypeCode.State:
