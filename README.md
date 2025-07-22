@@ -27,7 +27,6 @@ This new tool enables you to:
 - MultiSelectOptionsets
 - Image
 - File
-- Memo ⚠️ May work haven't tested yet
 - Owner ⚠️ Will eventually support it. No user mapping has been done currently
 
 
