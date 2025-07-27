@@ -2,7 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
+namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Connection
 {
     public interface IBulkOrganizationService
     {

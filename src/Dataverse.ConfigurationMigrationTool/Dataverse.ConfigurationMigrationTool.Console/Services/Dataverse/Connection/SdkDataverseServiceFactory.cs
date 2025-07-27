@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.PowerPlatform.Dataverse.Client;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
+namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Connection;
 
 public class SdkDataverseServiceFactory : IDataverseClientFactory
 {
@@ -13,7 +13,7 @@ public class SdkDataverseServiceFactory : IDataverseClientFactory
     public SdkDataverseServiceFactory(IOptions<SdkDataverseServiceFactoryOptions> options,
         ILogger<SdkDataverseServiceFactory> logger)
     {
-        this._options = options.Value;
+        _options = options.Value;
         _logger = logger;
     }
     public IOrganizationServiceAsync2 Create()

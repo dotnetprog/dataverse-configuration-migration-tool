@@ -1,8 +1,9 @@
 ﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Interceptors;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
-using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
+using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Connection;
 using Dataverse.ConfigurationMigrationTool.Console.Tests.Extensions;
 using Dataverse.ConfigurationMigrationTool.Console.Tests.FakeBuilders;
 using Microsoft.Extensions.Logging;
@@ -20,6 +21,7 @@ public class ImportTaskProcessorServiceTests
     private readonly IDataverseValueConverter _dataverseValueConverter;
     private readonly IBulkOrganizationService bulkOrganizationService;
     private readonly ImportTaskProcessorService importService;
+    private readonly IEntityInterceptor _entityInterceptor = Substitute.For<IEntityInterceptor>();
 
     public ImportTaskProcessorServiceTests()
     {
@@ -27,7 +29,9 @@ public class ImportTaskProcessorServiceTests
         this.logger = Substitute.For<ILogger<ImportTaskProcessorService>>();
         _dataverseValueConverter = Substitute.For<IDataverseValueConverter>();
         this.bulkOrganizationService = Substitute.For<IBulkOrganizationService>();
-        this.importService = new ImportTaskProcessorService(metadataService, logger, _dataverseValueConverter, bulkOrganizationService);
+        this.importService = new ImportTaskProcessorService(metadataService, logger, _dataverseValueConverter, bulkOrganizationService, _entityInterceptor);
+        _entityInterceptor.InterceptAsync(Arg.Any<Entity>())
+            .Returns(x => x.Arg<Entity>());
     }
     [Fact]
     public async Task GivenAnImportTaskWhereEntitySchemaIsNotFound_WhenExecuted_ThenItShouldReturnCompleted()

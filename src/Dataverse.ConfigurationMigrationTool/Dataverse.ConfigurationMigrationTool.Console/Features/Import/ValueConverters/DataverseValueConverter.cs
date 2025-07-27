@@ -47,9 +47,11 @@ public class DataverseValueConverter : IDataverseValueConverter
                 return _mainConverter.Convert<double?>(value);
             case AttributeTypeCode.Customer:
             case AttributeTypeCode.Lookup:
+            case AttributeTypeCode.Owner:
                 var properties = new Dictionary<string, string>()
                 {
-                    ["lookuptype"] = field.Lookupentity
+                    ["lookuptype"] = field.Lookupentity,
+                    ["lookupentityname"] = field.Lookupentityname
                 };
                 return _mainConverter.Convert<EntityReference>(value, properties);
             default:
