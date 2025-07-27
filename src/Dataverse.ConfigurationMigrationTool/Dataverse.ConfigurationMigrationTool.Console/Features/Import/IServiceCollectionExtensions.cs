@@ -1,4 +1,5 @@
 ﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Commands;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Interceptors;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators.Rules.EntitySchemas;
@@ -30,8 +31,22 @@ public static class IServiceCollectionExtensions
             .AddTransient<IValidator<ImportSchema>, SchemaValidator>()
             .AddTransient<IValidator<EntitySchema>, EntitySchemaValidator>()
             .AddSingleton<IImportTaskProcessorService, ImportTaskProcessorService>()
+            .AddSingleton<IEntityInterceptor>((sp) =>
+            {
+                var BusinessUnitInterceptor = sp.BuildService<BusinessUnitInterceptor>();
+                var UserInterceptor = sp.BuildService<TargetUserInterceptor>();
+                var TeamInterceptor = sp.BuildService<TargetTeamInterceptor>();
+                BusinessUnitInterceptor.SetSuccessor(UserInterceptor)
+                    .SetSuccessor(TeamInterceptor);
+                return BusinessUnitInterceptor;
+            })
             .Configure<ImportCommandOptions>(Configuration);
 
+    }
+    public static T BuildService<T>(this IServiceProvider serviceProvider) where T : class
+    {
+
+        return ActivatorUtilities.CreateInstance<T>(serviceProvider);
     }
     public static IServiceCollection UseCommands(this IServiceCollection services, params string[] args)
     {

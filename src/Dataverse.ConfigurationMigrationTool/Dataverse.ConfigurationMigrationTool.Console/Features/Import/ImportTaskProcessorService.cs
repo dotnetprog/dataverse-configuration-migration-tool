@@ -1,7 +1,8 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Interceptors;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
-using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
+using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Connection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
@@ -25,16 +26,18 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
     private readonly ILogger<ImportTaskProcessorService> logger;
     private readonly IDataverseValueConverter _dataverseValueConverter;
     private readonly IBulkOrganizationService bulkOrganizationService;
-    const int MAX_RETRIES = 3;
+    private readonly IEntityInterceptor _entityInterceptor;
     public ImportTaskProcessorService(IMetadataService metadataService,
         ILogger<ImportTaskProcessorService> logger,
         IDataverseValueConverter dataverseValueConverter,
-        IBulkOrganizationService bulkOrganizationService)
+        IBulkOrganizationService bulkOrganizationService,
+        IEntityInterceptor entityInterceptor)
     {
         this.metadataService = metadataService;
         this.logger = logger;
         _dataverseValueConverter = dataverseValueConverter;
         this.bulkOrganizationService = bulkOrganizationService;
+        _entityInterceptor = entityInterceptor;
     }
 
     public async Task<TaskResult> Execute(ImportDataTask task, Entities dataImport)
@@ -120,9 +123,14 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
 
         var results = new List<OrganizationResponseFaultedResult>();
         var recordsCanBeProcessed = records.Where(r => !r.Field.Any(f => f.Lookupentity == entityImport.Name &&
-                        records.Any(r2 => r2.Id != r.Id && r2.Id.ToString() == f.Value))).Select(r => BuildUpsertRequest(entity, entityImport, r)).ToList();
-        logger.LogInformation("Processing {count} records", recordsCanBeProcessed.Count);
-        if (recordsCanBeProcessed.Count == 0)
+                        records.Any(r2 => r2.Id != r.Id && r2.Id.ToString() == f.Value))).ToList();
+        var requests = new List<UpsertRequest>();
+        foreach (var record in recordsCanBeProcessed)
+        {
+            requests.Add(await BuildUpsertRequest(entity, entityImport, record));
+        }
+        logger.LogInformation("Processing {count} records", requests.Count);
+        if (requests.Count == 0)
         {
             if (records.Any())
             {
@@ -130,14 +138,14 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
             }
             return results;
         }
-        var responses = await bulkOrganizationService.UpsertBulk(recordsCanBeProcessed);
+        var responses = await bulkOrganizationService.UpsertBulk(requests);
         results.AddRange(responses);
 
-        responses = await ProcessDependantRecords(records.Where(r => !recordsCanBeProcessed.Any(r2 => r.Id == r2.Target.Id)), entity, entityImport);
+        responses = await ProcessDependantRecords(records.Where(r => !requests.Any(r2 => r.Id == r2.Target.Id)), entity, entityImport);
         results.AddRange(responses);
         return results;
     }
-    private UpsertRequest BuildUpsertRequest(EntityMetadata entityMD, EntityImport entityImport, Record record)
+    private async Task<UpsertRequest> BuildUpsertRequest(EntityMetadata entityMD, EntityImport entityImport, Record record)
     {
         var entity = new Entity(entityImport.Name, record.Id);
         entity[entityMD.PrimaryIdAttribute] = record.Id;
@@ -145,14 +153,13 @@ public class ImportTaskProcessorService : IImportTaskProcessorService
         {
             var attrMD = entityMD.Attributes.FirstOrDefault(a => a.LogicalName == field.Name);
             if ((attrMD.IsValidForCreate != true && attrMD.LogicalName != "statecode")
-                || attrMD.IsValidForUpdate != true ||
-                attrMD.AttributeType == AttributeTypeCode.Owner) continue;
+                || attrMD.IsValidForUpdate != true) continue;
             entity[field.Name] = _dataverseValueConverter.Convert(attrMD, field);
         }
         return new UpsertRequest
         {
 
-            Target = entity
+            Target = await _entityInterceptor.InterceptAsync(entity)
         };
     }
 

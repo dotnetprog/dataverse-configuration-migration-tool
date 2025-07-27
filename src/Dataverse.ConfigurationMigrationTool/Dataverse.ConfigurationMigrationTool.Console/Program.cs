@@ -2,6 +2,7 @@
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Configuration;
+using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Connection;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Filesystem;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Metadata;
 using Microsoft.Extensions.Configuration;
@@ -49,6 +50,10 @@ builder.ConfigureServices((context, services) =>
     .AddSingleton<IBulkOrganizationService, ParallelismBulkOrganizationService>()
     .AddDataverseClient()
     .UseCommands(args)
+    .AddMemoryCache()
+    .AddTransient<ISystemUserRepository, DataverseUserRepository>()
+    .AddTransient<ITeamRepository, DataverseTeamRepository>()
+    .AddTransient<IBusinessUnitRepository, DataverseBusinessUnitRepository>()
     .AddImportFeature(context.Configuration);
     // Configure other services.
 });

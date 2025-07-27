@@ -9,7 +9,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.ServiceModel;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
+namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Connection
 {
     public class OrganizationResponseFaultedResult
     {
@@ -62,7 +62,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
                        }
                    };
                    logger.LogInformation("Starting a batch of {count} requests", requests.Count);
-                   var response = (await scopedService.ExecuteAsync(request)) as ExecuteMultipleResponse;
+                   var response = await scopedService.ExecuteAsync(request) as ExecuteMultipleResponse;
                    var faultedResponses = response.Responses
                       .Where(r => r.Fault != null && (faultToSkips?.All(f => !r.Fault.Message.Contains(f)) ?? true))
                       .Select(fr => new OrganizationResponseFaultedResult { Fault = fr.Fault, OriginalRequest = requests[fr.RequestIndex] }).ToArray();
@@ -102,7 +102,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
             }
             try
             {
-                var response = (await _serviceClient.ExecuteAsync(request)) as UpsertResponse;
+                var response = await _serviceClient.ExecuteAsync(request) as UpsertResponse;
                 if (setStateRquest.Target != null)
                 {
                     setStateRquest.Target.LogicalName = response.Target.LogicalName;
@@ -157,7 +157,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse
                         }
                         try
                         {
-                            var response = (await scopedService.ExecuteAsync(request)) as UpsertResponse;
+                            var response = await scopedService.ExecuteAsync(request) as UpsertResponse;
                             if (setStateRquest.Target != null)
                             {
                                 setStateRquest.Target.LogicalName = response.Target.LogicalName;
