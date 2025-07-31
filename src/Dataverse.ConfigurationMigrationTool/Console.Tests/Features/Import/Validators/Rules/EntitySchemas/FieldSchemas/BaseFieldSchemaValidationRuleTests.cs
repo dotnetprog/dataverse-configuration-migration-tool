@@ -1,6 +1,6 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators.Rules;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators.Rules.EntitySchemas.FieldSchemas;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules.EntitySchemas.FieldSchemas;
 using Microsoft.Xrm.Sdk.Metadata;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Import.Validators.Rules.EntitySchemas.FieldSchemas;

@@ -1,4 +1,4 @@
-﻿namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators.Rules
+﻿namespace Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules
 {
     public class RuleResult
     {

@@ -2,6 +2,7 @@
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Connection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xrm.Sdk;
@@ -10,12 +11,7 @@ using Microsoft.Xrm.Sdk.Metadata;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import;
 
-public enum TaskResult
-{
-    Completed,
-    Failed,
-    Requeue
-}
+
 public interface IImportTaskProcessorService
 {
     Task<TaskResult> Execute(ImportDataTask task, Entities dataImport);

@@ -1,12 +1,12 @@
 ﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Commands;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Interceptors;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators.Rules.EntitySchemas;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators.Rules.EntitySchemas.FieldSchemas;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators.Rules.EntitySchemas.RelationshipSchemas;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules.EntitySchemas;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules.EntitySchemas.FieldSchemas;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules.EntitySchemas.RelationshipSchemas;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -28,7 +28,7 @@ public static class IServiceCollectionExtensions
                 return new ReflectionMainConverter(valueConverterTypes);
             })
             .AddSingleton<IDataverseValueConverter, DataverseValueConverter>()
-            .AddTransient<IValidator<ImportSchema>, SchemaValidator>()
+            .AddTransient<IValidator<DataSchema>, SchemaValidator>()
             .AddTransient<IValidator<EntitySchema>, EntitySchemaValidator>()
             .AddSingleton<IImportTaskProcessorService, ImportTaskProcessorService>()
             .AddSingleton<IEntityInterceptor>((sp) =>

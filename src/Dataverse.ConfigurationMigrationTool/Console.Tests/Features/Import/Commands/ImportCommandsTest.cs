@@ -2,6 +2,7 @@
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Commands;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Dataverse.ConfigurationMigrationTool.Console.Tests.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -13,7 +14,7 @@ public class ImportCommandsTest
 {
     private readonly ILogger<ImportCommands> _logger;
     private readonly IImportDataProvider _importDataProvider;
-    private readonly IValidator<ImportSchema> _schemaValidator;
+    private readonly IValidator<DataSchema> _schemaValidator;
     private readonly IImportTaskProcessorService _importDataService;
     private readonly ImportCommands _importCommands;
     const string DataFilePath = "data.json";
@@ -28,7 +29,7 @@ public class ImportCommandsTest
     {
         _logger = Substitute.For<ILogger<ImportCommands>>();
         _importDataProvider = Substitute.For<IImportDataProvider>();
-        _schemaValidator = Substitute.For<IValidator<ImportSchema>>();
+        _schemaValidator = Substitute.For<IValidator<DataSchema>>();
         _importDataService = Substitute.For<IImportTaskProcessorService>();
         var options = Substitute.For<IOptions<ImportCommandOptions>>();
         options.Value.Returns(_options);
@@ -43,7 +44,7 @@ public class ImportCommandsTest
     public async Task GivenDataToImportWithSchema_WhenTheCommandExecutes_ThenItShouldProcessImportsAccordingly()
     {
         //Arrange
-        var importSchema = new ImportSchema
+        var importSchema = new DataSchema
         {
             Entity = new()
             {
@@ -84,7 +85,7 @@ public class ImportCommandsTest
     public async Task GivenDataToImportWithSchema_WhenTheCommandExecutesAndFails_ThenItShouldThrowAnError()
     {
         //Arrange
-        var importSchema = new ImportSchema
+        var importSchema = new DataSchema
         {
             Entity = new()
             {
@@ -122,7 +123,7 @@ public class ImportCommandsTest
     public async Task GivenAnInvalidSchema_WhenTheCommandExecutes_ThenItShouldFailAndLogIssues()
     {
         //Arrange
-        var importSchema = new ImportSchema
+        var importSchema = new DataSchema
         {
             Entity = new()
             {

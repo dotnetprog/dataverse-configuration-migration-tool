@@ -1,4 +1,4 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Filesystem;
 using Shouldly;
 
@@ -12,7 +12,7 @@ public class XmlFileDataReaderTests
         // Arrange
         var filePath = "assets/schema.xml"; // Path to your test XML file
         // Act
-        var result = await _xmlFileDataReader.ReadAsync<ImportSchema>(filePath);
+        var result = await _xmlFileDataReader.ReadAsync<DataSchema>(filePath);
         // Assert
         result.ShouldNotBeNull();
         var entity = result.Entity.First();

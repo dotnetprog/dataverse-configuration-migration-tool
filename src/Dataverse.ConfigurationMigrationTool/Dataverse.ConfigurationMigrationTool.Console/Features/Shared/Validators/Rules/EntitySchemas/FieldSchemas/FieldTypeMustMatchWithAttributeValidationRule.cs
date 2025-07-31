@@ -1,9 +1,8 @@
 ﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Mappers;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Microsoft.Xrm.Sdk.Metadata;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators.Rules.EntitySchemas.FieldSchemas;
+namespace Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules.EntitySchemas.FieldSchemas;
 
 public class FieldTypeMustMatchWithAttributeValidationRule : IFieldSchemaValidationRule
 {

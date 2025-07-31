@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
+namespace Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 
 // using System.Xml.Serialization;
 // XmlSerializer serializer = new XmlSerializer(typeof(Entities));
@@ -101,7 +101,7 @@ public class EntitySchema
 }
 
 [XmlRoot(ElementName = "entities")]
-public class ImportSchema
+public class DataSchema
 {
 
     [XmlElement(ElementName = "entity")]

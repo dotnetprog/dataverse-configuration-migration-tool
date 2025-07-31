@@ -1,6 +1,6 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using NSubstitute;
 using Shouldly;
 
@@ -8,7 +8,7 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Import.Val
 public class SchemaValidatorTests
 {
     private readonly IValidator<EntitySchema> entityValidator = Substitute.For<IValidator<EntitySchema>>();
-    private readonly IValidator<ImportSchema> validator;
+    private readonly IValidator<DataSchema> validator;
     public SchemaValidatorTests()
     {
         validator = new SchemaValidator(entityValidator);
@@ -18,7 +18,7 @@ public class SchemaValidatorTests
     public async Task GivenValidSchema_WhenValidated_ThenShouldReturnSuccess()
     {
         // Arrange
-        var schema = new ImportSchema
+        var schema = new DataSchema
         {
             Entity = new List<EntitySchema>
             {

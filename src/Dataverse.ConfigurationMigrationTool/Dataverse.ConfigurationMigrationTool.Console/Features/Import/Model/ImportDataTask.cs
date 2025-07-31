@@ -1,4 +1,6 @@
-﻿namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
+
+namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model
 {
     public class ImportDataTask
     {

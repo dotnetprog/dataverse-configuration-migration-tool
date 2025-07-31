@@ -1,4 +1,4 @@
-﻿namespace Dataverse.ConfigurationMigrationTool.Console.Services.Filesystem
+﻿namespace Dataverse.ConfigurationMigrationTool.Console.Features.Shared
 {
     public interface IFileDataReader
     {

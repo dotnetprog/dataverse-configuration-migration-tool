@@ -1,5 +1,6 @@
 ﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -9,13 +10,13 @@ public class ImportCommands : ICommand
 {
     private readonly ILogger<ImportCommands> _logger;
     private readonly IImportDataProvider _importDataProvider;
-    private readonly IValidator<ImportSchema> _schemaValidator;
+    private readonly IValidator<DataSchema> _schemaValidator;
     private readonly IImportTaskProcessorService _importDataService;
     private readonly ImportCommandOptions _options;
 
     public ImportCommands(ILogger<ImportCommands> logger,
         IImportDataProvider importDataProvider,
-        IValidator<ImportSchema> schemaValidator,
+        IValidator<DataSchema> schemaValidator,
         IImportTaskProcessorService importDataService,
         IOptions<ImportCommandOptions> options)
     {
@@ -90,7 +91,7 @@ public class ImportCommands : ICommand
         }
         return taskResults;
     }
-    private static Queue<ImportDataTask> CreateQueue(ImportSchema schema)
+    private static Queue<ImportDataTask> CreateQueue(DataSchema schema)
     {
         var ImportQueue = new Queue<ImportDataTask>();
         foreach (var schemaEntity in schema.Entity)

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using System.Text;
 using System.Xml.Serialization;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Services.Filesystem
