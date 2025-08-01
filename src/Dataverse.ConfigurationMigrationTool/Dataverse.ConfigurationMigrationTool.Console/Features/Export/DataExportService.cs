@@ -1,63 +1,61 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Common;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Export.Mappers;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Microsoft.Extensions.Logging;
-using Microsoft.PowerPlatform.Dataverse.Client;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Metadata;
-using Microsoft.Xrm.Sdk.Query;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Export;
 public interface IDataExportService
 {
-    Task<TaskResult> ExportToFile(DataSchema Schema, string outputfile);
+    Task<IEnumerable<EntityImport>> ExportEntitiesFromSchema(DataSchema Schema);
 }
 public class DataExportService : IDataExportService
 {
     private readonly ILogger<DataExportService> _logger;
-    private readonly IOrganizationServiceAsync2 _organizationServiceAsync2;
     private readonly IMetadataService _metadataService;
-    private static readonly IMapper<(EntityMetadata, EntitySchema, Entity), Record> _recordMapper = new DataverseRecordToRecordMapper();
+    private readonly IDomainService _domainService;
+
     public DataExportService(ILogger<DataExportService> logger,
-        IOrganizationServiceAsync2 organizationServiceAsync2,
-        IMetadataService metadataService)
+        IMetadataService metadataService,
+        IDomainService domainService)
     {
         _logger = logger;
-        _organizationServiceAsync2 = organizationServiceAsync2;
         _metadataService = metadataService;
+        _domainService = domainService;
     }
 
-    public async Task<TaskResult> ExportToFile(DataSchema Schema, string outputfile)
+    public async Task<IEnumerable<EntityImport>> ExportEntitiesFromSchema(DataSchema Schema)
     {
         var entityImports = new Dictionary<string, EntityImport>();
         foreach (var entitySchema in Schema.Entity)
         {
             _logger.LogInformation("Exporting entity {entityName}", entitySchema.Displayname);
-
-            var exportfields = entitySchema.Fields.Field.Select(f => f.Name).ToList();
             var metadata = await _metadataService.GetEntity(entitySchema.Name);
-            var query = new QueryExpression(entitySchema.Name)
-            {
-                ColumnSet = new ColumnSet(exportfields.ToArray()),
-
-            };
-            var entityCollection = await _organizationServiceAsync2.RetrieveAll(query, page: 5000, _logger);
-
-            var data = entityCollection.Entities.Select(e => _recordMapper.Map((metadata, entitySchema, e))).ToList();
-
+            var data = await _domainService.GetRecords(metadata, entitySchema);
             //Add Relationships export
+            var entityRelationShips = new List<M2mrelationship>();
+            foreach (var relationship in entitySchema.Relationships.Relationship)
+            {
+                if (!relationship.ManyToMany)
+                {
+                    continue;
+                }
+                var relMD = metadata.ManyToManyRelationships.FirstOrDefault(r => r.IntersectEntityName == relationship.RelatedEntityName);
+                var relationships = await _domainService.GetM2mRelationships(relMD);
+                entityRelationShips.AddRange(relationships);
 
+            }
             entityImports[entitySchema.Name] = new EntityImport
             {
                 Name = entitySchema.Name,
                 Displayname = entitySchema.Displayname,
-                Records = new Records { Record = data }
+                Records = new Records { Record = data.ToList() },
+                M2mrelationships = new M2mrelationships
+                {
+                    M2mrelationship = entityRelationShips
+                }
             };
 
         }
         // Write To File
-
-        return TaskResult.Completed;
+        return entityImports.Select(kv => kv.Value).ToList();
     }
 }

@@ -10,16 +10,19 @@ public class ExportCommand : ICommand
     private readonly ExportCommandOption _options;
     private readonly IValidator<DataSchema> _schemaValidator;
     private readonly IFileDataReader _fileDataReader;
+    private readonly IDataExportService _dataExportService;
 
     public ExportCommand(ILogger<ExportCommand> logger,
         IOptions<ExportCommandOption> options,
         IValidator<DataSchema> schemaValidator,
-        IFileDataReader fileDataReader)
+        IFileDataReader fileDataReader,
+        IDataExportService dataExportService)
     {
         _logger = logger;
         _options = options.Value;
         _schemaValidator = schemaValidator;
         _fileDataReader = fileDataReader;
+        _dataExportService = dataExportService;
     }
 
     public async Task Execute() => await Export(_options.schema, _options.output);
@@ -42,7 +45,7 @@ public class ExportCommand : ICommand
         }
         _logger.LogInformation("Schema validation succeeded.");
 
-
+        var entities = await _dataExportService.ExportEntitiesFromSchema(schema);
 
     }
 
