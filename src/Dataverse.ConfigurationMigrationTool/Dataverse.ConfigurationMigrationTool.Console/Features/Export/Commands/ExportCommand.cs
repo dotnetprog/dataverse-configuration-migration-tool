@@ -4,24 +4,25 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Export.Commands;
+[CommandVerb("export-data")]
 public class ExportCommand : ICommand
 {
     private readonly ILogger<ExportCommand> _logger;
     private readonly ExportCommandOption _options;
     private readonly IValidator<DataSchema> _schemaValidator;
-    private readonly IFileDataReader _fileDataReader;
+    private readonly IFileDataService _fileDataService;
     private readonly IDataExportService _dataExportService;
 
     public ExportCommand(ILogger<ExportCommand> logger,
         IOptions<ExportCommandOption> options,
         IValidator<DataSchema> schemaValidator,
-        IFileDataReader fileDataReader,
+        IFileDataService fileDataReader,
         IDataExportService dataExportService)
     {
         _logger = logger;
         _options = options.Value;
         _schemaValidator = schemaValidator;
-        _fileDataReader = fileDataReader;
+        _fileDataService = fileDataReader;
         _dataExportService = dataExportService;
     }
 
@@ -31,7 +32,7 @@ public class ExportCommand : ICommand
     {
 
         _logger.LogInformation("Parsing schema file from arguments");
-        var schema = await _fileDataReader.ReadAsync<DataSchema>(schemafilepath);
+        var schema = await _fileDataService.ReadAsync<DataSchema>(schemafilepath);
 
         var schemaValidationResult = await _schemaValidator.Validate(schema);
         if (schemaValidationResult.IsError)
@@ -46,7 +47,11 @@ public class ExportCommand : ICommand
         _logger.LogInformation("Schema validation succeeded.");
 
         var entities = await _dataExportService.ExportEntitiesFromSchema(schema);
-
+        var wrapper = new Entities
+        {
+            Entity = entities.ToList()
+        };
+        await _fileDataService.WriteAsync(wrapper, outputfilepath);
     }
 
 }

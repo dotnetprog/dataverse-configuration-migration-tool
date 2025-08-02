@@ -2,6 +2,7 @@
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
+using System.Web;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Export.Mappers;
 public class EntityFieldValueToFieldMapper : IMapper<(AttributeMetadata, FieldSchema, object), Field>
@@ -48,25 +49,25 @@ public class EntityFieldValueToFieldMapper : IMapper<(AttributeMetadata, FieldSc
         {
             var moneyAttr = attributeMetadata as MoneyAttributeMetadata;
             var precision = moneyAttr.PrecisionSource ?? 2;
-            fieldResult.Value = moneyValue.Value.ToString($"F{precision}", System.Globalization.CultureInfo.InvariantCulture);
+            fieldResult.Value = moneyValue.Value.ToString();
             return fieldResult;
         }
         if (value is Decimal decimalValue)
         {
             var decimalAttr = attributeMetadata as DecimalAttributeMetadata;
             var precision = decimalAttr.Precision ?? 2;
-            fieldResult.Value = decimalValue.ToString($"F{precision}", System.Globalization.CultureInfo.InvariantCulture);
+            fieldResult.Value = decimalValue.ToString();
             return fieldResult;
         }
         if (value is double doubleValue)
         {
             var doubleAttr = attributeMetadata as DoubleAttributeMetadata;
             var precision = doubleAttr.Precision ?? 2;
-            fieldResult.Value = doubleValue.ToString($"F{precision}", System.Globalization.CultureInfo.InvariantCulture);
+            fieldResult.Value = doubleValue.ToString();
             return fieldResult;
         }
-
-        fieldResult.Value = value?.ToString() ?? string.Empty;
+        var str = value?.ToString() ?? string.Empty;
+        fieldResult.Value = HttpUtility.HtmlEncode(str);
         return fieldResult;
     }
 }

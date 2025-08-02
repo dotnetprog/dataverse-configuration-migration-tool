@@ -1,5 +1,5 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Dataverse.ConfigurationMigrationTool.Console.Tests.FakeBuilders;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;

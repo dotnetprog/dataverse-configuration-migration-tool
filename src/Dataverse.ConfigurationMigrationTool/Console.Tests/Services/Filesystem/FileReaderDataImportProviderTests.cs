@@ -8,11 +8,11 @@ using Shouldly;
 namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Services.Filesystem;
 public class FileReaderDataImportProviderTests
 {
-    private readonly IFileDataReader _dataReader;
+    private readonly IFileDataService _dataReader;
     private readonly FileReaderDataImportProvider _fileReaderDataImportProvider;
     public FileReaderDataImportProviderTests()
     {
-        _dataReader = Substitute.For<IFileDataReader>();
+        _dataReader = Substitute.For<IFileDataService>();
         _fileReaderDataImportProvider = new FileReaderDataImportProvider(_dataReader,
             Substitute.For<ILogger<FileReaderDataImportProvider>>());
 

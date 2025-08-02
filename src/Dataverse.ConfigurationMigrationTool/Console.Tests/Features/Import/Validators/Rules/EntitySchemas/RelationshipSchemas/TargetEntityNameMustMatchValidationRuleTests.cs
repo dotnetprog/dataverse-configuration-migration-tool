@@ -1,4 +1,4 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules.EntitySchemas.RelationshipSchemas;
 using Microsoft.Xrm.Sdk.Metadata;
 using Shouldly;

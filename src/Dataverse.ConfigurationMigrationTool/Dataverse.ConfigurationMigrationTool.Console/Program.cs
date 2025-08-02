@@ -1,4 +1,6 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Export;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Import;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Configuration;
@@ -40,21 +42,21 @@ builder.ConfigureServices((context, services) =>
 
     services
     .AddLogging(lb => lb.AddConsole())
-
+    .AddScoped<IDomainService, DataverseDomainService>()
     .Configure<SdkDataverseServiceFactoryOptions>(context.Configuration.GetSection("Dataverse"))
     .Configure<ParallelismBulkOrganizationServiceOptions>(context.Configuration.GetSection("Dataverse"))
     .AddTransient<IImportDataProvider, FileReaderDataImportProvider>()
-    .AddSingleton<IFileDataReader, XmlFileDataReader>()
+    .AddSingleton<IFileDataService, XmlFileDataReader>()
     .AddTransient<IMetadataService, DataverseMetadataService>()
     .AddTransient<ServiceClient>((sp) => (ServiceClient)sp.GetRequiredService<IDataverseClientFactory>().Create())
     .AddSingleton<IBulkOrganizationService, ParallelismBulkOrganizationService>()
     .AddDataverseClient()
+    .AddConfigurationMigrationTool(context.Configuration)
     .UseCommands(args)
     .AddMemoryCache()
     .AddTransient<ISystemUserRepository, DataverseUserRepository>()
     .AddTransient<ITeamRepository, DataverseTeamRepository>()
-    .AddTransient<IBusinessUnitRepository, DataverseBusinessUnitRepository>()
-    .AddImportFeature(context.Configuration);
+    .AddTransient<IBusinessUnitRepository, DataverseBusinessUnitRepository>();
     // Configure other services.
 });
 

@@ -48,17 +48,17 @@ public class DataverseDomainService : IDomainService
         };
         var entityCollection = await _orgService.RetrieveAll(query, page: 5000, _logger);
 
-        return entityCollection.Entities.Select(e =>
+        return entityCollection.Entities.GroupBy(e => e.GetAttributeValue<Guid>(metadata.Entity1IntersectAttribute)).Select(g =>
         {
             return new M2mrelationship
             {
-                Sourceid = e.GetAttributeValue<Guid>(metadata.Entity1IntersectAttribute),
+                Sourceid = g.Key,
                 Targetentityname = metadata.Entity2LogicalName,
                 Targetentitynameidfield = metadata.Entity2IntersectAttribute,
                 M2mrelationshipname = metadata.IntersectEntityName,
                 Targetids = new Targetids
                 {
-                    Targetid = entityCollection.Entities.Select(e => e.GetAttributeValue<Guid>(metadata.Entity2IntersectAttribute)).ToList()
+                    Targetid = g.Select(e => e.GetAttributeValue<Guid>(metadata.Entity2IntersectAttribute)).ToList()
                 }
             };
 

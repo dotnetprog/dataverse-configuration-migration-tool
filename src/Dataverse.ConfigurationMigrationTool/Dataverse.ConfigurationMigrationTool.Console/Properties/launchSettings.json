@@ -6,6 +6,13 @@
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }
+    },
+    "export-data": {
+      "commandName": "Project",
+      "commandLineArgs": "export-data --schema ../../../TestAssets/data_schema.xml --output ../../../TestAssets/exporteddata.xml",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
     }
   }
 }

@@ -7,10 +7,10 @@ namespace Dataverse.ConfigurationMigrationTool.Console.Services.Filesystem;
 
 public class FileReaderDataImportProvider : IImportDataProvider
 {
-    private readonly IFileDataReader _dataReader;
+    private readonly IFileDataService _dataReader;
     private readonly ILogger<FileReaderDataImportProvider> _logger;
 
-    public FileReaderDataImportProvider(IFileDataReader dataReader,
+    public FileReaderDataImportProvider(IFileDataService dataReader,
         ILogger<FileReaderDataImportProvider> logger)
     {
         _dataReader = dataReader;

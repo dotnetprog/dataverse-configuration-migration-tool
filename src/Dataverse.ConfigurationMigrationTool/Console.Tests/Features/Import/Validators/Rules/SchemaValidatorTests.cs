@@ -1,6 +1,6 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Validators;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators;
 using NSubstitute;
 using Shouldly;
 
