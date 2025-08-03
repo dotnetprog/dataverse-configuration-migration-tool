@@ -1,4 +1,5 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Filesystem;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
@@ -7,11 +8,11 @@ using Shouldly;
 namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Services.Filesystem;
 public class FileReaderDataImportProviderTests
 {
-    private readonly IFileDataReader _dataReader;
+    private readonly IFileDataService _dataReader;
     private readonly FileReaderDataImportProvider _fileReaderDataImportProvider;
     public FileReaderDataImportProviderTests()
     {
-        _dataReader = Substitute.For<IFileDataReader>();
+        _dataReader = Substitute.For<IFileDataService>();
         _fileReaderDataImportProvider = new FileReaderDataImportProvider(_dataReader,
             Substitute.For<ILogger<FileReaderDataImportProvider>>());
 
@@ -21,13 +22,13 @@ public class FileReaderDataImportProviderTests
     {
         // Arrange
         var filePath = "test-schema.json";
-        var importSchema = new ImportSchema();
-        _dataReader.ReadAsync<ImportSchema>(filePath).Returns(importSchema);
+        var importSchema = new DataSchema();
+        _dataReader.ReadAsync<DataSchema>(filePath).Returns(importSchema);
         // Act
         var result = await _fileReaderDataImportProvider.ReadSchemaFromFile(filePath);
         // Assert
         result.ShouldBe(importSchema);
-        await _dataReader.Received(1).ReadAsync<ImportSchema>(filePath);
+        await _dataReader.Received(1).ReadAsync<DataSchema>(filePath);
     }
     [Fact]
     public async Task GivenAnEntityImport_WhenProviderReadsTheEntityData_ThenItShouldUseDataReader()

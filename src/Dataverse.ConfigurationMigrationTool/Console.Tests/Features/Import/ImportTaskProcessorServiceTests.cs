@@ -3,6 +3,7 @@ using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Interceptors;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Import.ValueConverters;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Connection;
 using Dataverse.ConfigurationMigrationTool.Console.Tests.Extensions;
 using Dataverse.ConfigurationMigrationTool.Console.Tests.FakeBuilders;

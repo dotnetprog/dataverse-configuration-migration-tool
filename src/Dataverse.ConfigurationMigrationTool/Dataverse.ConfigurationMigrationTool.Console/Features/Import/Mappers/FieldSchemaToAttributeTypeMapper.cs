@@ -1,5 +1,5 @@
-﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Import.Model;
-using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Microsoft.Xrm.Sdk.Metadata;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Import.Mappers;
