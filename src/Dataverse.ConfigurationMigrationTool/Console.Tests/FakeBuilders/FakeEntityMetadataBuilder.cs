@@ -35,6 +35,8 @@ internal class FakeEntityMetadataBuilder
         {
             Entity1LogicalName = EntityName,
             Entity2LogicalName = TargetEntity,
+            Entity1IntersectAttribute = $"{EntityName}id",
+            Entity2IntersectAttribute = $"{TargetEntity}id",
             IntersectEntityName = SchemaName,
             SchemaName = SchemaName
         };

@@ -3,7 +3,7 @@ using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Ru
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules.EntitySchemas.FieldSchemas;
 using Microsoft.Xrm.Sdk.Metadata;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Import.Validators.Rules.EntitySchemas.FieldSchemas;
+namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Shared.Validators.Rules.EntitySchemas.FieldSchemas;
 public abstract class BaseFieldSchemaValidationRuleTests<TRule> where TRule : IFieldSchemaValidationRule
 {
     protected TMetadata CreateAttributeMetadata<TMetadata>() where TMetadata : AttributeMetadata

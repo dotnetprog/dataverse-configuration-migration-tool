@@ -29,7 +29,7 @@ public class DataExportService : IDataExportService
         {
             _logger.LogInformation("Exporting entity {entityName}", entitySchema.Displayname);
             var metadata = await _metadataService.GetEntity(entitySchema.Name);
-            var data = await _domainService.GetRecords(metadata, entitySchema);
+            var data = await _domainService.GetRecords(entitySchema);
             //Add Relationships export
             var entityRelationShips = new List<M2mrelationship>();
             foreach (var relationship in entitySchema.Relationships.Relationship)

@@ -14,14 +14,14 @@ public class DataverseDomainService : IDomainService
 {
     private readonly IOrganizationServiceAsync2 _orgService;
     private readonly ILogger<DataverseDomainService> _logger;
-    private static readonly IMapper<(EntityMetadata, EntitySchema, Entity), Record> _recordMapper = new DataverseRecordToRecordMapper();
+    private static readonly IMapper<(EntitySchema, Entity), Record> _recordMapper = new DataverseRecordToRecordMapper();
     public DataverseDomainService(IOrganizationServiceAsync2 orgService, ILogger<DataverseDomainService> logger)
     {
         _orgService = orgService;
         _logger = logger;
     }
 
-    public async Task<IEnumerable<Record>> GetRecords(EntityMetadata metadata, EntitySchema Schema)
+    public async Task<IEnumerable<Record>> GetRecords(EntitySchema Schema)
     {
         var exportfields = Schema.Fields.Field.Select(f => f.Name).ToList();
         if (exportfields.Count == 0)
@@ -36,7 +36,7 @@ public class DataverseDomainService : IDomainService
         };
         var entityCollection = await _orgService.RetrieveAll(query, page: 5000, _logger);
 
-        var data = entityCollection.Entities.Select(e => _recordMapper.Map((metadata, Schema, e))).ToList();
+        var data = entityCollection.Entities.Select(e => _recordMapper.Map((Schema, e))).ToList();
         return data;
     }
 

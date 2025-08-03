@@ -4,7 +4,7 @@ using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators;
 using NSubstitute;
 using Shouldly;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Import.Validators.Rules;
+namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Shared.Validators.Rules;
 public class SchemaValidatorTests
 {
     private readonly IValidator<EntitySchema> entityValidator = Substitute.For<IValidator<EntitySchema>>();

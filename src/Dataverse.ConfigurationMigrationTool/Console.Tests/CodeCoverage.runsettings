@@ -6,7 +6,7 @@
 				<Configuration>
 					<Format>cobertura,opencover</Format>
 					<Exclude>[*]Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Connection.*,[*]Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Configuration.*</Exclude>
-					<ExcludeByFile>**/Program.cs,</ExcludeByFile>
+					<ExcludeByFile>**/Program.cs,**/IServiceCollectionExtensions.cs</ExcludeByFile>
 					<SkipAutoProps>true</SkipAutoProps>
 				</Configuration>
 			</DataCollector>

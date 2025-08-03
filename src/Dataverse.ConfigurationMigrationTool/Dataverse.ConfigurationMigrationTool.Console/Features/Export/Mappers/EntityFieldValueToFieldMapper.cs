@@ -1,15 +1,14 @@
 ﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Metadata;
 using System.Web;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Export.Mappers;
-public class EntityFieldValueToFieldMapper : IMapper<(AttributeMetadata, FieldSchema, object), Field>
+public class EntityFieldValueToFieldMapper : IMapper<(FieldSchema, object), Field>
 {
-    public Field Map((AttributeMetadata, FieldSchema, object) source)
+    public Field Map((FieldSchema, object) source)
     {
-        var (attributeMetadata, fieldSchema, value) = source;
+        var (fieldSchema, value) = source;
         var fieldResult = new Field
         {
             Name = fieldSchema.Name,
@@ -47,22 +46,16 @@ public class EntityFieldValueToFieldMapper : IMapper<(AttributeMetadata, FieldSc
         }
         if (value is Money moneyValue)
         {
-            var moneyAttr = attributeMetadata as MoneyAttributeMetadata;
-            var precision = moneyAttr.PrecisionSource ?? 2;
             fieldResult.Value = moneyValue.Value.ToString();
             return fieldResult;
         }
-        if (value is Decimal decimalValue)
+        if (value is decimal decimalValue)
         {
-            var decimalAttr = attributeMetadata as DecimalAttributeMetadata;
-            var precision = decimalAttr.Precision ?? 2;
             fieldResult.Value = decimalValue.ToString();
             return fieldResult;
         }
         if (value is double doubleValue)
         {
-            var doubleAttr = attributeMetadata as DoubleAttributeMetadata;
-            var precision = doubleAttr.Precision ?? 2;
             fieldResult.Value = doubleValue.ToString();
             return fieldResult;
         }

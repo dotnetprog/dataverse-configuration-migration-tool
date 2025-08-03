@@ -4,7 +4,7 @@ using Microsoft.Xrm.Sdk.Metadata;
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Export;
 public interface IDomainService
 {
-    Task<IEnumerable<Record>> GetRecords(EntityMetadata metadata, EntitySchema Schema);
+    Task<IEnumerable<Record>> GetRecords(EntitySchema Schema);
     Task<IEnumerable<M2mrelationship>> GetM2mRelationships(ManyToManyRelationshipMetadata metadata);
 
 

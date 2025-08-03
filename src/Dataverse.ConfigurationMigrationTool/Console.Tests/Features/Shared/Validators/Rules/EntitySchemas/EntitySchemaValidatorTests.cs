@@ -1,5 +1,4 @@
-﻿
-using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Rules.EntitySchemas;
@@ -9,7 +8,7 @@ using Microsoft.Xrm.Sdk.Metadata;
 using NSubstitute;
 using Shouldly;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Import.Validators.Rules.EntitySchemas;
+namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Shared.Validators.Rules.EntitySchemas;
 public class EntitySchemaValidatorTests
 {
     private readonly IMetadataService metadataService = Substitute.For<IMetadataService>();

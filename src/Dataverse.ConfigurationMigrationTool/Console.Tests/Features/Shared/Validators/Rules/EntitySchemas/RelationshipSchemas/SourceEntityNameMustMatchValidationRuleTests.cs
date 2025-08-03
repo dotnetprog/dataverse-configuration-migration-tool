@@ -3,7 +3,7 @@ using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Validators.Ru
 using Microsoft.Xrm.Sdk.Metadata;
 using Shouldly;
 
-namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Import.Validators.Rules.EntitySchemas.RelationshipSchemas;
+namespace Dataverse.ConfigurationMigrationTool.Console.Tests.Features.Shared.Validators.Rules.EntitySchemas.RelationshipSchemas;
 public class SourceEntityNameMustMatchValidationRuleTests
 {
     private readonly SourceEntityNameMustMatchValidationRule _rule = new();
