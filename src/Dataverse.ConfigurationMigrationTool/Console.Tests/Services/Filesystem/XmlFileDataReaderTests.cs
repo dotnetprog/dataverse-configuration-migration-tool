@@ -18,6 +18,17 @@ public class XmlFileDataReaderTests
         var entity = result.Entity.First();
         entity.Name.ShouldBe("fdn_insuranceproductnature");
     }
-
+    [Fact]
+    public async Task GivenADataSchema_WhenTheDataServiceWritesIt_ThenItShouldSaveToAFile()
+    {
+        // Arrange
+        var filePath = "assets/writeschema.xml";
+        var dataSets = FakeDatasets.AccountSets;
+        // Act
+        await _xmlFileDataReader.WriteAsync(dataSets, filePath);
+        // Assert
+        var result = await _xmlFileDataReader.ReadAsync<EntityImport>(filePath);
+        result.ShouldBeEquivalentTo(dataSets);
+    }
 
 }
