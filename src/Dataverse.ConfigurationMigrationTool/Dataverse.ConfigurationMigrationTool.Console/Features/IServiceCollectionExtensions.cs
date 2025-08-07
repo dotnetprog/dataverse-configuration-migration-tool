@@ -25,8 +25,8 @@ public static class IServiceCollectionExtensions
     {
         return services.RegisterFromReflection<IFieldSchemaValidationRule>()
             .RegisterFromReflection<IRelationshipSchemaValidationRule>()
-            .AddTransient<IValidator<DataSchema>, SchemaValidator>()
-            .AddTransient<IValidator<EntitySchema>, EntitySchemaValidator>();
+            .AddScoped<IValidator<DataSchema>, SchemaValidator>()
+            .AddScoped<IValidator<EntitySchema>, EntitySchemaValidator>();
     }
     public static IServiceCollection UseCommands(this IServiceCollection services, params string[] args)
     {

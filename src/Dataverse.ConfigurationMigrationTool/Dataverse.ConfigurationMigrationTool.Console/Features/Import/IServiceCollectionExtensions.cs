@@ -13,23 +13,26 @@ public static class IServiceCollectionExtensions
     {
 
         return services
-            .AddSingleton<IMainConverter, ReflectionMainConverter>(_ =>
+            .AddScoped<IMainConverter, ReflectionMainConverter>(_ =>
             {
                 var valueConverterTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract &&
               !t.IsInterface && t.BaseType != null && t.BaseType.IsConstructedGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(BaseValueConverter<>)).ToList();
                 return new ReflectionMainConverter(valueConverterTypes);
             })
-            .AddSingleton<IDataverseValueConverter, DataverseValueConverter>()
+            .AddScoped<IDataverseValueConverter, DataverseValueConverter>()
 
-            .AddSingleton<IImportTaskProcessorService, ImportTaskProcessorService>()
-            .AddSingleton<IEntityInterceptor>((sp) =>
+            .AddScoped<IImportTaskProcessorService, ImportTaskProcessorService>()
+            .AddScoped<IEntityInterceptor>((sp) =>
             {
-                var BusinessUnitInterceptor = sp.BuildService<BusinessUnitInterceptor>();
-                var UserInterceptor = sp.BuildService<TargetUserInterceptor>();
-                var TeamInterceptor = sp.BuildService<TargetTeamInterceptor>();
-                BusinessUnitInterceptor.SetSuccessor(UserInterceptor)
-                    .SetSuccessor(TeamInterceptor);
-                return BusinessUnitInterceptor;
+
+                return new EntityInterceptorChainBuilder(sp)
+                .StartsWith<BusinessUnitInterceptor>()
+                .ThenWith<TargetUserInterceptor>()
+                .ThenWith<TargetTeamInterceptor>()
+                .ThenWith<TargetTransactionCurrencyInterceptor>()
+                .ThenWith<TargetUoMInterceptor>()
+                .ThenWith<TargetUoMScheduleInterceptor>()
+                .BuildChain();
             })
             .Configure<ImportCommandOptions>(Configuration);
 

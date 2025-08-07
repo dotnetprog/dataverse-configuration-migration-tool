@@ -1,6 +1,7 @@
 ﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Microsoft.Xrm.Sdk;
+using System.Globalization;
 using System.Web;
 
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Export.Mappers;
@@ -46,17 +47,17 @@ public class EntityFieldValueToFieldMapper : IMapper<(FieldSchema, object), Fiel
         }
         if (value is Money moneyValue)
         {
-            fieldResult.Value = moneyValue.Value.ToString();
+            fieldResult.Value = moneyValue.Value.ToString(CultureInfo.InvariantCulture);
             return fieldResult;
         }
         if (value is decimal decimalValue)
         {
-            fieldResult.Value = decimalValue.ToString();
+            fieldResult.Value = decimalValue.ToString(CultureInfo.InvariantCulture);
             return fieldResult;
         }
         if (value is double doubleValue)
         {
-            fieldResult.Value = doubleValue.ToString();
+            fieldResult.Value = doubleValue.ToString(CultureInfo.InvariantCulture);
             return fieldResult;
         }
         var str = value?.ToString() ?? string.Empty;
