@@ -24,7 +24,7 @@ builder.ConfigureAppConfiguration((context, config) =>
 {
     config
         .AddEnvironmentVariables()
-        .AddCommandLine(args)
+        .SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!)
         .AddJsonFile("appsettings.json", false, false)
         .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", false, false);
     if (!context.HostingEnvironment.IsProduction())
@@ -35,6 +35,7 @@ builder.ConfigureAppConfiguration((context, config) =>
         //or you can configure another Configuration Provider to provide the secrets like AzureKeyvault or Hashicorp Vault.
         config.AddUserSecrets(Assembly.GetExecutingAssembly());
     }
+    config.AddCommandLine(args);
     Console.WriteLine($"Using configuration file: appsettings.{context.HostingEnvironment.EnvironmentName}.json");
 });
 builder.ConfigureServices((context, services) =>
@@ -45,18 +46,19 @@ builder.ConfigureServices((context, services) =>
     .AddScoped<IDomainService, DataverseDomainService>()
     .Configure<SdkDataverseServiceFactoryOptions>(context.Configuration.GetSection("Dataverse"))
     .Configure<ParallelismBulkOrganizationServiceOptions>(context.Configuration.GetSection("Dataverse"))
-    .AddTransient<IImportDataProvider, FileReaderDataImportProvider>()
+    .AddScoped<IImportDataProvider, FileReaderDataImportProvider>()
     .AddSingleton<IFileDataService, XmlFileDataReader>()
-    .AddTransient<IMetadataService, DataverseMetadataService>()
-    .AddTransient<ServiceClient>((sp) => (ServiceClient)sp.GetRequiredService<IDataverseClientFactory>().Create())
-    .AddSingleton<IBulkOrganizationService, ParallelismBulkOrganizationService>()
-    .AddDataverseClient()
+    .AddScoped<IMetadataService, DataverseMetadataService>()
+    .AddScoped<ServiceClient>((sp) => (ServiceClient)sp.GetRequiredService<IDataverseClientFactory>().Create())
+    .AddScoped<IBulkOrganizationService, ParallelismBulkOrganizationService>()
+    .AddDataverseClient(ServiceLifetime.Scoped)
     .AddConfigurationMigrationTool(context.Configuration)
     .UseCommands(args)
     .AddMemoryCache()
-    .AddTransient<ISystemUserRepository, DataverseUserRepository>()
-    .AddTransient<ITeamRepository, DataverseTeamRepository>()
-    .AddTransient<IBusinessUnitRepository, DataverseBusinessUnitRepository>();
+    .AddScoped<ISystemUserRepository, DataverseUserRepository>()
+    .AddScoped<ITeamRepository, DataverseTeamRepository>()
+    .AddScoped<IBusinessUnitRepository, DataverseBusinessUnitRepository>()
+    .AddScoped<IProductCatalogService, DataverseProductCatalogService>();
     // Configure other services.
 });
 

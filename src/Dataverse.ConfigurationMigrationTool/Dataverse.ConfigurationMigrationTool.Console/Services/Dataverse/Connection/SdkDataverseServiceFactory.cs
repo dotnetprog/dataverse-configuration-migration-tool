@@ -18,6 +18,7 @@ public class SdkDataverseServiceFactory : IDataverseClientFactory
     }
     public IOrganizationServiceAsync2 Create()
     {
+        _logger.LogWarning("Creating a new ServiceClient with Url: {url}", _options.Url);
         var serviceClient = new ServiceClient(
             new Uri(_options.Url),
             _options.ClientId.ToString(),
