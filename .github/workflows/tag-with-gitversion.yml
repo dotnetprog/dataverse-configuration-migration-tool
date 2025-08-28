@@ -28,7 +28,7 @@ jobs:
      
       - name: Create and push annotated tag (minor+1, patch=0)
         env:
-          GITHUB_TOKEN: ${{ secrets.GIST_AUTH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GIST_AUTH_TOKEN }}
         run: |
           set -euo pipefail
           MAJOR="${{ steps.gitversion.outputs.major }}"
