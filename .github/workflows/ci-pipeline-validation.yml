@@ -12,6 +12,8 @@ on:
     branches: [ "main" ]
 env:
   solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
+  xrmToolboxConfigPath: 'src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.XrmToolBox/packages.config'
+  xrmToolboxPath: 'src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.XrmToolBox/Dataverse.ConfigurationMigrationTool.XrmToolBox.csproj'
   solutionFolder: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool'
 jobs:
   build:
@@ -32,11 +34,15 @@ jobs:
       with:
         nuget-version: 'latest' # Or a specific version like '5.11.1'
 
-    - name: Restore NuGet packages
-      run: nuget restore ${{ env.solutionPath }} # Replace with your solution file or project directory
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v2
 
-    # - name: Restore dependencies
-    #   run: dotnet restore ${{  env.solutionPath  }}
+    - name: Restore NuGet packages
+      run: nuget restore ${{ env.xrmToolboxConfigPath }} # Replace with your solution file or project directory
+    - name: Build xrmToolBox
+      run: msbuild ${{ env.xrmToolboxPath }} -t:rebuild -verbosity:diag -property:Configuration=Release 
+    - name: Restore dependencies
+      run: dotnet restore ${{  env.solutionPath  }}
     - name: Build
       run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
     - name: Execute unit tests
