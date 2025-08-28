@@ -26,8 +26,17 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore ${{  env.solutionPath  }}
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: 'latest' # Or a specific version like '5.11.1'
+
+    - name: Restore NuGet packages
+      run: nuget restore ${{ env.solutionPath }} # Replace with your solution file or project directory
+
+    # - name: Restore dependencies
+    #   run: dotnet restore ${{  env.solutionPath  }}
     - name: Build
       run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
     - name: Execute unit tests
