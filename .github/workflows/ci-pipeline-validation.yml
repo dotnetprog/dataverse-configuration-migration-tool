@@ -19,6 +19,8 @@ jobs:
     runs-on: windows-latest
   
     steps:
+    - name: git configure long path
+      run: git config --global core.longpaths tru
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
