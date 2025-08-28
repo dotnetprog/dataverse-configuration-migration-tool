@@ -28,7 +28,8 @@ jobs:
      
       - name: Create and push annotated tag (minor+1, patch=0)
         env:
-          GH_TOKEN: ${{ secrets.GIST_AUTH_TOKEN }}
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.GIST_AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           MAJOR="${{ steps.gitversion.outputs.major }}"
@@ -36,8 +37,17 @@ jobs:
           # increment minor and set patch to 0
           NEW_MINOR=$((MINOR + 1))
           TAG="v${MAJOR}.${NEW_MINOR}.0"
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git tag -a $TAG -m "Tag created by GitHub Actions using GitVersion (incremented minor)"
-          git push origin $TAG
+          echo "Computed tag: $TAG"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # create annotated tag (fail if exists)
+          git tag -a "$TAG" -m "Tag created by GitHub Actions using GitVersion (incremented minor)"
+          # choose token: use PAT if provided (recommended), otherwise fallback to GITHUB_TOKEN
+          TOKEN="${PERSONAL_ACCESS_TOKEN:-${GITHUB_TOKEN}}"
+          if [ -z "$TOKEN" ]; then
+            echo "No token available to push tag"
+            exit 1
+          fi
+          # Push the tag using the chosen token over HTTPS to ensure it triggers other workflows
+          git push "https://x-access-token:${TOKEN}@github.com/${{ github.repository }}" "$TAG"
 
