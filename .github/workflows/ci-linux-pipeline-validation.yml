@@ -1,7 +1,7 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: CI - Pipeline - Validation
+name: CI - Linux - Pipeline - Validation
 permissions:
   contents: read
   issues: read
@@ -12,35 +12,19 @@ on:
     branches: [ "main" ]
 env:
   solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
-  xrmToolboxConfigPath: 'src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.XrmToolBox/packages.config'
-  xrmToolboxPath: 'src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.XrmToolBox/Dataverse.ConfigurationMigrationTool.XrmToolBox.csproj'
   solutionFolder: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool'
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
   
     steps:
-    - name: git configure long path
-      run: git config --global core.longpaths true
     - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
 
-    - name: Setup NuGet
-      uses: nuget/setup-nuget@v1
-      with:
-        nuget-version: 'latest' # Or a specific version like '5.11.1'
-
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v2
-
-    - name: Restore NuGet packages
-      run: nuget restore ${{ env.solutionPath }} # Replace with your solution file or project directory
-    - name: Build xrmToolBox
-      run: msbuild ${{ env.xrmToolboxPath }} -t:rebuild -verbosity:diag -property:Configuration=Release 
     - name: Restore dependencies
       run: dotnet restore ${{  env.solutionPath  }}
     - name: Build

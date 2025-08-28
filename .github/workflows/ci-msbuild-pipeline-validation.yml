@@ -1,0 +1,50 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: CI - msbuild - Pipeline - Validation
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+on:
+  pull_request:
+    branches: [ "main" ]
+env:
+  solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
+  xrmToolboxPath: 'src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.XrmToolBox/Dataverse.ConfigurationMigrationTool.XrmToolBox.csproj'
+jobs:
+  build:
+
+    runs-on: windows-latest
+  
+    steps:
+    - name: git configure long path
+      run: git config --global core.longpaths true
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: 'latest' # Or a specific version like '5.11.1'
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore ${{ env.solutionPath }} # Replace with your solution file or project directory
+    - name: Build xrmToolBox
+      run: msbuild ${{ env.xrmToolboxPath }} -t:rebuild -verbosity:diag -property:Configuration=Release
+
+
+  
+
+
+      
+  
+    
+  
