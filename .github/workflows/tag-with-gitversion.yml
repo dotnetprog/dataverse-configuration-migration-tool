@@ -36,7 +36,8 @@ jobs:
           # increment minor and set patch to 0
           NEW_MINOR=$((MINOR + 1))
           TAG="v${MAJOR}.${NEW_MINOR}.0"
-
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git tag -a $TAG -m "Tag created by GitHub Actions using GitVersion (incremented minor)"
           git push origin $TAG
 
