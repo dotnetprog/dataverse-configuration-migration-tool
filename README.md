@@ -26,6 +26,7 @@ This new tool enables you to:
 :heavy_check_mark: Many to Many Relationships supported \
 :heavy_check_mark: Owner,Team And Business Unit field is now supported. If by Unique Id is not found in target env, it matches by name otherwise it ignores the field. Caching is used to avoid unnecessary calls to dataverse. \
 :heavy_check_mark: Supports schemas and data files generated from :
+- [Configuration Migration Tool for XrmToolBox](./Guide-XrmToolBox.md)
 - [PowerPlatform CLI Export](https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/data#pac-data-export)
 - [Configuration Migration tool](https://learn.microsoft.com/en-us/power-platform/admin/create-schema-export-configuration-data)
 
@@ -110,6 +111,9 @@ You can use these workflows as a starting point for your own CI/CD automation. S
 
 
 ### </> Generating Schema and Data Files </>
+
+🆕 **You can now create your schema definition file from XrmToolBox using**  [Configuration Migration Tool for XrmToolBox](./Guide-XrmToolBox.md)🆕
+
 
 To use the `import` or `export-data` command, you need a schema file and/or a data file. These can be generated from your Dataverse environment using the official Configuration Migration tool. For detailed instructions, refer to the Microsoft documentation:
 
