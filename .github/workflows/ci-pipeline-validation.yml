@@ -38,7 +38,7 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Restore NuGet packages
-      run: nuget restore ${{ env.xrmToolboxConfigPath }} # Replace with your solution file or project directory
+      run: nuget restore ${{ env.solutionPath }} # Replace with your solution file or project directory
     - name: Build xrmToolBox
       run: msbuild ${{ env.xrmToolboxPath }} -t:rebuild -verbosity:diag -property:Configuration=Release 
     - name: Restore dependencies
