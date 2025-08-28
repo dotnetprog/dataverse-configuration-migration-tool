@@ -1,7 +1,12 @@
-﻿namespace Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
+﻿using System.Threading.Tasks;
 
-public interface IFileDataService
+namespace Dataverse.ConfigurationMigrationTool.Console.Features.Shared
 {
-    Task<T> ReadAsync<T>(string path);
-    Task WriteAsync<T>(T obj, string path);
+    public interface IFileDataService
+    {
+        Task<T> ReadAsync<T>(string path);
+        Task WriteAsync<T>(T obj, string path);
+    }
 }
+
+

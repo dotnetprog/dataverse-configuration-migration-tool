@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7DD84F5D-0F62-40BE-99F6-47E49BBD1C46}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dataverse.ConfigurationMigrationTool.XrmToolBox</RootNamespace>
+    <AssemblyName>Dataverse.ConfigurationMigrationTool.XrmToolBox</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>Dataverse.ConfigurationMigrationTool.XrmToolBox</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Francois Desjardins-Nadeau</Authors>
+    <Company>FDN Tech Solutions</Company>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="McTools.Xrm.Connection, Version=1.2025.7.63, Culture=neutral, PublicKeyToken=96037217801d9658, processorArchitecture=MSIL">
+      <HintPath>..\packages\MscrmTools.Xrm.Connection.1.2025.7.63\lib\net48\McTools.Xrm.Connection.dll</HintPath>
+    </Reference>
+    <Reference Include="McTools.Xrm.Connection.WinForms, Version=1.2025.7.63, Culture=neutral, PublicKeyToken=f1559f79cf894e27, processorArchitecture=MSIL">
+      <HintPath>..\packages\MscrmTools.Xrm.Connection.1.2025.7.63\lib\net48\McTools.Xrm.Connection.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.7, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.7\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.59\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.AI, Version=9.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.AI.9.7.1\lib\net462\Microsoft.Extensions.AI.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.AI.Abstractions, Version=9.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.AI.Abstractions.9.7.1\lib\net462\Microsoft.Extensions.AI.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=9.0.0.7, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.9.0.7\lib\net462\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.7, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.7\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=9.0.0.7, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.9.0.7\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=9.0.0.7, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.9.0.7\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="microsoft.identitymodel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.7.0.0\lib\net35\microsoft.identitymodel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.5.3.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.24\lib\net461\Microsoft.Rest.ClientRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.VisualStudio.CoreUtility.17.14.249\lib\net472\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Threading, Version=17.13.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.VisualStudio.Threading.17.13.2\lib\net472\Microsoft.VisualStudio.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Validation, Version=17.8.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.VisualStudio.Validation.17.8.8\lib\netstandard2.0\Microsoft.VisualStudio.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.3351.48, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.WebView2.1.0.3351.48\lib\net462\Microsoft.Web.WebView2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.3351.48, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.WebView2.1.0.3351.48\lib\net462\Microsoft.Web.WebView2.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Wpf, Version=1.0.3351.48, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.WebView2.1.0.3351.48\lib\net462\Microsoft.Web.WebView2.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.XmlTransform, Version=3.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Xdt.3.2.0\lib\netstandard2.0\Microsoft.Web.XmlTransform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Sdk, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.59\lib\net462\Microsoft.Xrm.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Sdk.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.Deployment.9.0.2.34\lib\net462\Microsoft.Xrm.Sdk.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Sdk.Workflow, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.Workflow.9.0.2.59\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Tooling.Connector, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.XrmTooling.CoreAssembly.9.1.1.65\lib\net462\Microsoft.Xrm.Tooling.Connector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Tooling.CrmConnectControl, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.XrmTooling.WpfControls.9.1.1.65\lib\net462\Microsoft.Xrm.Tooling.CrmConnectControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Tooling.Ui.Styles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.XrmTooling.WpfControls.9.1.1.65\lib\net462\Microsoft.Xrm.Tooling.Ui.Styles.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Tooling.WebResourceUtility, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.XrmTooling.WpfControls.9.1.1.65\lib\net462\Microsoft.Xrm.Tooling.WebResourceUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.8.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=9.0.0.7, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.9.0.7\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Pipelines, Version=9.0.0.7, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Pipelines.9.0.7\lib\net462\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.5.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Duplex, Version=8.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceModel.Primitives.8.1.2\lib\net462\System.ServiceModel.Duplex.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Http, Version=8.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceModel.Http.8.1.2\lib\net462\System.ServiceModel.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Primitives, Version=8.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceModel.Primitives.8.1.2\lib\net462\System.ServiceModel.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Security, Version=8.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceModel.Primitives.8.1.2\lib\net462\System.ServiceModel.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=9.0.0.7, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.9.0.7\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=9.0.0.7, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.9.0.7\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Channels, Version=9.0.0.7, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Channels.9.0.7\lib\net462\System.Threading.Channels.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Workflow.Activities" />
+    <Reference Include="System.Workflow.ComponentModel" />
+    <Reference Include="System.Workflow.Runtime" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.6.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>..\packages\DockPanelSuite.3.0.6\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking.ThemeVS2015, Version=3.0.6.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>..\packages\DockPanelSuite.ThemeVS2015.3.0.6\lib\net40\WeifenLuo.WinFormsUI.Docking.ThemeVS2015.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="XrmToolBox, Version=1.2025.7.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XrmToolBoxPackage.1.2025.7.71\lib\net48\XrmToolBox.exe</HintPath>
+    </Reference>
+    <Reference Include="XrmToolBox.Extensibility, Version=1.2025.7.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XrmToolBoxPackage.1.2025.7.71\lib\net48\XrmToolBox.Extensibility.dll</HintPath>
+    </Reference>
+    <Reference Include="XrmToolBox.ToolLibrary, Version=1.2025.7.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XrmToolBoxPackage.1.2025.7.71\lib\net48\XrmToolBox.ToolLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Dataverse.ConfigurationMigrationTool.Console\Features\Shared\Domain\DataSchema.cs">
+      <Link>Domain\DataSchema.cs</Link>
+    </Compile>
+    <Compile Include="Common\BindingListExtensions.cs" />
+    <Compile Include="Common\EntityExtensions.cs" />
+    <Compile Include="Common\ToolConstants.cs" />
+    <Compile Include="ConfigurationMigrationPlugin.cs" />
+    <Compile Include="ConfigurationMigrationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigurationMigrationControl.designer.cs">
+      <DependentUpon>ConfigurationMigrationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\Abstraction\IFileService.cs" />
+    <Compile Include="Domain\Abstraction\IMetadataService.cs" />
+    <Compile Include="Domain\Solution.cs" />
+    <Compile Include="Domain\SolutionEntityComponent.cs" />
+    <Compile Include="Mappers\AttributeMetadataToFIeldSchemaMapper.cs" />
+    <Compile Include="Mappers\EntityMetadataToEntitySchemaMapper.cs" />
+    <Compile Include="Mappers\EntityToSolutionComponentMapper.cs" />
+    <Compile Include="Mappers\EntityToSolutionMapper.cs" />
+    <Compile Include="Mappers\IMapper.cs" />
+    <Compile Include="Mappers\ManyToManyRelationshipMetadataToRelationshipSchema.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\Abstraction\ISolutionService.cs" />
+    <Compile Include="Services\DataverseMetadataService.cs" />
+    <Compile Include="Services\DataverseSolutionService.cs" />
+    <Compile Include="Services\XmlFileService.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="VIewModel\FieldComponentMetadataViewModel.cs" />
+    <Compile Include="VIewModel\RelationshipComponentMetadataViewModel.cs" />
+    <Compile Include="VIewModel\SchemaItem.cs" />
+    <Compile Include="VIewModel\SchemaTabViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConfigurationMigrationControl.resx">
+      <DependentUpon>ConfigurationMigrationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ConfigurationMigrationTool_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\left-arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right-arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\xml.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\schema.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.13.2\analyzers\cs\Microsoft.VisualStudio.Threading.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.13.2\analyzers\cs\Microsoft.VisualStudio.Threading.Analyzers.CSharp.dll" />
+    <Analyzer Include="..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.13.2\analyzers\cs\Microsoft.VisualStudio.Threading.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.13.2\analyzers\vb\Microsoft.VisualStudio.Threading.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.13.2\analyzers\vb\Microsoft.VisualStudio.Threading.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.13.2\analyzers\vb\Microsoft.VisualStudio.Threading.Analyzers.VisualBasic.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+      IF $(ConfigurationName) == Debug (
+      IF NOT EXIST Plugins mkdir Plugins
+      DEL $(TargetDir)Plugins\manifest.json
+      xcopy "$(TargetDir)$(TargetFileName)" "$(TargetDir)Plugins\" /Y
+      xcopy "$(TargetDir)$(TargetName).pdb" "$(TargetDir)Plugins\" /Y
+      )
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\Microsoft.Web.WebView2.1.0.3351.48\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.3351.48\build\Microsoft.Web.WebView2.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.3351.48\build\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.3351.48\build\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.13.2\build\Microsoft.VisualStudio.Threading.Analyzers.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.13.2\build\Microsoft.VisualStudio.Threading.Analyzers.targets'))" />
+    <Error Condition="!Exists('..\packages\NuGet.Build.Tasks.Pack.6.14.0\build\NuGet.Build.Tasks.Pack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NuGet.Build.Tasks.Pack.6.14.0\build\NuGet.Build.Tasks.Pack.targets'))" />
+  </Target>
+  <Import Project="..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" />
+  <Import Project="..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.13.2\build\Microsoft.VisualStudio.Threading.Analyzers.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.Threading.Analyzers.17.13.2\build\Microsoft.VisualStudio.Threading.Analyzers.targets')" />
+  <Import Project="..\packages\NuGet.Build.Tasks.Pack.6.14.0\build\NuGet.Build.Tasks.Pack.targets" Condition="Exists('..\packages\NuGet.Build.Tasks.Pack.6.14.0\build\NuGet.Build.Tasks.Pack.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+-->
+</Project>
