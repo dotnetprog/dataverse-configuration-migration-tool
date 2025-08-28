@@ -1,0 +1,42 @@
+name: Tag with GitVersion
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    name: Create tag from GitVersion
+    runs-on: ubuntu-latest
+    # additional safety to ensure this runs for main branch only
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout repository (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v4.1.0
+        with:
+            versionSpec: '6.3.x'
+      - name: Determine Version
+        id: gitversion # step id used as reference for output values
+        uses: gittools/actions/gitversion/execute@v4.1.0
+     
+      - name: Create and push annotated tag (minor+1, patch=0)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          MAJOR="${{ steps.gitversion.outputs.major }}"
+          MINOR="${{ steps.gitversion.outputs.minor }}"
+          # increment minor and set patch to 0
+          NEW_MINOR=$((MINOR + 1))
+          TAG="v${MAJOR}.${NEW_MINOR}.0"
+
+          git tag -a $TAG -m "Tag created by GitHub Actions using GitVersion (incremented minor)"
+          git push origin $TAG
+

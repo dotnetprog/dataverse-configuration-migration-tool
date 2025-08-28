@@ -1,0 +1,28 @@
+﻿<package>
+  <metadata>
+    <id>Dataverse.ConfigurationMigrationTool.XrmToolBox</id>
+    <version>1.0.0</version>
+    <title>Configuration Migration Tool for XrmToolBox</title>
+    <authors>François Desjardins-Nadeau</authors>
+    <owners>dotnetprog</owners>
+    <projectUrl>https://github.com/dotnetprog/dataverse-configuration-migration-tool</projectUrl>
+    <iconUrl>https://github.com/dotnetprog/dataverse-configuration-migration-tool/blob/main/images/configurationmigrationtool_64.png?raw=true</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>Utility tool for migrating configuration data.</summary>
+    <description>
+        Utility tool that provides an easy way to migrate configuration data between Dataverse environments.
+    </description>
+    <releaseNotes>
+      Full release notes:
+      https://github.com/dotnetprog/dataverse-configuration-migration-tool/releases/latest
+    </releaseNotes>
+    <copyright>Copyright François Desjardins-Nadeau 2025</copyright>
+    <tags>XrmToolBox Plugins Dataverse ConfigurationMigrationTool data export import</tags>
+    <dependencies>
+      <dependency id="XrmToolBox" version="1.2025.7.71" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Dataverse.ConfigurationMigrationTool.XrmToolBox\bin\Release\Dataverse.ConfigurationMigrationTool.XrmToolBox.dll" target="lib\net48\Plugins" />
+  </files>
+</package>

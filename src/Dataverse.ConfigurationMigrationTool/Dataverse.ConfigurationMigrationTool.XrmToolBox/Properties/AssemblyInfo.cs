@@ -29,6 +29,6 @@ using System.Runtime.InteropServices;
 //      Revision
 //
 
-[assembly: AssemblyVersion("1.1.2.0")]
-[assembly: AssemblyFileVersion("1.1.2.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: AssemblyInformationalVersion("1.1.2-AddXrmtoolBox.0+Branch.feature-AddXrmtoolBox.Sha.e4430db29230de99c44c859669fd6b06ef375737")]
