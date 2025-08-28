@@ -106,9 +106,14 @@ jobs:
         with:
           name: configurationmigrationtool_xrmtoolbox
           path: '${{ env.xtbpublishlocation }}'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
       - name: zip artifact # This would actually build your project, using zip for an example artifact
         run: |
           zip -r configurationmigrationtool${{  github.ref_name }}.zip configurationmigrationtool
+      
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -126,7 +131,9 @@ jobs:
             FILENAME=$(basename "$NUPKG_PATH")
             echo "nupkg_path=$NUPKG_PATH" >> "$GITHUB_OUTPUT"
             echo "filename=$FILENAME" >> "$GITHUB_OUTPUT" # Make it available to subsequent steps
-       
+      - name: Push To NuGet Registry
+        run: |
+          dotnet nuget push ./xtb/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
       - name: Upload NuGet Package Release Asset
         id: upload-nuget-release-asset 
         uses: actions/upload-release-asset@v1
