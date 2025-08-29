@@ -6,6 +6,7 @@
     <authors>François Desjardins-Nadeau</authors>
     <projectUrl>https://github.com/dotnetprog/dataverse-configuration-migration-tool</projectUrl>
     <icon>docs\images\configurationmigrationtool_64.png</icon>
+    <iconUrl>https://github.com/dotnetprog/dataverse-configuration-migration-tool/blob/main/images/configurationmigrationtool_64.png?raw=true</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Utility tool for migrating configuration data.</summary>
     <description>
