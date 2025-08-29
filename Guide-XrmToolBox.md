@@ -36,7 +36,7 @@ A Schema definition file is an xml file that contains the definition of entities
 
 ### Create your schema file
 
-![tutorial](./images/ToolTutorial.png "tutorial")
+![tutorial](https://raw.githubusercontent.com/dotnetprog/dataverse-configuration-migration-tool/main/images/ToolTutorial.png "tutorial")
 
 1. Load your solutions
 2. Select a solution
