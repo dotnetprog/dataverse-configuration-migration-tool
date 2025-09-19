@@ -6,7 +6,7 @@ This repository contains a custom .NET CLI tool designed to export and import co
 Get latest version of the tool built on this [release](https://github.com/dotnetprog/dataverse-configuration-migration-tool/releases/latest)
 > [!NOTE]  
 > Interactive Login is now available with the CLI tool. The use of service principal is no more mandatory but still recommanded for automation scenarios. \
-> To automate the use of the tool, let's say within a pipeline (e.g Github Action,Azure Devops Pipeline),`appsettings.Production.json` will need to be setup manually with your azure service principal credentials.
+> To automate the use of the tool, let's say within a pipeline (e.g Github Action,Azure Devops Pipeline),`appsettings.Production.json` will need to be setup manually with your azure service principal credentials.  \
 > [Quick Guide](https://recursion.no/blogs/dataverse-setup-service-principal-access-for-environment/) to create an azure service principal
 ## Why ❓
 
@@ -43,7 +43,7 @@ This new tool enables you to:
 
 
 > [!IMPORTANT]  
-> Data import/export features for XrmToolBox is no longer planned.
+> Data import/export features for XrmToolBox is no longer planned.  \
 > Since the cli tool is made with .Net Core and XTB Plugins is in .Net Framework, It's really hard to keep a sharable codebase and retricts the usage of some modern libraries.
 
 
@@ -131,10 +131,10 @@ Dataverse.ConfigurationMigrationTool.Console.exe export-data --schema "C:\temp\d
 ```
 
 > [!TIP]
-> To use service principal credentials, the interactive login flag `--il` or `-il` must be omitted.
-> If you use the executable directly, you must edit the `appsettings.Production.json` file with your service principal credentials
-> If you use `dotnet run`, you can set the secrets using `dotnet user-secrets` as shown above or edit the `appsettings.Development.json` file.
-> you can also set environment variables `Dataverse__ClientId`, `Dataverse__ClientSecret` and `Dataverse__Url` to override the settings in the json files.
+> To use service principal credentials, the interactive login flag `--il` or `-il` must be omitted. \
+> If you use the executable directly, you must edit the `appsettings.Production.json` file with your service principal credentials \
+> If you use `dotnet run`, you can set the secrets using `dotnet user-secrets` as shown above or edit the `appsettings.Development.json` file. \
+> you can also set environment variables `Dataverse__ClientId`, `Dataverse__ClientSecret` and `Dataverse__Url` to override the settings in the json files. \
 > you can also use these commandline arguments `--Dataverse:ClientId`, `--Dataverse:ClientSecret` and `--Dataverse:Url` to override the settings in the json files.
 
 ## 🤝 Contributing 🤝
