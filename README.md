@@ -5,7 +5,7 @@ This repository contains a custom .NET CLI tool designed to export and import co
 ### Download latest release
 Get latest version of the tool built on this [release](https://github.com/dotnetprog/dataverse-configuration-migration-tool/releases/latest)
 > [!NOTE]  
-> If you want to use the built version of the tool , `appsettings.Production.json` will need to be setup manually with your azure service principal credentials.
+> If you want to use the built version of the tool , `appsettings.Production.json` will need to be setup manually with your azure service principal credentials. \
 > [Quick Guide](https://recursion.no/blogs/dataverse-setup-service-principal-access-for-environment/) to create an azure service principal
 ## Why ❓
 
