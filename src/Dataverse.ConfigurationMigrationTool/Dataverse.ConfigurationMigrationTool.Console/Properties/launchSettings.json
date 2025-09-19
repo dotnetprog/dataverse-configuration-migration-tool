@@ -7,9 +7,30 @@
         "DOTNET_ENVIRONMENT": "Development"
       }
     },
+    "import-il": {
+      "commandName": "Project",
+      "commandLineArgs": "import --schema ../../../TestAssets/data_schema.xml --data ../../../TestAssets/data.xml --il",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    },
+    "import-null": {
+      "commandName": "Project",
+      "commandLineArgs": "import --schema ../../../TestAssets/data_schema.xml --data ../../../TestAssets/exporteddata_withnull.xml",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    },
+    "export-data-il": {
+      "commandName": "Project",
+      "commandLineArgs": "export-data --enable-empty-fields --schema ../../../TestAssets/data_schema.xml --output ../../../TestAssets/exporteddata.xml --il",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    },
     "export-data": {
       "commandName": "Project",
-      "commandLineArgs": "export-data --schema ../../../TestAssets/data_schema.xml --output ../../../TestAssets/exporteddata.xml",
+      "commandLineArgs": "export-data --schema ../../../TestAssets/data_schema.xml --output ../../../TestAssets/exporteddata.xml --AllowEmptyFields",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }

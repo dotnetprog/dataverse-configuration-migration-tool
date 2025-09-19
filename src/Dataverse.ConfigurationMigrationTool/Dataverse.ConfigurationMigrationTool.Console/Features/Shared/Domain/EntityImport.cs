@@ -18,12 +18,15 @@ public class Field
 
     [XmlAttribute(AttributeName = "value")]
     public string Value { get; set; }
+    [XmlAttribute(AttributeName = "isnull")]
+    public bool IsNull { get; set; }
 
     [XmlAttribute(AttributeName = "lookupentity")]
     public string Lookupentity { get; set; }
 
     [XmlAttribute(AttributeName = "lookupentityname")]
     public string Lookupentityname { get; set; }
+    public bool ShouldSerializeIsNull() => IsNull;
 }
 
 [XmlRoot(ElementName = "record")]

@@ -15,7 +15,7 @@ public class EntityFieldValueToFieldMapperTests
         {
             new FieldSchema { Name = "testField" },
             null,
-            null
+            new Field { Name = "testField",IsNull=true }
         },
         {
             new FieldSchema { Name = "testLookupField" },

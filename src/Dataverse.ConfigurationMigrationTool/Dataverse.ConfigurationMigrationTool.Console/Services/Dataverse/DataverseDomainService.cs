@@ -3,7 +3,9 @@ using Dataverse.ConfigurationMigrationTool.Console.Features.Export;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Export.Mappers;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared;
 using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
+using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.PowerPlatform.Dataverse.Client;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
@@ -14,11 +16,14 @@ public class DataverseDomainService : IDomainService
 {
     private readonly IOrganizationServiceAsync2 _orgService;
     private readonly ILogger<DataverseDomainService> _logger;
-    private static readonly IMapper<(EntitySchema, Entity), Record> _recordMapper = new DataverseRecordToRecordMapper();
-    public DataverseDomainService(IOrganizationServiceAsync2 orgService, ILogger<DataverseDomainService> logger)
+    private readonly DataverseDomainServiceOptions _options;
+    private readonly IMapper<(EntitySchema, Entity), Record> _recordMapper;
+    public DataverseDomainService(IOrganizationServiceAsync2 orgService, IOptions<DataverseDomainServiceOptions> options, ILogger<DataverseDomainService> logger)
     {
+        this._options = options.Value;
         _orgService = orgService;
         _logger = logger;
+        _recordMapper = new DataverseRecordToRecordMapper(this._options.AllowEmptyFields);
     }
 
     public async Task<IEnumerable<Record>> GetRecords(EntitySchema Schema)

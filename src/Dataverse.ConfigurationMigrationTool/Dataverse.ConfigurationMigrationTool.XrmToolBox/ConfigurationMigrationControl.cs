@@ -47,10 +47,9 @@ namespace Dataverse.ConfigurationMigrationTool.XrmToolBox
             var info = @"{\rtf1\ansi\deff0
     {\fonttbl{\f0\fnil\fcharset0 Calibri;}}
                 \par {\b **Information**}
-                \par Currently , only schema file generation is available with this tool. \par
+                \par After reflection, Data import and data export will only be handled by the CLI tool from the project repo (see link below)  \par
 
-                \par Data Export and Data Import are planned to be available soon. 
-                \par In the mean time, the generated schema file can be used to import and export data using the cli tool in the project repo.
+                \par The generated schema file can be used to import and export data using the cli tool in the project repo.
                 \par A service principal that have permissions to your dataverse environment will be needed.\par
 
                 \par {\b\i Project repo:}
