@@ -5,6 +5,11 @@ using Microsoft.Xrm.Sdk;
 namespace Dataverse.ConfigurationMigrationTool.Console.Features.Export.Mappers;
 public class DataverseRecordToRecordMapper : IMapper<(EntitySchema, Entity), Record>
 {
+    private bool AllowEmptyFields { get; set; }
+    public DataverseRecordToRecordMapper(bool allowEmptyFields)
+    {
+        AllowEmptyFields = allowEmptyFields;
+    }
     private readonly static IMapper<(FieldSchema, object), Field> _fieldMapper = new EntityFieldValueToFieldMapper();
     public Record Map((EntitySchema, Entity) source)
     {
@@ -17,16 +22,16 @@ public class DataverseRecordToRecordMapper : IMapper<(EntitySchema, Entity), Rec
 
         foreach (var fieldSchema in entitySchema.Fields.Field)
         {
-            if (entity.Contains(fieldSchema.Name))
+
+            var fieldValue = entity.GetAttributeValue<object>(fieldSchema.Name);
+            if (!AllowEmptyFields && fieldValue == null)
             {
-                var fieldValue = entity[fieldSchema.Name];
-                var field = _fieldMapper.Map((fieldSchema, fieldValue));
-                if (field == null)
-                {
-                    continue;
-                }
-                record.Field.Add(field);
+                continue;
             }
+            var field = _fieldMapper.Map((fieldSchema, fieldValue));
+
+            record.Field.Add(field);
+
         }
         return record;
     }

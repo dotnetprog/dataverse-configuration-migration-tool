@@ -5,7 +5,8 @@ This repository contains a custom .NET CLI tool designed to export and import co
 ### Download latest release
 Get latest version of the tool built on this [release](https://github.com/dotnetprog/dataverse-configuration-migration-tool/releases/latest)
 > [!NOTE]  
-> If you want to use the built version of the tool , `appsettings.Production.json` will need to be setup manually with your azure service principal credentials.
+> Interactive Login is now available with the CLI tool. The use of service principal is no more mandatory but still recommanded for automation scenarios. \
+> To automate the use of the tool, let's say within a pipeline (e.g Github Action,Azure Devops Pipeline),`appsettings.Production.json` will need to be setup manually with your azure service principal credentials.
 > [Quick Guide](https://recursion.no/blogs/dataverse-setup-service-principal-access-for-environment/) to create an azure service principal
 ## Why ❓
 
@@ -17,7 +18,8 @@ This new tool enables you to:
 - runs on windows and **linux**
 
 ## ⭐Features⭐
-
+🆕 :heavy_check_mark: **Interactive Login** is now available by using `--il` parameter. Service Principal is no more required.🆕 \
+🆕 :heavy_check_mark: Data export now supports a new parameter `--AllowEmptyFields` or `--enable-empty-fields` to export empty fields. *Useful to clear values on target environments* 🆕 \
 :heavy_check_mark: Import configuration data into Dataverse \
 :heavy_check_mark: Export configuration data from Dataverse \
 :heavy_check_mark: Schema validation and rule-based checks \
@@ -36,6 +38,13 @@ This new tool enables you to:
 - Image
 - File
 
+### Upcoming features 🔜
+🔜 Supports for multiselect optionset 
+
+
+> [!IMPORTANT]  
+> Data import/export features for XrmToolBox is no longer planned.
+> Since the cli tool is made with .Net Core and XTB Plugins is in .Net Framework, It's really hard to keep a sharable codebase and retricts the usage of some modern libraries.
 
 
 
@@ -59,13 +68,18 @@ This new tool enables you to:
 
 ### Usage
 
+Before running the tool, set your dataverse variables securely using [dotnet user-secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets):
 
-Before running the tool, set your `clientId`, `clientSecret` and `url` securely using [dotnet user-secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets):
-
+#### For Service principal
 ```powershell
 cd src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.Console
 dotnet user-secrets set "Dataverse:ClientId" "<your-client-id>"
 dotnet user-secrets set "Dataverse:ClientSecret" "<your-client-secret>"
+dotnet user-secrets set "Dataverse:Url" "<your-env-url>"
+```
+#### For Interactive Login
+```powershell
+cd src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.Console
 dotnet user-secrets set "Dataverse:Url" "<your-env-url>"
 ```
 
@@ -77,13 +91,51 @@ dotnet run --environment DOTNET_ENVIRONMENT=Development --project Dataverse.Conf
 
 #### 💻 Command Line Arguments 💻
 
+
 Verb: `import`
-- `--data` : Path to the data xml file, you can use `export-data` command or the microsoft tool (see last section).
-- `--schema` : Path to the schema XML file
+- `--data` : Path to the data xml file, you can use `export-data` command or the microsoft tool (see last section).(Absolute or relative path)
+- `--schema` : Path to the schema XML file (Absolute or relative path)
+- 🆕`--il` or `-il` : **Optional** flag to use interactive login (user will be prompted to log in) instead of service principal. Useful for local testing/execution.
+
+> [!NOTE]  
+> using interactive login to import data will request user to login twice as it instantiates two different connections to dataverse for performance purposes.
+
+**Example**
+
+using dotnet run from the solution folder (.sln)
+```powershell
+dotnet run --environment DOTNET_ENVIRONMENT=Development --project Dataverse.ConfigurationMigrationTool.Console -- import --data "C:\temp\data.xml" --schema "C:\temp\data_schema.xml" --il
+```
+using directly the tool executable
+```powershell
+cd path/to/tool__executable_folder
+Dataverse.ConfigurationMigrationTool.Console.exe import --data "C:\temp\data.xml" --schema "C:\temp\data_schema.xml" --il
+```
 
 Verb: `export-data`
-- `--schema` : Path to the schema XML file
-- `--output` : output file path to save the exported data. This file can be used for the `import` command.
+- `--schema` : Path to the schema XML file (Absolute or relative path)
+- `--output` : output file path to save the exported data. This file can be used for the `import` command. (Absolute or relative path)
+- 🆕`--AllowEmptyFields` or `--enable-empty-fields` : **Optional** flag to include fields with empty values in the export. Useful for clearing values in the target environment.
+- 🆕`--il` or `-il` : **Optional** flag to use interactive login (user will be prompted to log in) instead of service principal. Useful for local testing/execution.
+
+**Example**
+
+using dotnet run from the solution folder (.sln)
+```powershell
+dotnet run --environment DOTNET_ENVIRONMENT=Development --project Dataverse.ConfigurationMigrationTool.Console -- export-data --schema "C:\temp\data_schema.xml" --output "C:\temp\exported_data.xml" --enable-empty-fields --il
+```
+using directly the tool executable
+```powershell
+cd path/to/tool__executable_folder
+Dataverse.ConfigurationMigrationTool.Console.exe export-data --schema "C:\temp\data_schema.xml" --output "C:\temp\exported_data.xml" --enable-empty-fields --il
+```
+
+> [!TIP]
+> To use service principal credentials, the interactive login flag `--il` or `-il` must be omitted.
+> If you use the executable directly, you must edit the `appsettings.Production.json` file with your service principal credentials
+> If you use `dotnet run`, you can set the secrets using `dotnet user-secrets` as shown above or edit the `appsettings.Development.json` file.
+> you can also set environment variables `Dataverse__ClientId`, `Dataverse__ClientSecret` and `Dataverse__Url` to override the settings in the json files.
+> you can also use these commandline arguments `--Dataverse:ClientId`, `--Dataverse:ClientSecret` and `--Dataverse:Url` to override the settings in the json files.
 
 ## 🤝 Contributing 🤝
 

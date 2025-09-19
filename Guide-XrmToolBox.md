@@ -9,10 +9,15 @@ This tool was created to support more data types that the official tool does.
 ✔️ Schema definition file for export/import 
 
 ### Upcoming features 🔜
-🔜 Configuration Data Importation \
-🔜 Configuration Data Exportation  
+🔜 Supports for multiselect optionset \
+🔜 ~~Configuration Data Importation~~ <span style="color:red">This is no longer planned.</span>\
+🔜 ~~Configuration Data Exportation~~  <span style="color:red">This is no longer planned.</span>
 
->**Note**:  Those features are available through the cli tool. More Info [here](https://github.com/dotnetprog/dataverse-configuration-migration-too)
+> [!IMPORTANT]  
+> Data import/export features will only be available through the cli tool. 
+> Since the cli tool is made with .Net Core and XTB Plugins is in .Net Framework, It's really hard to keep a sharable codebase and retricts the usage of some modern libraries.
+> CLI tool documentation [here](https://github.com/dotnetprog/dataverse-configuration-migration-tool)
+
 
 ##  What's a schema definition file exactly 🤔❓
 

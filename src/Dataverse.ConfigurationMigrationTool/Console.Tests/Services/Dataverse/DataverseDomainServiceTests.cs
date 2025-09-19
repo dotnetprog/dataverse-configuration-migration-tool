@@ -1,7 +1,9 @@
 ﻿using Dataverse.ConfigurationMigrationTool.Console.Features.Shared.Domain;
 using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse;
+using Dataverse.ConfigurationMigrationTool.Console.Services.Dataverse.Configuration;
 using Dataverse.ConfigurationMigrationTool.Console.Tests.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.PowerPlatform.Dataverse.Client;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
@@ -14,11 +16,15 @@ public class DataverseDomainServiceTests
     private readonly IOrganizationServiceAsync2 _orgService;
     private readonly ILogger<DataverseDomainService> _logger;
     private readonly DataverseDomainService _domainService;
+    private readonly IOptions<DataverseDomainServiceOptions> _options = Options.Create(new DataverseDomainServiceOptions()
+    {
+        AllowEmptyFields = false
+    });
     public DataverseDomainServiceTests()
     {
         _orgService = Substitute.For<IOrganizationServiceAsync2>();
         _logger = Substitute.For<ILogger<DataverseDomainService>>();
-        _domainService = new DataverseDomainService(_orgService, _logger);
+        _domainService = new DataverseDomainService(_orgService, _options, _logger);
     }
     [Fact]
     public async Task GivenADomainService_WhenItExportsWithEntitySchema_ThenItShouldCallDataverseProperly()

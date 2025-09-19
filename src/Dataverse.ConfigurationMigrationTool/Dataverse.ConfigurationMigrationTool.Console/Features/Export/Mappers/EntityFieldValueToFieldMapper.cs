@@ -16,7 +16,8 @@ public class EntityFieldValueToFieldMapper : IMapper<(FieldSchema, object), Fiel
         };
         if (value == null)
         {
-            return null;
+            fieldResult.IsNull = true;
+            return fieldResult;
         }
         if (value is EntityReference reference)
         {

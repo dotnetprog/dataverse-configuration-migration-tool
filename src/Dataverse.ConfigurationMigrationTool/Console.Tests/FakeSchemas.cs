@@ -26,7 +26,12 @@ internal static class FakeSchemas
                            Displayname = "Primary Contact",
                            LookupType = "contact",
                            PrimaryKey = false
-                       }
+                       },
+                       new FieldSchema
+                       {
+                          Name = "revenue",
+                          Type = "money"
+                        }
                    }
         },
     };
