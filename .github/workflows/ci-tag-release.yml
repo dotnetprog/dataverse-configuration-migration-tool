@@ -1,4 +1,5 @@
 name: Create Release on Tag
+run-name: Build Tag ${{  github.ref_name }}
 
 on:
   push:
