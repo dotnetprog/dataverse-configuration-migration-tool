@@ -10,7 +10,7 @@ This tool was created to support more data types that the official tool does.
 
 ### Upcoming features 🔜
 🔜 Supports for multiselect optionset \
-🔜 ~~Configuration Data Importation~~ $${\color{red}This is no longer planned.}$$ \
+🔜 ~~Configuration Data Importation~~ $${\color{red}This \space is \space no \space longer \space planned.}$$ \
 🔜 ~~Configuration Data Exportation~~  <span style="color:red">This is no longer planned.</span>
 
 > [!IMPORTANT]  
