@@ -8,6 +8,9 @@ Get latest version of the tool built on this [release](https://github.com/dotnet
 > - Interactive Login is now available with the CLI tool. The use of service principal is no more mandatory but still recommanded for automation scenarios. 
 > - To automate the use of the tool, let's say within a pipeline (e.g Github Action,Azure Devops Pipeline),`appsettings.Production.json` will need to be setup manually with your azure service principal credentials. 
 > - [Quick Guide](https://recursion.no/blogs/dataverse-setup-service-principal-access-for-environment/) to create an azure service principal
+
+
+
 ## Why ❓
 
 Configuration Migration Tool and the PowerPlatform Cli Tool (pac data import verb) seem to have it's limitations when automating in ci/cd. Also, these two only works on a windows machine. \
