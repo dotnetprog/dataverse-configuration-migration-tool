@@ -14,8 +14,8 @@ This tool was created to support more data types that the official tool does.
 🔜 ~~Configuration Data Exportation~~ $${\color{red}This \space is \space no \space longer \space planned.}$$
 
 > [!IMPORTANT]  
-> - Data import/export features will only be available through the cli tool.  \
-> - Since the cli tool is made with .Net Core and XTB Plugins is in .Net Framework, It's really hard to keep a sharable codebase and retricts the usage of some modern libraries.  \
+> - Data import/export features will only be available through the cli tool.  
+> - Since the cli tool is made with .Net Core and XTB Plugins is in .Net Framework, It's really hard to keep a sharable codebase and retricts the usage of some modern libraries.  
 > - CLI tool documentation [here](https://github.com/dotnetprog/dataverse-configuration-migration-tool)
 
 
