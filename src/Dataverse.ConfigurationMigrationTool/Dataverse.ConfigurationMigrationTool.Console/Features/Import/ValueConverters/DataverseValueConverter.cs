@@ -45,6 +45,12 @@ public class DataverseValueConverter : IDataverseValueConverter
                 return _mainConverter.Convert<decimal?>(value);
             case AttributeTypeCode.Double:
                 return _mainConverter.Convert<double?>(value);
+            case AttributeTypeCode.Virtual:
+                if (attributeMetadata.AttributeTypeName == AttributeTypeDisplayName.MultiSelectPicklistType)
+                {
+                    return _mainConverter.Convert<OptionSetValueCollection>(value);
+                }
+                throw new NotImplementedException($"Virtual type with AttributeTypeName {attributeMetadata.AttributeTypeName} is not implemented.");
             case AttributeTypeCode.Customer:
             case AttributeTypeCode.Lookup:
             case AttributeTypeCode.Owner:

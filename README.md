@@ -21,8 +21,9 @@ This new tool enables you to:
 - runs on windows and **linux**
 
 ## ⭐Features⭐
-🆕 :heavy_check_mark: **Interactive Login** is now available by using `--il` parameter. Service Principal is no more required.🆕 \
-🆕 :heavy_check_mark: Data export now supports a new parameter `--AllowEmptyFields` or `--enable-empty-fields` to export empty fields. *Useful to clear values on target environments* 🆕 \
+🆕 :heavy_check_mark: **MultiSelect OptionSet Fields** are now supported on all features ! (export & import data, schema generation)🆕 \
+:heavy_check_mark: **Interactive Login** is now available by using `--il` parameter. Service Principal is no more required. \
+:heavy_check_mark: Data export now supports a new parameter `--AllowEmptyFields` or `--enable-empty-fields` to export empty fields. *Useful to clear values on target environments* 🆕 \
 :heavy_check_mark: Import configuration data into Dataverse \
 :heavy_check_mark: Export configuration data from Dataverse \
 :heavy_check_mark: Schema validation and rule-based checks \
@@ -37,13 +38,12 @@ This new tool enables you to:
 
 
 ❌Field types not supported:
-- MultiSelectOptionsets
 - Image
 - File
 
 ### Upcoming features 🔜
-🔜 Supports for multiselect optionset 
 
+Suggestions are welcomed !
 
 > [!IMPORTANT]  
 > - Data import/export features for XrmToolBox is no longer planned.  

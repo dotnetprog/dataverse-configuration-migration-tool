@@ -28,6 +28,11 @@ public class EntityFieldValueToFieldMapperTests
             new Field { Name = "testOptionSetField", Value = "1" }
         },
         {
+            new FieldSchema { Name = "testMultiSelectOptionSetField" },
+            new OptionSetValueCollection() { new(1),new(2),new(3) },
+            new Field { Name = "testMultiSelectOptionSetField", Value = "1,2,3" }
+        },
+        {
             new FieldSchema { Name = "testBooleanField" },
             true,
             new Field { Name = "testBooleanField", Value = "True" }

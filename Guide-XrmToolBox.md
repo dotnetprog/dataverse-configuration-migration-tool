@@ -9,7 +9,7 @@ This tool was created to support more data types that the official tool does.
 ✔️ Schema definition file for export/import 
 
 ### Upcoming features 🔜
-🔜 Supports for multiselect optionset \
+🔜 ~~Supports for multiselect optionset~~  MultiSelect OptionSet Fields are now **supported** ! \
 🔜 ~~Configuration Data Importation~~ $${\color{red}This \space is \space no \space longer \space planned.}$$ \
 🔜 ~~Configuration Data Exportation~~ $${\color{red}This \space is \space no \space longer \space planned.}$$
 
