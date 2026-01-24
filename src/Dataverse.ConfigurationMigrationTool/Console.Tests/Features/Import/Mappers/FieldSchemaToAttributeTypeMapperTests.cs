@@ -17,6 +17,7 @@ public class FieldSchemaToAttributeTypeMapperTests :
         { new FieldSchema { Type = "status" }, AttributeTypeCode.Status },
         { new FieldSchema { Type = "decimal" }, AttributeTypeCode.Decimal },
         { new FieldSchema { Type = "optionsetvalue" }, AttributeTypeCode.Picklist },
+        { new FieldSchema { Type = "multiselectoptionsetvalue" }, AttributeTypeCode.Virtual },
         { new FieldSchema { Type = "number" }, AttributeTypeCode.Integer },
         { new FieldSchema { Type = "bigint" }, AttributeTypeCode.BigInt },
         { new FieldSchema { Type = "float" }, AttributeTypeCode.Double },

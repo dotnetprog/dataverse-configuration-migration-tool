@@ -2,14 +2,14 @@
   "profiles": {
     "import": {
       "commandName": "Project",
-      "commandLineArgs": "import --schema ../../../TestAssets/data_schema.xml --data ../../../TestAssets/data.xml",
+      "commandLineArgs": "import --schema ../../../TestAssets/data_schema.xml --data ../../../TestAssets/exporteddata.xml",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }
     },
     "import-il": {
       "commandName": "Project",
-      "commandLineArgs": "import --schema ../../../TestAssets/data_schema.xml --data ../../../TestAssets/data.xml --il",
+      "commandLineArgs": "import --schema ../../../TestAssets/data_schema.xml --data ../../../TestAssets/exporteddata.xml --il",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }

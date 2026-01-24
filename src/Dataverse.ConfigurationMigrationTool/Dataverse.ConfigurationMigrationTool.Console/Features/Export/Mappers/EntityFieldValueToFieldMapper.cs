@@ -31,6 +31,11 @@ public class EntityFieldValueToFieldMapper : IMapper<(FieldSchema, object), Fiel
             fieldResult.Value = optionSetValue.Value.ToString();
             return fieldResult;
         }
+        if (value is OptionSetValueCollection optionSetValueCollection)
+        {
+            fieldResult.Value = string.Join(",", optionSetValueCollection.Select(osv => osv.Value.ToString()));
+            return fieldResult;
+        }
         if (value is bool booleanValue)
         {
             fieldResult.Value = booleanValue ? "True" : "False";

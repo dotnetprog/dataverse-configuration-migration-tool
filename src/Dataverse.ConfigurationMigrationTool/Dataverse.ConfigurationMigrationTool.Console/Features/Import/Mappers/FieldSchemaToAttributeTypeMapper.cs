@@ -16,6 +16,7 @@ public class FieldSchemaToAttributeTypeMapper : IMapper<FieldSchema, AttributeTy
         "status" => AttributeTypeCode.Status,
         "decimal" => AttributeTypeCode.Decimal,
         "optionsetvalue" => AttributeTypeCode.Picklist,
+        "multiselectoptionsetvalue" => AttributeTypeCode.Virtual,
         "number" => AttributeTypeCode.Integer,
         "bigint" => AttributeTypeCode.BigInt,
         "float" => AttributeTypeCode.Double,

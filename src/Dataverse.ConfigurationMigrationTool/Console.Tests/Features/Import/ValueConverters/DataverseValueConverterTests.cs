@@ -89,11 +89,38 @@ public class DataverseValueConverterTests
         result.ShouldBeNull();
     }
     [Fact]
-    public void GivenAnUnsupportedAttributeMetadata_WhenConverted_ThenItShouldThrowProperException()
+    public void GivenAMultiSelectAttributeAndAField_WhenConverted_ItShouldConvertyProperly()
+    {
+        var option1 = 1;
+        var option2 = 2;
+        var option3 = 3;
+        var fieldValue = $"{option1},{option2},{option3}";
+        var expectedValue = new OptionSetValueCollection()
+        {
+            new OptionSetValue(option1),
+            new OptionSetValue(option2),
+            new OptionSetValue(option3)
+        };
+        RunTest<OptionSetValueCollection, MultiSelectPicklistAttributeMetadata>(expectedValue, fieldValue);
+    }
+    [Fact]
+    public void GivenAnUnsupportedVirtualAttributeMetadata_WhenConverted_ThenItShouldThrowProperException()
     {
         //Arrange
         var field = new Field() { Name = "test", Value = "125462" };
         var amd = new ImageAttributeMetadata();
+        //Act
+        Action act = () => converter.Convert(amd, field);
+        //Assert
+        act.ShouldThrow<NotImplementedException>()
+            .Message.ShouldBe($"Virtual type with AttributeTypeName {amd.AttributeTypeName} is not implemented.");
+    }
+    [Fact]
+    public void GivenAnUnsupportedAttributeMetadata_WhenConverted_ThenItShouldThrowProperException()
+    {
+        //Arrange
+        var field = new Field() { Name = "test", Value = "125462" };
+        var amd = new ManagedPropertyAttributeMetadata();
         //Act
         Action act = () => converter.Convert(amd, field);
         //Assert
