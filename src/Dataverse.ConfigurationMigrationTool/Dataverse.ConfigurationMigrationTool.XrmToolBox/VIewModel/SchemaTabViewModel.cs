@@ -48,13 +48,16 @@ namespace Dataverse.ConfigurationMigrationTool.XrmToolBox.VIewModel
            .Where(a => a.IsValidForCreate == true &&
                        a.IsValidForUpdate == true &&
                        a.AttributeType != null &&
-                       !ExcludedAttributeTypes.Contains(a.AttributeType.Value))
+                       (!ExcludedAttributeTypes.Contains(a.AttributeType.Value) ||
+                       (a.AttributeType.Value == AttributeTypeCode.Virtual &&
+                       a.AttributeTypeName == AttributeTypeDisplayName.MultiSelectPicklistType))
+                       )
            .OrderBy(a => a.DisplayName?.UserLocalizedLabel?.Label ?? a.LogicalName)
            .Select(a => new FieldComponentMetadataViewModel
            {
                LogicalName = a.LogicalName,
                DisplayName = a.DisplayName?.UserLocalizedLabel?.Label ?? a.LogicalName,
-               DataType = a.AttributeType.ToString(),
+               DataType = a.AttributeType == AttributeTypeCode.Virtual ? a.AttributeTypeName.Value : a.AttributeType.ToString(),
                IsSelected = false
            })
            .ToList();

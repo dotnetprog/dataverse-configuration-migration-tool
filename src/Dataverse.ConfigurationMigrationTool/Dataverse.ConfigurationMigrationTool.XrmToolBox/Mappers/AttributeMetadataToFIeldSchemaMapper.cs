@@ -15,7 +15,7 @@ namespace Dataverse.ConfigurationMigrationTool.XrmToolBox.Mappers
                 Displayname = source.DisplayName?.UserLocalizedLabel?.Label ?? source.DisplayName.LocalizedLabels.FirstOrDefault()?.Label,
                 Customfield = source.IsCustomAttribute ?? false,
                 PrimaryKey = source.IsPrimaryId ?? false,
-                Type = GetFieldType(source.AttributeType),
+                Type = GetFieldType(source),
             };
             if (source is LookupAttributeMetadata lookupAttribute)
             {
@@ -24,11 +24,9 @@ namespace Dataverse.ConfigurationMigrationTool.XrmToolBox.Mappers
             return fieldSchema;
 
         }
-        private static string GetFieldType(AttributeTypeCode? typecode)
+        private static string GetFieldType(AttributeMetadata source)
         {
-            if (typecode == null)
-                return "Unknown";
-            switch (typecode.Value)
+            switch (source.AttributeType)
             {
                 case AttributeTypeCode.BigInt:
                     return "bigint";
@@ -49,6 +47,12 @@ namespace Dataverse.ConfigurationMigrationTool.XrmToolBox.Mappers
                     return "money";
                 case AttributeTypeCode.Picklist:
                     return "optionsetvalue";
+                case AttributeTypeCode.Virtual:
+                    if (source.AttributeTypeName == AttributeTypeDisplayName.MultiSelectPicklistType)
+                    {
+                        return "multiselectoptionsetvalue";
+                    }
+                    break;
                 case AttributeTypeCode.State:
                     return "state";
                 case AttributeTypeCode.Status:
@@ -60,7 +64,7 @@ namespace Dataverse.ConfigurationMigrationTool.XrmToolBox.Mappers
                 case AttributeTypeCode.Owner:
                     return "owner";
             }
-            throw new NotImplementedException($"{typecode} attribute type is not implemented in {nameof(AttributeMetadataToFIeldSchemaMapper)}");
+            throw new NotImplementedException($"{source.AttributeType} attribute type is not implemented in {nameof(AttributeMetadataToFIeldSchemaMapper)}");
         }
 
     }
