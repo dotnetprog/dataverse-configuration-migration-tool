@@ -19,7 +19,7 @@
     <copyright>Copyright François Desjardins-Nadeau 2025</copyright>
     <tags>XrmToolBox Dataverse ConfigurationMigrationTool data export import</tags>
     <dependencies>
-      <dependency id="XrmToolBox" version="1.2025.7.71" />
+      <dependency id="XrmToolBox" version="1.2025.10.74" />
     </dependencies>
     <readme>docs\Guide-XrmToolBox.md</readme>
   </metadata>
