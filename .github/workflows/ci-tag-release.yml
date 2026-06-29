@@ -12,6 +12,7 @@ env:
   solutionPath: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.sln'
   solutionFolder: '${{ github.workspace }}/src/Dataverse.ConfigurationMigrationTool'
   toolpublishlocation: '${{ github.workspace }}/configurationmigrationtool'
+  packtoolpublishlocation: '${{ github.workspace }}/pack_configurationmigrationtool'
   xtbpublishlocation: '${{ github.workspace }}/xtb'
   xrmToolboxPath: 'src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.XrmToolBox/Dataverse.ConfigurationMigrationTool.XrmToolBox.csproj'
 jobs:
@@ -22,20 +23,37 @@ jobs:
     runs-on: ubuntu-latest
   
     steps:
-    - uses: actions/checkout@v3
+    - name: git configure long path
+      run: git config --global core.longpaths true
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
-
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v4.1.0
+      with:
+        versionSpec: '6.3.x'
+    - name: Determine Version
+      id: gitversion # step id used as reference for output values
+      uses: gittools/actions/gitversion/execute@v4.1.0
+      with:
+        updateAssemblyInfo: true
     - name: Restore dependencies
       run: dotnet restore ${{  env.solutionPath  }}
     - name: Build
       run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
     - name: dotnet publish
       run: dotnet publish ${{  env.solutionFolder  }}/Dataverse.ConfigurationMigrationTool.Console/Dataverse.ConfigurationMigrationTool.Console.csproj -c Release -o ${{env.toolpublishlocation}}
+    - name: dotnet pack
+      run: dotnet pack ${{  env.solutionFolder  }}/Dataverse.ConfigurationMigrationTool.Console/Dataverse.ConfigurationMigrationTool.Console.csproj -c Release -o ${{env.packtoolpublishlocation}} --version ${{ steps.gitversion.outputs.fullSemVer }}
+    - name: Upload dotnettool artifact
+      uses: actions/upload-artifact@v4
+      with:
+         name: pack_configurationmigrationtool
+         path: ${{env.packtoolpublishlocation}}
     - name: Upload tool artifact
       uses: actions/upload-artifact@v4
       with:
@@ -102,6 +120,11 @@ jobs:
         with:
           name: configurationmigrationtool
           path: '${{ github.workspace }}/configurationmigrationtool'
+      - name: Download clitool pack artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pack_configurationmigrationtool
+          path: '${{ github.workspace }}/pack_configurationmigrationtool'
       - name: Download xtbtool artifact
         uses: actions/download-artifact@v4
         with:
@@ -132,9 +155,27 @@ jobs:
             FILENAME=$(basename "$NUPKG_PATH")
             echo "nupkg_path=$NUPKG_PATH" >> "$GITHUB_OUTPUT"
             echo "filename=$FILENAME" >> "$GITHUB_OUTPUT" # Make it available to subsequent steps
+      - name: Get nupkg path for dotnet tool
+        id: get_dotnettool_nupkg_path
+        run: |
+            NUPKG_PATH=$(ls ./pack_configurationmigrationtool/*.nupkg | head -n 1)
+            FILENAME=$(basename "$NUPKG_PATH")
+            echo "nupkg_path=$NUPKG_PATH" >> "$GITHUB_OUTPUT"
+            echo "filename=$FILENAME" >> "$GITHUB_OUTPUT" # Make it available to subsequent steps
       - name: Push To NuGet Registry
         run: |
           dotnet nuget push ./xtb/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+          dotnet nuget push ./pack_configurationmigrationtool/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      - name: Upload CLI NuGet Package Release Asset
+        id: upload-cli-nuget-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ${{ steps.get_dotnettool_nupkg_path.outputs.nupkg_path }}
+          asset_name: ${{ steps.get_dotnettool_nupkg_path.outputs.filename }}
+          asset_content_type: application/zip
       - name: Upload NuGet Package Release Asset
         id: upload-nuget-release-asset 
         uses: actions/upload-release-asset@v1
