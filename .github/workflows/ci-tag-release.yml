@@ -47,6 +47,8 @@ jobs:
       run: dotnet build ${{  env.solutionPath  }} --configuration Release --no-restore
     - name: dotnet publish
       run: dotnet publish ${{  env.solutionFolder  }}/Dataverse.ConfigurationMigrationTool.Console/Dataverse.ConfigurationMigrationTool.Console.csproj -c Release -o ${{env.toolpublishlocation}}
+    - name: clean Production Settings File
+      run: echo '{}' > ${{  env.solutionFolder  }}/Dataverse.ConfigurationMigrationTool.Console/appsettings.Production.json
     - name: dotnet pack
       run: dotnet pack ${{  env.solutionFolder  }}/Dataverse.ConfigurationMigrationTool.Console/Dataverse.ConfigurationMigrationTool.Console.csproj -c Release -o ${{env.packtoolpublishlocation}} --version ${{ steps.gitversion.outputs.fullSemVer }}
     - name: Upload dotnettool artifact
