@@ -7,6 +7,14 @@
     <Nullable>enable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>990106a8-c012-4466-8462-847916f7c509</UserSecretsId>
+	<PackAsTool>true</PackAsTool>
+	<ToolCommandName>dcm</ToolCommandName>
+	<PackageOutputPath>./nupkg</PackageOutputPath>
+	<!-- NuGet Metadata -->
+	<PackageId>Dataverse.ConfigurationMigrationTool.Console</PackageId>
+	<Version>1.0.0</Version>
+	<Authors>FDN Techsolutions</Authors>
+	<Description>a cli tool for Dataverse configuration migration tool</Description>
   </PropertyGroup>
 
   <ItemGroup>
