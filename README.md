@@ -4,6 +4,10 @@
 This repository contains a custom .NET CLI tool designed to export and import configuration data into Microsoft Dataverse environments. It streamlines the migration of configuration data, supports schema validation, and offers extensibility for advanced scenarios.
 ### Download latest release
 Get latest version of the tool built on this [release](https://github.com/dotnetprog/dataverse-configuration-migration-tool/releases/latest)
+
+> [!TIP]
+> A dedicated README for the `dcm` .NET tool is now available here: [src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.Console/README.md](./src/Dataverse.ConfigurationMigrationTool/Dataverse.ConfigurationMigrationTool.Console/README.md)
+
 > [!NOTE]  
 > - Interactive Login is now available with the CLI tool. The use of service principal is no more mandatory but still recommanded for automation scenarios. 
 > - To automate the use of the tool, let's say within a pipeline (e.g Github Action,Azure Devops Pipeline),`appsettings.Production.json` will need to be setup manually with your azure service principal credentials. 
