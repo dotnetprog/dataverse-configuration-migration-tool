@@ -22,6 +22,7 @@ namespace Dataverse.ConfigurationMigrationTool.XrmToolBox.VIewModel
             AttributeTypeCode.CalendarRules,
             AttributeTypeCode.EntityName
         };
+        private static readonly string[] mustIncludeAttributesToMetadata = new string[] { "statecode", "statuscode" };
         public Dictionary<string, List<SchemaItem>> SelectedSchemaItems = new Dictionary<string, List<SchemaItem>>();
         public EntityMetadata CurrentSelectedEntity { get; set; }
 
@@ -45,12 +46,13 @@ namespace Dataverse.ConfigurationMigrationTool.XrmToolBox.VIewModel
             CurrentSelectedEntity = entityMetadata;
             var fields = entityMetadata
            .Attributes
-           .Where(a => a.IsValidForCreate == true &&
+           .Where(a => (a.IsValidForCreate == true &&
                        a.IsValidForUpdate == true &&
                        a.AttributeType != null &&
                        (!ExcludedAttributeTypes.Contains(a.AttributeType.Value) ||
                        (a.AttributeType.Value == AttributeTypeCode.Virtual &&
-                       a.AttributeTypeName == AttributeTypeDisplayName.MultiSelectPicklistType))
+                       a.AttributeTypeName == AttributeTypeDisplayName.MultiSelectPicklistType))) ||
+                       mustIncludeAttributesToMetadata.Contains(a.LogicalName)
                        )
            .OrderBy(a => a.DisplayName?.UserLocalizedLabel?.Label ?? a.LogicalName)
            .Select(a => new FieldComponentMetadataViewModel
