@@ -58,6 +58,7 @@ namespace Dataverse.ConfigurationMigrationTool.XrmToolBox.Mappers
                 case AttributeTypeCode.Status:
                     return "status";
                 case AttributeTypeCode.String:
+                case AttributeTypeCode.Memo:
                     return "string";
                 case AttributeTypeCode.Uniqueidentifier:
                     return "guid";
